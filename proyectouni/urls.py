@@ -20,5 +20,6 @@ from nuevoproject import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.mostrar, name='inicio')
+    path('', views.inicio, name='inicio'),
+    path('crear_actividad/', views.crear_actividad, name='actividad')
 ]
