@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Detalles de actividades</h1>
+    {% for actividades in actividad %}
+        <ul>
+            <li>{{actividades.materia}}</li>
+        </ul>
+    {% endfor %}
+{% endblock %}

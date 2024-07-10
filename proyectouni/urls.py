@@ -21,5 +21,9 @@ from nuevoproject import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.inicio, name='inicio'),
-    path('crear_actividad/', views.crear_actividad, name='actividad')
+    path('crear_actividad/', views.crear_actividad, name='actividad'),
+    path('mostrar_actividad/', views.mostrar_actividades, name='mostrar actividades'),
+    path('mostrar_actividad/importantes', views.filtrar_actividades_importantes, name='mostrar actividades importantes'),
+    path('mostrar_actividad/no_importantes', views.filtrar_actividades_noimportantes, name='mostrar actividades no importantes')
+
 ]

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Actvidades</h1>
+    <div style="display: flex;">
+        
+        <form action="{% url 'mostrar actividades importantes' %}" method="POST">
+            {% csrf_token %}
+            <button>
+                Filtrar por importante
+            </button>
+        </form>
+
+        <form action="{% url 'mostrar actividades no importantes' %}" method="POST">
+            {% csrf_token %}
+            <button>
+                Filtrar por no importante
+            </button>
+        </form>
+
+    </div>
+    
+
+    <br>
+    <div>
+        <ul>
+            {% for actividades in actvidad %}
+            <header>
+                <h3>Materia: {{actividades.materia}}</h3>
+            </header>
+            <li><p>Actividad: {{actividades.actividad}}</p></li>
+            <li><p>Fecha de inicio: {{actividades.fecha_inicio}}</p></li>
+            <li><p>Fecha de culminacion: {{actividades.fecha_final}}</p></li>
+            <p>{% if actividades.importante == True %} Es importante {% else %} No es importante {% endif %}</p>
+            <br>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
