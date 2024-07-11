@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import CrearActividad
-from .models import Actividades
+from .forms import CrearActividad, CrearProfesores
+from .models import Actividades, Profesores
 
 # Create your views here.
 def inicio(request):
@@ -42,3 +42,15 @@ def filtrar_actividades_noimportantes(request):
         })
     else:
         pass
+
+def profesores(request):
+    if request.method == 'GET':
+        profesores = Profesores.objects.all()
+        return render(request, 'profesores.html',{
+            'profesores': profesores
+        })
+    else:
+        pass
+    
+def crear_profesores(request):
+    return render(request, 'crear_profesores.html')

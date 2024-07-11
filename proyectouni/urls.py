@@ -24,6 +24,8 @@ urlpatterns = [
     path('crear_actividad/', views.crear_actividad, name='actividad'),
     path('mostrar_actividad/', views.mostrar_actividades, name='mostrar actividades'),
     path('mostrar_actividad/importantes', views.filtrar_actividades_importantes, name='mostrar actividades importantes'),
-    path('mostrar_actividad/no_importantes', views.filtrar_actividades_noimportantes, name='mostrar actividades no importantes')
+    path('mostrar_actividad/no_importantes', views.filtrar_actividades_noimportantes, name='mostrar actividades no importantes'),
+    path('profesores/', views.profesores, name='profesores'),
+    path('profesores/crear_profesor', views.crear_profesores, name='crear profesor')
 
 ]

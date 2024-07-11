@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Estos son los profesores</h1>
+    {% for profesor in profesores %}
+        {% if profesor == None %}
+            <p>No hay profesores registrados</p>
+        {% endif %}
+    {% endfor %}
+
+    <form action="{% url 'crear profesor' %}" method="POST">
+        {% csrf_token %}
+        <button>
+            Crear profesores
+        </button>
+    </form>
+{% endblock %}
