@@ -2,16 +2,20 @@
 
 {% block content %}
     <h1>Estos son los profesores</h1>
+
     {% for profesor in profesores %}
-        {% if profesor == None %}
-            <p>No hay profesores registrados</p>
-        {% endif %}
+        <div style="border: 1px solid black; border-radius: 5px;">
+            <header>
+                <h2>Nombre y apellido: {{profesor.nombre}} {{profesor.apellido}}</h2>
+                <h2>Materia: {{profesor.materia}}</h2>
+            </header>
+            <ul>
+                <li>Estado: {% if profesor.estado == True %} Activo {% else %} No activo {% endif %}</li>
+            </ul>
+        </div>
+        
     {% endfor %}
 
-    <form action="{% url 'crear profesor' %}" method="POST">
-        {% csrf_token %}
-        <button>
-            Crear profesores
-        </button>
-    </form>
+    <a href="{% url 'crear profesor' %}"><button>Crear profesores</button></a>
+
 {% endblock %}

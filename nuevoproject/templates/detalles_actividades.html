@@ -3,8 +3,12 @@
 {% block content %}
     <h1>Detalles de actividades</h1>
     {% for actividades in actividad %}
+    <header>
+        <h3>Materia: {{actividades.materia}}</h3>
+    </header>
         <ul>
-            <li>{{actividades.materia}}</li>
+            <li><p>Actividad: {{actividades.actividad}}</p></li>
         </ul>
+        
     {% endfor %}
 {% endblock %}

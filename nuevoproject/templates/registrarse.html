@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Registro de usuario</h1>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <label for="nombre_usuario">Nombre de usuario: </label>
+            <input type="text" name="nombre_usuario" id="nombre_usuario" placeholder="Nombre de usuario">
+        </div>
+        <br>
+        <div>
+            <label for="clave1">Contraseña: </label>
+            <input type="password" name="clave1" id="clave1" placeholder="Ingresa la contraseña">
+        </div>
+        <br>
+        <div>
+            <label for="clave2">Confirmar contraseña:</label>
+            <input type="password" name="clave2" id="clave2" placeholder="Ingrsa nuevamente la contraseña">
+        </div>
+        <br>
+        <button>
+            Registrar
+        </button>
+
+    </form>
+{%endblock%}
