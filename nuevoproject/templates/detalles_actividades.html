@@ -2,13 +2,18 @@
 
 {% block content %}
     <h1>Detalles de actividades</h1>
-    {% for actividades in actividad %}
-    <header>
-        <h3>Materia: {{actividades.materia}}</h3>
-    </header>
-        <ul>
-            <li><p>Actividad: {{actividades.actividad}}</p></li>
-        </ul>
+
+    <div style="border: 1px solid black; border-radius: 5px;">
+        {% for actividades in actividad %}
+            <header>
+                <h3>Materia: {{actividades.materia}}</h3>
+            </header>
+            <ul>
+                <li><p>Metas: {{actividades.metas}}</p></li>
+                <li><p>Tarea: {{actividades.tarea}}</p></li>
+            </ul>
+    </div>
+    
         
     {% endfor %}
 {% endblock %}

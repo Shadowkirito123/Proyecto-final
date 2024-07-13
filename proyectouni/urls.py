@@ -27,6 +27,9 @@ urlpatterns = [
     path('mostrar_actividad/no_importantes', views.filtrar_actividades_noimportantes, name='mostrar actividades no importantes'),
     path('profesores/', views.profesores, name='profesores'),
     path('profesores/crear_profesor', views.crear_profesores, name='crear profesor'),
-    path('registro/', views.registrarse, name='registro')
+    path('registro/', views.registrarse, name='registro'),
+    path('iniciar_sesion/', views.iniciar_sesion, name='iniciar sesion'),
+    path('cerrar_sesion/', views.cerrar_sesion, name='cerrar sesion'),
+    path('calendario/', views.calendario, name='calendario')
 
 ]

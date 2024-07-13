@@ -2,9 +2,14 @@
 
 {% block content %}
     <h1>Crear una actividad</h1>
-    <form action="" method="POST">
+    <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
+        
+        <!-- {{mostrar.as_p}} -->
+
+        <label for="materia">Materia</label>
+        <input type="text" name="materia" id="materia">
 
         <button>
             Guardar

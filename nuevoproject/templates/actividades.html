@@ -22,13 +22,14 @@
     
 
     <br>
-    <div>
+    <div style="border: 1px solid black; border-radius: 5px;">
         <ul>
             {% for actividades in actvidad %}
             <header>
                 <h3>Materia: {{actividades.materia}}</h3>
             </header>
-            <li><p>Actividad: {{actividades.actividad}}</p></li>
+            <li><p>Actividad: {{actividades.metas}}</p></li>
+            <li><p>Tarea: {{actividades.tarea}}</p></li>
             <li><p>Fecha de inicio: {{actividades.fecha_inicio}}</p></li>
             <li><p>Fecha de culminacion: {{actividades.fecha_final}}</p></li>
             <p>{% if actividades.importante == True %} Es importante {% else %} No es importante {% endif %}</p>
