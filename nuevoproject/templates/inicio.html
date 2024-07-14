@@ -1,5 +1,68 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Este es el inicio</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Student Helper</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .contact-info {
+            background-color: #f8f9fa;
+            padding: 40px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .contact-info h5 {
+            color: #007bff;
+        }
+        .contact-info ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .contact-info ul li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="jumbotron">
+            <h1 class="display-4">¡Bienvenido a Student Helper!</h1>
+            <p class="lead">Tu plataforma para gestionar y mejorar tus actividades estudiantiles.</p>
+            <hr class="my-4">
+            <p>Utiliza los recursos y herramientas que ofrecemos para maximizar tu rendimiento académico.</p>
+            <a class="btn btn-primary btn-lg" href="#" role="button">Comienza ahora</a>
+        </div>
+    </div>
+
+    <!-- Sección de Contáctanos -->
+    <div class="container contact-info my-5">
+        <div class="row">
+            <div class="col-md-12 text-center mb-4">
+                <h5>Contáctanos</h5>
+                <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos.</p>
+            </div>
+            <div class="col-md-12 text-center">
+                <h5>Información de Contacto</h5>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-envelope"></i> <strong>Email:</strong> contacto@studenthelper.com</li>
+                    <li><i class="fas fa-phone"></i> <strong>Teléfono:</strong> +123 456 7890</li>
+                    <li><i class="fas fa-map-marker-alt"></i> <strong>Dirección:</strong> Calle Falsa 123, Ciudad, País</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>
+
+
 {% endblock %}
