@@ -1,23 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container mt-5">
-        <h1 class="text-center">Actividades</h1>
-        <div class="d-flex justify-content-center mb-3">
-            <form action="{% url 'mostrar actividades importantes' %}" method="POST" class="mr-2">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">
-                    Filtrar por importante
-                </button>
-            </form>
-
-            <form action="{% url 'mostrar actividades no importantes' %}" method="POST">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-secondary">
-                    Filtrar por no importante
-                </button>
-            </form>
-        </div>
         <div class="border rounded p-3">
             <ul class="list-unstyled">
                 {% for actividades in actvidad %}
@@ -35,5 +18,4 @@
             </ul>
         </div>
     </div>
-
 {% endblock %}

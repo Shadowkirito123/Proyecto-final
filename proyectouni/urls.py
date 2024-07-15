@@ -30,6 +30,7 @@ urlpatterns = [
     path('asignar_materia_a_profesor/', views.asignar_materia_a_profesor, name='asignar materia a profesor'),
     path('registro/', views.registrarse, name='registro'),
     path('iniciar_sesion/', views.iniciar_sesion, name='iniciar sesion'),
+    path('planificacion/', views.planificacion, name='planificacion'),
     path('cerrar_sesion/', views.cerrar_sesion, name='cerrar sesion'),
     path('calendario/', views.calendario, name='calendario')
 

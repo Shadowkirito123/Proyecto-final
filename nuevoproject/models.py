@@ -16,7 +16,7 @@ class Actividades(models.Model):
     importante = models.BooleanField(default=False)
     materia = models.ForeignKey(Materia, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, default=None)
-    
+
     def __str__(self):
         return self.metas
 
@@ -36,3 +36,8 @@ class Estudiantes(models.Model):
 class Profesores_asignados_Estudiantes(models.Model):
     profesor = models.ForeignKey(Profesores, on_delete=models.CASCADE)
     estudiante = models.ForeignKey(Estudiantes, on_delete=models.CASCADE)
+    
+class Planificacion(models.Model):
+    actividades = models.ForeignKey(Actividades, on_delete=models.CASCADE)
+    profesor = models.ForeignKey(Profesores, on_delete=models.CASCADE, default=None)
+    estudiante = models.ForeignKey(User, on_delete=models.CASCADE, default=None)

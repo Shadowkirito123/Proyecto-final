@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CrearActividad, MiFormulario, SeleccionarMateria
-from .models import Actividades, Profesores, Materia, Estudiantes
+from .models import Actividades, Profesores, Materia, Estudiantes, Planificacion
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-import calendar
+import random
 
 
 # Create your views here.
@@ -15,7 +15,8 @@ def inicio(request):
 def registrarse(request):
     if request.method == 'GET':
         return render(request,'registrarse.html',{
-        'form': UserCreationForm
+        'form': UserCreationForm,
+        'materia': SeleccionarMateria()
     })
     else:
         user = User.objects.create_user(username=request.POST['nombre_usuario'], password = request.POST['clave1'], first_name = request.POST['nombre'], last_name = request.POST['apellido'] )
@@ -27,9 +28,12 @@ def registrarse(request):
             estudiante.save()
             redirect_url = '/'
         else:
-            profesor = Profesores(user = user_instancia, nombre = request.POST['nombre'])
-            profesor.save()
-            redirect_url = 'asignar materia a profesor'
+            profesor = Profesores(user=user_instancia, nombre=request.POST['nombre'])
+            form = SeleccionarMateria(request.POST)
+            if form.is_valid():
+                profesor.materia = form.cleaned_data['materia']
+                profesor.save()
+                redirect_url = '/'
         
         
         if request.POST['clave1'] != request.POST['clave2']:
@@ -76,16 +80,26 @@ def crear_actividad(request):
         form = CrearActividad(request.POST)
         materia = Materia.objects.create(nombre = request.POST['materia'])
         selectmateria = SeleccionarMateria(request.POST)
-        materia1 = get_object_or_404(Materia, id=materia.id)
         materia.save()
+        
         
         if form.is_valid() and selectmateria.is_valid():
             new_form = form.save(commit=False)
             new_form.user = request.user
-            new_form.materia = materia1
+            new_form.materia = selectmateria.cleaned_data['materia']
             new_form.save()
             
-            return redirect('mostrar actividades')
+            profesores = Profesores.objects.filter(materia=selectmateria.cleaned_data['materia'])
+            if profesores.exists():
+                random_profesor = random.choice(profesores)
+                planificacion = Planificacion.objects.create(
+                    actividades = new_form,
+                    estudiante = request.user,
+                    profesor = random_profesor
+                )
+                planificacion.save()
+
+        return redirect('mostrar actividades')
 
 @login_required        
 def mostrar_actividades(request):
@@ -125,6 +139,7 @@ def profesores(request):
     else:
         pass
 
+@login_required
 def calendario(request):
     if request.method == 'POST':
         form = MiFormulario(request.POST)
@@ -167,4 +182,11 @@ def perfil(request, user_id):
             'usuario': usuario,
             'profesor': profesor,
             'estudiante': None
+        })
+
+def planificacion(request):
+    if request.method == 'GET':
+        actividad = Actividades.objects.all()
+        return render (request, 'planificacion.html',{
+            'actvidad': actividad
         })
