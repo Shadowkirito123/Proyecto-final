@@ -3,25 +3,5 @@
 {% block content %}
     <h1>Calendario</h1>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.rol }}
-        <div id="campo-adicional-container" style="display: none;">
-            {{ form.campo_adicional }}
-        </div>
-        <script>
-            const radioButtons = document.querySelectorAll('input[name="rol"]');
-            const campoAdicionalContainer = document.getElementById('campo-adicional-container');
-    
-            radioButtons.forEach((radioButton) => {
-                radioButton.addEventListener('change', () => {
-                    if (radioButton.value === 'profesor') {
-                        campoAdicionalContainer.style.display = 'block';
-                    } else {
-                        campoAdicionalContainer.style.display = 'none';
-                    }
-                });
-            });
-        </script>
-    </form>
+    {{calendario}}
 {% endblock %}
