@@ -3,35 +3,46 @@
 {% block content %}
     <div class="container mt-5">
         <h1 class="text-center">Actividades</h1>
-        <div class="d-flex justify-content-center mb-3">
-            <form action="{% url 'mostrar actividades importantes' %}" method="POST" class="mr-2">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">
-                    Filtrar por importante
-                </button>
-            </form>
-
-            <form action="{% url 'mostrar actividades no importantes' %}" method="POST">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-secondary">
-                    Filtrar por no importante
-                </button>
-            </form>
-        </div>
+        
         <div class="border rounded p-3">
             <ul class="list-unstyled">
-                {% for actividades in actvidad %}
                 <li class="mb-3">
-                    <header>
-                        <h3>Materia: {{actividades.materia}}</h3>
-                    </header>
-                    <p>Actividad: {{actividades.metas}}</p>
-                    <p>Tarea: {{actividades.tarea}}</p>
-                    <p>Fecha de inicio: {{actividades.fecha_inicio}}</p>
-                    <p>Fecha de culminación: {{actividades.fecha_final}}</p>
-                    <p>{% if actividades.importante %} Es importante {% else %} No es importante {% endif %}</p>
+                    {% if actvidad == None %}
+                        {{error}}
+                    {% else %}
+                    <div class="d-flex justify-content-center mb-3">
+                        <form action="{% url 'mostrar actividades importantes' %}" method="POST" class="mr-2">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">
+                                Filtrar por importante
+                            </button>
+                        </form>
+            
+                        <form action="{% url 'mostrar actividades no importantes' %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-secondary">
+                                Filtrar por no importante
+                            </button>
+                        </form>
+                    </div>
+
+
+                            <!-- Editar actividad -->
+                            <div id="texto">
+                            <header>
+                                <h3>Materia: {{actvidad.materia}}</h3>
+                            </header>
+                                <p>Metas: {{actvidad.metas}}</p>
+                                <p>Tarea: {{actvidad.tarea}}</p>
+                                <p>Fecha de inicio: {{actvidad.fecha_inicio}}</p>
+                                <p>Fecha de culminación: {{actvidad.fecha_final}}</p>
+                                <p>{% if actvidad.importante %} Es importante {% else %} No es importante {% endif %}</p>
+                            </div>
+                            <label for="texto"><a href="{% url 'editar actividad'%}"><button>Modificar</button> </a></label>
+
+                    {% endif %}
+                    
                 </li>
-                {% endfor %}
             </ul>
         </div>
     </div>

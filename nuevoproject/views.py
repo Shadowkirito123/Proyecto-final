@@ -104,10 +104,44 @@ def crear_actividad(request):
 @login_required        
 def mostrar_actividades(request):
     if request.method == 'GET':
-        actividad = Actividades.objects.all()
-        return render (request, 'actividades.html',{
-            'actvidad': actividad
+        try:
+            actividad = Actividades.objects.get(user = request.user.id)
+            return render (request, 'actividades.html',{
+                'actvidad': actividad
+            })
+        except:
+            return render(request, 'actividades.html',{
+                'error': 'No hay actividades'
+            })
+
+def editar_actividad(request):
+    if request.method == 'GET':
+        actividad1 = Actividades.objects.get(user = request.user.id)
+        actividad = get_object_or_404(Actividades, pk=actividad1.id, user = request.user)
+        crear_actividad = CrearActividad(instance=actividad)
+        return render(request, 'editar_actividad.html', {
+            'actividad': actividad,
+            'crear': crear_actividad
         })
+    else:
+        try:
+           actividad1 = Actividades.objects.get(user = request.user.id)
+           actividad = get_object_or_404(Actividades, pk=actividad1.id, user = request.user)
+           crear_actividad = CrearActividad(request.POST, instance=actividad)
+           crear_actividad.save()
+           return redirect('mostrar actividades')
+        except:
+            return render(request, 'editar_actividad.html', {
+            'actividad': actividad,
+            'crear': crear_actividad
+        })
+
+def eliminar_actividad(request):
+    actividad1 = Actividades.objects.get(user = request.user.id)
+    actividad = get_object_or_404(Actividades, pk=actividad1.id, user = request.user)
+    if request.method == 'POST':
+        actividad.delete()
+        return redirect('mostrar actividades')
 
 @login_required
 def filtrar_actividades_importantes(request):
@@ -186,7 +220,7 @@ def perfil(request, user_id):
 
 def planificacion(request):
     if request.method == 'GET':
-        actividad = Actividades.objects.all()
+        planificacion = Planificacion.objects.get(estudiante = request.user.id)
         return render (request, 'planificacion.html',{
-            'actvidad': actividad
+            'planificacion': planificacion
         })

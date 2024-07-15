@@ -3,18 +3,17 @@
 {% block content %}
         <div class="border rounded p-3">
             <ul class="list-unstyled">
-                {% for actividades in actvidad %}
                 <li class="mb-3">
                     <header>
-                        <h3>Materia: {{actividades.materia}}</h3>
+                        <h3>Materia: {{planificacion.profesor.materia}}</h3>
                     </header>
-                    <p>Actividad: {{actividades.metas}}</p>
-                    <p>Tarea: {{actividades.tarea}}</p>
-                    <p>Fecha de inicio: {{actividades.fecha_inicio}}</p>
-                    <p>Fecha de culminación: {{actividades.fecha_final}}</p>
-                    <p>{% if actividades.importante %} Es importante {% else %} No es importante {% endif %}</p>
+                    <p>Metas: {{planificacion.actividades.metas}}</p>
+                    <p>Tarea: {{planificacion.actividades.tarea}}</p>
+                    <p>Fecha de inicio: {{planificacion.actividades.fecha_inicio}}</p>
+                    <p>Fecha de culminación: {{planificacion.actividades.fecha_final}}</p>
+                    <p>Profesor: {{planificacion.profesor}}</p>
+                    <p>{% if planificacion.actividades.importante %} Es importante {% else %} No es importante {% endif %}</p>
                 </li>
-                {% endfor %}
             </ul>
         </div>
     </div>
