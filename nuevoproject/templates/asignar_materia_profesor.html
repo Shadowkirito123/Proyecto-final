@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Crear profesores</h1>
+    <h1>Asignar materia</h1>
     <form method="POST">
         {% csrf_token %}
-        {{crear.as_p}}
+        <p>Escoge cual de las materias impartes</p>
+        {{datos}}
+        {{materia}}
 
         <button>
-            Crear
+            Enviar
         </button>
     </form>
-
+    
 {% endblock %}

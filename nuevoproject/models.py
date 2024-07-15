@@ -21,7 +21,18 @@ class Actividades(models.Model):
         return self.metas
 
 class Profesores(models.Model):
+    nombre = models.CharField(max_length=250, default=None)
+    materia = models.ForeignKey(Materia, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profesor', default=None)
+
+    def __str__(self):
+        return self.nombre
     
 class Estudiantes(models.Model):
+    nombre = models.CharField(max_length=250, default=None)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    
+class Profesores_asignados_Estudiantes(models.Model):
+    profesor = models.ForeignKey(Profesores, on_delete=models.CASCADE)
+    estudiante = models.ForeignKey(Estudiantes, on_delete=models.CASCADE)

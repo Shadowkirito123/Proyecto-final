@@ -9,24 +9,33 @@
 <body>
     {% if user.is_authenticated %}
         <ul>
+
             <li><a href="/"> Inicio</a></li>
 
             <li><a href="{% url 'actividad' %}">Crear actividad</a></li>
 
             <li><a href="{% url 'mostrar actividades' %}">Actividades</a></li>
 
-            <li><a href="{% url 'profesores' %}">Profesores/Docentes</a></li>
-
             <li><a href="{% url 'cerrar sesion' %}">Cerrar sesion</a></li>
 
-            <li>Usuario: {{user.username}} {% if user.id == estudiante.id %} Es estudiante {% endif %}</li>
-        </ul>
-    {% else %}
-        <li><a href="/"> Inicio</a></li>
+            <li><a href="{% url 'perfil' user.id %}">Usuario: {{user.username}}</a></li>
+            
+            {% if user.profesor %}
 
-        <li><a href="{% url 'iniciar sesion' %}">Iniciar sesion</a></li>
+            <li><a href="{% url 'asignar materia a profesor' %}">Asignar materia a profesor</a></li>
+            
+            {% endif %}
+
+        </ul>
+    
+    {% else %}
+        <ul>
+            <li><a href="/"> Inicio</a></li>
+
+            <li><a href="{% url 'iniciar sesion' %}">Iniciar sesion</a></li>
         
-        <li><a href="{% url 'registro' %}">Registro</a></li>
+            <li><a href="{% url 'registro' %}">Registro</a></li>
+        </ul>
     {% endif %}
     
     {% block content %}

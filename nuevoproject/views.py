@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CrearActividad, CrearProfesores, SeleccionarMateria
+from .forms import CrearActividad, MiFormulario, SeleccionarMateria
 from .models import Actividades, Profesores, Materia, Estudiantes
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -23,11 +23,13 @@ def registrarse(request):
         user_instancia = get_object_or_404(User, id=user.id)
         
         if es_estudiante == 'True':
-            estudiante = Estudiantes(user = user_instancia)
+            estudiante = Estudiantes(user = user_instancia, nombre = request.POST['nombre'])
             estudiante.save()
+            redirect_url = '/'
         else:
-            profesor = Profesores(user = user_instancia)
+            profesor = Profesores(user = user_instancia, nombre = request.POST['nombre'])
             profesor.save()
+            redirect_url = 'asignar materia a profesor'
         
         
         if request.POST['clave1'] != request.POST['clave2']:
@@ -38,7 +40,7 @@ def registrarse(request):
         else:
             user.save()
             login(request, user)
-            return redirect('/')
+            return redirect(redirect_url)
 
 def iniciar_sesion(request):
     if request.method == 'GET':
@@ -124,19 +126,45 @@ def profesores(request):
         pass
 
 def calendario(request):
-    cl = calendar.TextCalendar()
-    calendario_sep = cl.formatmonth(2009, 9)
-    return render(request, 'calendario.html', {'calendario': calendario_sep})
+    if request.method == 'POST':
+        form = MiFormulario(request.POST)
+        if form.is_valid():
+            # Process the form data
+            pass
+    else:
+        form = MiFormulario()
+    return render(request, 'calendario.html', {'form': form})
 
 @login_required
-def crear_profesores(request):
+def asignar_materia_a_profesor(request):
     if request.method == 'GET':
-        return render(request, 'crear_profesores.html', {
-            'crear': CrearProfesores
+        datos = User.objects.get(id = request.user.id)
+        return render(request, 'asignar_materia_profesor.html',{
+            'datos': datos,
+            'materia': SeleccionarMateria()
         })
     else:
-        form = CrearProfesores(request.POST)
+        materia = get_object_or_404(Profesores, user = request.user.id )
+        form = SeleccionarMateria(request.POST)
         if form.is_valid():
-            new_form = form.save(commit=False)
-            new_form.save()
-            return redirect('profesores')
+            materia.materia = form.cleaned_data['materia']
+            materia.save()
+            return redirect('inicio')
+        
+@login_required
+def perfil(request, user_id):
+    usuario = User.objects.get(id=user_id)
+    try:
+        estudiante = get_object_or_404(Estudiantes, user = user_id)
+        return render(request, 'perfil.html',{
+            'usuario': usuario,
+            'estudiante': estudiante,
+            'profesor': None
+        })
+    except:
+        profesor = get_object_or_404(Profesores, user = user_id)
+        return render(request, 'perfil.html',{
+            'usuario': usuario,
+            'profesor': profesor,
+            'estudiante': None
+        })
