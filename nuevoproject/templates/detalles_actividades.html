@@ -1,19 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Detalles de actividades</h1>
-
-    <div style="border: 1px solid black; border-radius: 5px;">
-        {% for actividades in actividad %}
-            <header>
-                <h3>Materia: {{actividades.materia}}</h3>
-            </header>
-            <ul>
-                <li><p>Metas: {{actividades.metas}}</p></li>
-                <li><p>Tarea: {{actividades.tarea}}</p></li>
-            </ul>
+    <style>
+        .actividad-container {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f8f9fa;
+        }
+        .actividad-header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+        }
+        .actividad-header h3 {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1><i class="fas fa-tasks"></i> Detalles de actividades</h1>
+        {% for actividad in actividad %}
+            <div class="actividad-container">
+                <header class="actividad-header">
+                    <h3><i class="fas fa-book"></i> Materia: {{ actividad.materia }}</h3>
+                </header>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="fas fa-pencil-alt"></i> <strong>Tarea:</strong> {{ actividad.tarea }}</li>
+                    <li class="list-group-item"><i class="fas fa-bullseye"></i> <strong>Metas: </strong> {{ actividad.metas }}</li>
+                    
+                </ul>
+            </div>
+        {% endfor %}
     </div>
-    
-        
-    {% endfor %}
+</body>
+</html>
+
 {% endblock %}

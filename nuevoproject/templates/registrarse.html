@@ -1,16 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de usuario</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
         .hidden {
             display: none;
@@ -53,11 +44,11 @@
                 </div>
             </div>
             <div class="form-group hidden" id="institucion_field">
-                <label for="institucion"><i class="fa-solid fa-ranking-star"></i> Carrera:</label>
+                <p> Que materia estas viendo? </p>
                 {{materia}}
             </div>
             <div class="form-group hidden" id="asignatura_field">
-                <label for="asignatura"><i class="fas fa-book"></i> Asignatura:</label>
+                <p> En que materia te especializas? </p>
                 {{materia}}
             </div>
             <div class="form-group mt-3">
@@ -74,10 +65,7 @@
         </form>
     </div>
 </div>
-<!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <script>
     function toggleFields() {
         var estudiante = document.getElementById('estudiante').checked;
