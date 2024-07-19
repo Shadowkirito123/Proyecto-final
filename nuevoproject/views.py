@@ -14,38 +14,34 @@ def inicio(request):
 
 def registrarse(request):
     if request.method == 'GET':
+        materia_form = SeleccionarMateria()
         return render(request,'registrarse.html',{
-        'form': UserCreationForm,
-        'materia': SeleccionarMateria()
     })
     else:
-        user = User.objects.create_user(username=request.POST['nombre_usuario'], password = request.POST['clave1'], first_name = request.POST['nombre'], last_name = request.POST['apellido'] )
-        es_estudiante = request.POST.get('es_estudiante')
-        user_instancia = get_object_or_404(User, id=user.id)
-        
-        if es_estudiante == 'True':
-            estudiante = Estudiantes(user = user_instancia, nombre = request.POST['nombre'])
-            estudiante.save()
-            redirect_url = '/'
-        else:
-            profesor = Profesores(user=user_instancia, nombre=request.POST['nombre'])
-            form = SeleccionarMateria(request.POST)
-            if form.is_valid():
-                profesor.materia = form.cleaned_data['materia']
+        materia_form = SeleccionarMateria(request.POST)
+        if request.POST['clave1'] == request.POST['clave2']:
+            user = User.objects.create_user(username = request.POST['nombre_usuario'], password = request.POST['clave1'], first_name = request.POST['nombre'], last_name = request.POST['apellido'] )
+            es_estudiante = request.POST.get('es_estudiante')
+            user.save()
+            login(request, user)
+            if es_estudiante == 'True':
+                estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'])
+                estudiante.save()
+                redirect_url = '/'
+            else:
+                profesor = Profesores(user = request.user, nombre=request.POST['nombre'])
                 profesor.save()
                 redirect_url = '/'
         
-        
-        if request.POST['clave1'] != request.POST['clave2']:
-            return render(request,'registrarse.html',{
-            'form': UserCreationForm,
-            'error': 'Las contraseñas no coinciden'
-            })
         else:
-            user.save()
-            login(request, user)
-            return redirect(redirect_url)
-
+            return render(request,'registrarse.html',{
+                'form': UserCreationForm,
+                'materia': SeleccionarMateria(),
+                'error': 'Las contraseñas no coinciden'
+            })
+        
+        return redirect(redirect_url)
+        
 def iniciar_sesion(request):
     if request.method == 'GET':
         return render(request, 'iniciar_sesion.html',{
@@ -61,8 +57,8 @@ def iniciar_sesion(request):
                 'error': 'Usario o contraseña incorrectas'
             })
         else:
-           login(request, user)
-           return redirect('inicio')
+            login(request, user)
+            return redirect('inicio')
         
 @login_required
 def cerrar_sesion(request):
@@ -104,20 +100,15 @@ def crear_actividad(request):
 @login_required        
 def mostrar_actividades(request):
     if request.method == 'GET':
-        try:
-            actividad = Actividades.objects.get(user = request.user.id)
-            return render (request, 'actividades.html',{
+        actividad = Actividades.objects.filter(user = request.user)
+        return render (request, 'actividades.html',{
                 'actvidad': actividad
             })
-        except:
-            return render(request, 'actividades.html',{
-                'error': 'No hay actividades'
-            })
 
-def editar_actividad(request):
+@login_required
+def editar_actividad(request, actividad_id):
     if request.method == 'GET':
-        actividad1 = Actividades.objects.get(user = request.user.id)
-        actividad = get_object_or_404(Actividades, pk=actividad1.id, user = request.user)
+        actividad = get_object_or_404(Actividades, pk = actividad_id, user = request.user)
         crear_actividad = CrearActividad(instance=actividad)
         return render(request, 'editar_actividad.html', {
             'actividad': actividad,
@@ -125,20 +116,20 @@ def editar_actividad(request):
         })
     else:
         try:
-           actividad1 = Actividades.objects.get(user = request.user.id)
-           actividad = get_object_or_404(Actividades, pk=actividad1.id, user = request.user)
-           crear_actividad = CrearActividad(request.POST, instance=actividad)
-           crear_actividad.save()
-           return redirect('mostrar actividades')
+            actividad = get_object_or_404(Actividades, pk = actividad_id, user = request.user)
+            crear_actividad = CrearActividad(request.POST, instance=actividad)
+            crear_actividad.save()
+            return redirect('mostrar actividades')
         except:
             return render(request, 'editar_actividad.html', {
             'actividad': actividad,
-            'crear': crear_actividad
+            'crear': crear_actividad,
+            'error': 'Error al actualizar'
         })
 
-def eliminar_actividad(request):
-    actividad1 = Actividades.objects.get(user = request.user.id)
-    actividad = get_object_or_404(Actividades, pk=actividad1.id, user = request.user)
+@login_required
+def eliminar_actividad(request, actividad_id):
+    actividad = get_object_or_404(Actividades, pk=actividad_id, user = request.user)
     if request.method == 'POST':
         actividad.delete()
         return redirect('mostrar actividades')

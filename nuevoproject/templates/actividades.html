@@ -8,12 +8,9 @@
         <div class="border rounded p-4 shadow-sm">
             <ul class="list-unstyled">
                 <li class="mb-4">
-                    {% if actvidad == None %}
-                        <div class="alert alert-danger text-center">
-                            <i class="fas fa-exclamation-circle"></i> {{error}}
-                        </div>
-                    {% else %}
+
                     <div class="d-flex justify-content-center mb-4">
+
                         <form action="{% url 'mostrar actividades importantes' %}" method="POST" class="mr-2">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-primary">
@@ -27,26 +24,44 @@
                                 <i class="fas fa-filter"></i> Filtrar por no importante
                             </button>
                         </form>
+
                     </div>
 
-                    <!-- Editar actividad -->
-                    <div id="texto" class="bg-light p-3 rounded">
-                        <header>
-                            <h3 class="text-primary"><i class="fas fa-book"></i> Materia: {{actvidad.materia}}</h3>
-                        </header>
-                        <p><strong>Tarea:</strong> {{actvidad.tarea}}</p>
-                        <p><strong>Metas:</strong> {{actvidad.metas}}</p>
-                        <p><strong>Fecha de inicio:</strong> {{actvidad.fecha_inicio}}</p>
-                        <p><strong>Fecha de culminación:</strong> {{actvidad.fecha_final}}</p>
-                        <p>{% if actvidad.importante %} <span class="badge badge-danger"><i class="fas fa-exclamation"></i> Es importante</span> {% else %} <span class="badge badge-secondary"><i class="fas fa-check"></i> No es importante</span> {% endif %}</p>
-                    </div>
-                    <div class="text-center mt-3">
-                        <a href="{% url 'editar actividad' %}" class="btn btn-warning">
-                            <i class="fas fa-edit"></i> Modificar
-                        </a>
-                    </div>
+                    {% for actividades in actvidad %}
 
-                    {% endif %}
+                        {% if actividades == None %}
+
+                            <div class="alert alert-danger text-center">
+                                <i class="fas fa-exclamation-circle"></i> {{error}}
+                            </div>
+
+                        {% else %}
+
+                        <!-- Editar actividad -->
+                        
+                            <div id="texto" class="bg-light p-3 rounded;">
+                                <header>
+                                    <h3 class="text-primary"><i class="fas fa-book"></i> Materia: {{actividades.materia}}</h3>
+                                </header>
+
+                                <p><strong>Tarea:</strong> {{actividades.tarea}}</p>
+                                <p><strong>Metas:</strong> {{actividades.metas}}</p>
+                                <p><strong>Fecha de inicio:</strong> {{actividades.fecha_inicio}}</p>
+                                <p><strong>Fecha de culminación:</strong> {{actividades.fecha_final}}</p>
+                                <p>{% if actividades.importante %} <span class="badge badge-danger"><i class="fas fa-exclamation"></i> Es importante</span> {% else %} <span class="badge badge-secondary"><i class="fas fa-check"></i> No es importante</span> {% endif %}</p>
+                            </div>
+
+                            <div class="text-center mt-3">
+                                <a href="{% url 'editar actividad' actividades.id %}" class="btn btn-warning">
+                                    <i class="fas fa-edit"></i> Modificar
+                                </a>
+
+                            </div>
+                        
+                        {% endif %}
+
+                    {% endfor %}
+                    
                 </li>
             </ul>
         </div>
