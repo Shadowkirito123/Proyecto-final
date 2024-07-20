@@ -105,7 +105,8 @@ def crear_actividad(request):
 def mostrar_actividades(request):
     if request.method == 'GET':
         try:
-            actividad = Actividades.objects.get(user = request.user.id)
+            actividad1 = get_object_or_404(Actividades, user = request.user.id)
+            actividad = get_object_or_404(Actividades, pk=actividad1.id, user = request.user)
             return render (request, 'actividades.html',{
                 'actvidad': actividad
             })

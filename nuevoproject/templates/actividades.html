@@ -8,9 +8,12 @@
             <ul class="list-unstyled">
                 <li class="mb-3">
                     {% if actvidad == None %}
+
                         {{error}}
+                    
                     {% else %}
-                    <div class="d-flex justify-content-center mb-3">
+
+                    <div class="card mb-3"><div class="d-flex justify-content-center mb-3">
                         <form action="{% url 'mostrar actividades importantes' %}" method="POST" class="mr-2">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-primary">
@@ -38,7 +41,7 @@
                                 <p>Fecha de culminación: {{actvidad.fecha_final}}</p>
                                 <p>{% if actvidad.importante %} Es importante {% else %} No es importante {% endif %}</p>
                             </div>
-                            <label for="texto"><a href="{% url 'editar actividad'%}"><button>Modificar</button> </a></label>
+                            <label for="texto"><a href="{% url 'editar actividad'%}"><button>Modificar</button> </a></label></div>
 
                     {% endif %}
                     

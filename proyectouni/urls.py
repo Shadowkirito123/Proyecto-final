@@ -34,6 +34,7 @@ urlpatterns = [
     path('iniciar_sesion/', views.iniciar_sesion, name='iniciar sesion'),
     path('planificacion/', views.planificacion, name='planificacion'),
     path('cerrar_sesion/', views.cerrar_sesion, name='cerrar sesion'),
-    path('calendario/', views.calendario, name='calendario')
+    path('calendario/', views.calendario, name='calendario'),
+    
 
 ]
