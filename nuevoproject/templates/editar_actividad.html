@@ -1,18 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form method="POST">
-        {% csrf_token %}
-        {{crear}}
-        <button>
-            Actualizar
-        </button>
-    </form>
+{{error}}
+<form method="POST" class="text-center p-3">
+    {% csrf_token %}
+    <div class="mb-3">
+        {{ crear }}
+    </div>
+    <button type="submit" class="btn btn-warning">
+        Actualizar
+    </button>
+</form>
 
-        <form action="{% url 'eliminar actividad' %}" method="POST">
-            {% csrf_token %}
-            <button>
-                Eliminar 
-            </button>
-        </form>
+<form action="{% url 'eliminar actividad' actividad.id %}" method="POST" class="text-center p-3">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">
+        Eliminar
+    </button>
+</form>
+
 {% endblock %}
