@@ -23,6 +23,7 @@ urlpatterns = [
     path('', views.inicio, name='inicio'),
     path('usuario/<int:user_id>', views.perfil, name='perfil'),
     path('crear_actividad/', views.crear_actividad, name='actividad'),
+    path('crear_actividad/otra_actividad', views.agregar_otra_actividad, name='agregar otra actividad'),
     path('mostrar_actividad/', views.mostrar_actividades, name='mostrar actividades'),
     path('mostrar_actividad/<int:actividad_id>/editar', views.editar_actividad, name='editar actividad'),
     path('mostrar_actividad/<int:actividad_id>/eliminar', views.eliminar_actividad, name='eliminar actividad'),

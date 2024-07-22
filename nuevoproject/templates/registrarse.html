@@ -34,14 +34,25 @@
 
             <div class="form-group">
                 <label for="estudiante"><i class="fas fa-id-badge"></i> Estudiante :</label>
-                <input type="radio" name="es_estudiante" id="estudiante" value="True">
+                <input type="radio" name="es_estudiante" id="estudiante" value="True" checked>
             </div>
 
             <div class="form-group">
                 <label for="profesor"><i class="fas fa-id-badge"></i> Profesor :</label>
                 <input type="radio" name="es_estudiante" id="profesor" value="False">
             </div>
+            
 
+            <div id="materia-field" style="display: none;" class="form-group">
+                {{mostrar.as_p}}
+
+                <p>¿La materia no esta en la lista? <input type="checkbox" name="no_esta" id="no" value="True"></p>
+
+                <div id="materia" style="display: none;">
+                    Escribe la materia aqui: <input type="text" name="materia_nueva" id="materia_nueva">
+                </div>
+
+            </div>
 
             <div class="form-group mt-3">
                 <label for="clave1"><i class="fas fa-lock"></i> Contraseña:</label>
@@ -60,5 +71,32 @@
     </div>
 </div>
 </body>
+
+<script>
+
+    document.getElementById('no').addEventListener('click', function() {
+        if (this.checked) {
+            document.getElementById('materia').style.display = 'block';
+        } else {
+            document.getElementById('materia').style.display = 'none';
+        }
+    });
+
+    document.getElementById('profesor').addEventListener('click', function() {
+    if (this.checked) {
+        document.getElementById('materia-field').style.display = 'block';
+    } else {
+        document.getElementById('materia-field').style.display = 'none';
+    }
+});
+
+document.getElementById('estudiante').addEventListener('click', function() {
+    if (this.checked) {
+        document.getElementById('materia-field').style.display = 'none';
+    } else {
+        document.getElementById('materia-field').style.display = 'block';
+    }
+});
+</script>
 
 {%endblock%}

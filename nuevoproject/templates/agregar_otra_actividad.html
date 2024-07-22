@@ -10,14 +10,6 @@
                     {% csrf_token %}
                     {{ form.as_p }}
                     {{ mostrar.as_p }}
-
-                    <p>¿La materia no esta en la lista? <input type="checkbox" name="no_esta" id="no" value="True"></p>
-                    
-                    <div id="materia-field" style="display: none;">
-                        Escribe la materia aqui: <input type="text" name="materia_nueva" id="materia_nueva">
-                    </div>
-                    <br>
-
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">
                             Guardar
@@ -25,17 +17,28 @@
                     </div>
                 </form>
 
+                <form method="POST" class="bg-light p-4 border rounded">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {{ mostrar.as_p }}
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+
+                <form method="POST" class="bg-light p-4 border rounded">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">
+                        Agregar otra actividad
+                    </button>
+                </form>
+
             </div>
         </div>
     </div>
 </body>
-<script>
-    document.getElementById('no').addEventListener('click', function() {
-        if (this.checked) {
-            document.getElementById('materia-field').style.display = 'block';
-        } else {
-            document.getElementById('materia-field').style.display = 'none';
-        }
-    });
-</script>
+</html>
+
 {% endblock %}

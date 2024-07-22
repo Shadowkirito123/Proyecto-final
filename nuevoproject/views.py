@@ -14,32 +14,53 @@ def inicio(request):
 
 def registrarse(request):
     if request.method == 'GET':
-        materia_form = SeleccionarMateria()
         return render(request,'registrarse.html',{
+            'mostrar': SeleccionarMateria()
     })
     else:
-        materia_form = SeleccionarMateria(request.POST)
-        if request.POST['clave1'] == request.POST['clave2']:
-            user = User.objects.create_user(username = request.POST['nombre_usuario'], password = request.POST['clave1'], first_name = request.POST['nombre'], last_name = request.POST['apellido'] )
-            es_estudiante = request.POST.get('es_estudiante')
-            user.save()
-            login(request, user)
-            if es_estudiante == 'True':
-                estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'])
-                estudiante.save()
-                redirect_url = '/'
-            else:
-                profesor = Profesores(user = request.user, nombre=request.POST['nombre'])
-                profesor.save()
-                redirect_url = '/'
+        selectmateria = SeleccionarMateria(request.POST)
+        
+        if 'no_esta' in request.POST and request.POST['no_esta'] == 'True':
+            # El usuario ha seleccionado la opción de escribir una nueva materia
+            materia_nueva = request.POST['materia_nueva']
+            materia, created = Materia.objects.get_or_create(nombre = materia_nueva)
+            if request.POST['clave1'] == request.POST['clave2']:
+                user = User.objects.create_user(username = request.POST['nombre_usuario'], password = request.POST['clave1'], first_name = request.POST['nombre'], last_name = request.POST['apellido'] )
+                es_estudiante = request.POST.get('es_estudiante')
+                user.save()
+                login(request, user)
+                if es_estudiante == 'True':
+                    estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'])
+                    estudiante.save()
+                    redirect_url = '/'
+                else:
+                    profesor = Profesores(user = request.user, nombre = request.POST['nombre'], materia = materia)
+                    profesor.save()
+                    redirect_url = '/'
         
         else:
-            return render(request,'registrarse.html',{
-                'form': UserCreationForm,
-                'materia': SeleccionarMateria(),
-                'error': 'Las contraseñas no coinciden'
-            })
-        
+            if selectmateria.is_valid():
+                if request.POST['clave1'] == request.POST['clave2']:
+                    user = User.objects.create_user(username = request.POST['nombre_usuario'], password = request.POST['clave1'], first_name = request.POST['nombre'], last_name = request.POST['apellido'] )
+                    es_estudiante = request.POST.get('es_estudiante')
+                    user.save()
+                    login(request, user)
+                    if es_estudiante == 'True':
+                        estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'])
+                        estudiante.save()
+                        redirect_url = '/'
+                    else:
+                        profesor = Profesores(user = request.user, nombre = request.POST['nombre'], materia = selectmateria.cleaned_data['materia'])
+                        profesor.save()
+                        redirect_url = '/'
+                
+                else:
+                    return render(request,'registrarse.html',{
+                        'form': UserCreationForm,
+                        'materia': SeleccionarMateria(),
+                        'error': 'Las contraseñas no coinciden'
+                    })
+                
         return redirect(redirect_url)
         
 def iniciar_sesion(request):
@@ -70,30 +91,48 @@ def crear_actividad(request):
     if request.method == 'GET':
         return render(request, 'registrar_actividad.html',{
             'form': CrearActividad(),
-            'mostrar': SeleccionarMateria
+            'mostrar': SeleccionarMateria()
         })
     else:
         form = CrearActividad(request.POST)
-        materia = Materia.objects.create(nombre = request.POST['materia'])
-        selectmateria = SeleccionarMateria(request.POST)
-        materia.save()
+        selectmateria = SeleccionarMateria(request.POST)  
         
+        if 'no_esta' in request.POST and request.POST['no_esta'] == 'True':
+            # El usuario ha seleccionado la opción de escribir una nueva materia
+            materia_nueva = request.POST['materia_nueva']
+            materia, created = Materia.objects.get_or_create(nombre = materia_nueva)
+            if form.is_valid():
+                new_form = form.save(commit=False)
+                new_form.user = request.user
+                new_form.materia = materia
+                new_form.save()
+                
+                profesores = Profesores.objects.filter(materia=materia)
+                if profesores.exists():
+                    random_profesor = random.choice(profesores)
+                    planificacion = Planificacion.objects.create(
+                        actividades = new_form,
+                        estudiante = request.user,
+                        profesor = random_profesor
+                    )
+                    planificacion.save()
         
-        if form.is_valid() and selectmateria.is_valid():
-            new_form = form.save(commit=False)
-            new_form.user = request.user
-            new_form.materia = selectmateria.cleaned_data['materia']
-            new_form.save()
-            
-            profesores = Profesores.objects.filter(materia=selectmateria.cleaned_data['materia'])
-            if profesores.exists():
-                random_profesor = random.choice(profesores)
-                planificacion = Planificacion.objects.create(
-                    actividades = new_form,
-                    estudiante = request.user,
-                    profesor = random_profesor
-                )
-                planificacion.save()
+        else:
+            if form.is_valid() and selectmateria.is_valid():
+                new_form = form.save(commit=False)
+                new_form.user = request.user
+                new_form.materia = selectmateria.cleaned_data['materia']
+                new_form.save()
+                
+                profesores = Profesores.objects.filter(materia=selectmateria.cleaned_data['materia'])
+                if profesores.exists():
+                    random_profesor = random.choice(profesores)
+                    planificacion = Planificacion.objects.create(
+                        actividades = new_form,
+                        estudiante = request.user,
+                        profesor = random_profesor
+                    )
+                    planificacion.save()
 
         return redirect('mostrar actividades')
 
@@ -209,9 +248,17 @@ def perfil(request, user_id):
             'estudiante': None
         })
 
+@login_required
 def planificacion(request):
     if request.method == 'GET':
         planificacion = Planificacion.objects.get(estudiante = request.user.id)
         return render (request, 'planificacion.html',{
             'planificacion': planificacion
+        })
+
+def agregar_otra_actividad(request):
+    if request.method == 'GET':
+        return render(request, 'agregar_otra_actividad.html',{
+            'form': CrearActividad(),
+            'mostrar': SeleccionarMateria
         })

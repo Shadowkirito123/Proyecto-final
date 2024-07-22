@@ -11,7 +11,7 @@ class CrearActividad(forms.ModelForm):
         }
         
 class SeleccionarMateria(forms.ModelForm):
-    materia = forms.ModelChoiceField(queryset=Materia.objects.all())
+    materia = forms.ModelChoiceField(queryset=Materia.objects.all(), required=False)
     
     class Meta:
         model = Materia
