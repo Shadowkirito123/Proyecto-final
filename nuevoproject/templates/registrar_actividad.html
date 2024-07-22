@@ -23,6 +23,7 @@
                             Guardar
                         </button>
                     </div>
+
                 </form>
 
             </div>
@@ -36,6 +37,19 @@
         } else {
             document.getElementById('materia-field').style.display = 'none';
         }
+    });
+
+    $(document).ready(function() {
+    $('#add-more-activities').on('click', function() {
+        $.ajax({
+        type: 'GET',
+        url: '{% url "agregar" %}',
+        data: {},
+        success: function(data) {
+            $('#activities-form').append($(data).find('form'));
+                }
+            });
+        });
     });
 </script>
 {% endblock %}
