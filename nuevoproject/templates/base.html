@@ -39,27 +39,6 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
-                        
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'mostrar actividades' %}">Actividades</a>
-                        </li>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="{% url 'planificacion' %}">Planificacion</a>
-                        </li> -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'calendario' %}">Calendario</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'cerrar sesion' %}">Cerrar sesión</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link user-highlight" href="#" tabindex="-1" aria-disabled="true">Usuario: {{ user.username }}</a>
-                        </li>
-
-                        <li class="nav-item">
                             {% if user.profesor %}
 
                                 <li class="nav-item">
@@ -82,16 +61,13 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'actividad' %}">Crear actividad</a>
-                                </li>
-
-                                <li class="nav-item">
                                     <a class="nav-link" href="{% url 'mostrar actividades' %}">Actividades</a>
                                 </li>
 
                                 <!-- <li class="nav-item">
                                     <a class="nav-link" href="{% url 'planificacion' %}">Planificacion</a>
                                 </li> -->
+                                
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'calendario' %}">Calendario</a>
                                 </li>
