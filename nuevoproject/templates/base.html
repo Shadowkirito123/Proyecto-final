@@ -40,43 +40,67 @@
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'actividad' %}">Crear actividad</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'mostrar actividades' %}">Actividades</a>
-                        </li>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="{% url 'planificacion' %}">Planificacion</a>
-                        </li> -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'calendario' %}">Calendario</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'cerrar sesion' %}">Cerrar sesión</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link user-highlight" href="#" tabindex="-1" aria-disabled="true">Usuario: {{ user.username }}</a>
-                        </li>
-
-                        <li class="nav-item">
                             {% if user.profesor %}
-                                <p class="nav-link disabled" tabindex="-1" aria-disabled="true">Otro campo</p>
-                            {% endif %}
-                        </li>
 
-                    {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'calendario' %}">Calendario</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'cerrar sesion' %}">Cerrar sesión</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link user-highlight" href="#" tabindex="-1" aria-disabled="true">Usuario: {{ user.username }}</a>
+                                </li>
+
+                                <p class="nav-link disabled" tabindex="-1" aria-disabled="true">Es profesor</p>
+
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/">Inicio</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'actividad' %}">Crear actividad</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'mostrar actividades' %}">Actividades</a>
+                                </li>
+
+                                <!-- <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'planificacion' %}">Planificacion</a>
+                                </li> -->
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'calendario' %}">Calendario</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'cerrar sesion' %}">Cerrar sesión</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link user-highlight" href="#" tabindex="-1" aria-disabled="true">Usuario: {{ user.username }}</a>
+                                </li>
+
+                                <p class="nav-link disabled" tabindex="-1" aria-disabled="true">Es estudiante</p>
+
+                            {% endif %}
+                            
+                    {% else%}
                         <li class="nav-item">
                             <a class="nav-link" href="/">Inicio</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'iniciar sesion' %}">Iniciar sesión</a>
+                            <a class="nav-link" href="{% url 'iniciar sesion' %}">Iniciar sesion</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'registro' %}">Registro</a>
+                            <a class="nav-link" href="{% url 'registro' %}">Registrarse</a>
                         </li>
+                        
                     {% endif %}
                 </ul>
             </div>

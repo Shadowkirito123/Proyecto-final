@@ -6,6 +6,9 @@
     <div class="card p-4" style="max-width: 500px; width: 100%;">
         <h1 class="text-center">Iniciar sesión</h1>
         <form method="POST" class="mt-4">
+            {% if error %}
+                {{ error }}
+            {% endif %}
             {% csrf_token %}
             <div class="form-group">
                 <label for="nombre_usuario"><i class="fas fa-user"></i> Nombre de usuario:</label>
