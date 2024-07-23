@@ -41,3 +41,4 @@ class Planificacion(models.Model):
     actividades = models.ForeignKey(Actividades, on_delete=models.CASCADE)
     profesor = models.ForeignKey(Profesores, on_delete=models.CASCADE, default=None)
     estudiante = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+

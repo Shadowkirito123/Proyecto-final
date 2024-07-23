@@ -36,6 +36,6 @@ urlpatterns = [
     path('planificacion/', views.planificacion, name='planificacion'),
     path('cerrar_sesion/', views.cerrar_sesion, name='cerrar sesion'),
     path('calendario/', views.calendario, name='calendario'),
-    
+    path('agregar/', views.agregar_otra_actividad, name='agregar')
 
 ]

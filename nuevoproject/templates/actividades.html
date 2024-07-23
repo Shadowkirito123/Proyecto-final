@@ -4,6 +4,9 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center mb-4"><i class="fas fa-tasks"></i> Actividades</h1>
+        <div class="text-center mb-4">
+            <a href="{% url 'actividad' %}"><button>Crear actividad</button></a>
+        </div>
         
         <div class="border rounded p-4 shadow-sm">
             <ul class="list-unstyled">
@@ -27,15 +30,15 @@
 
                     </div>
 
-                    {% for actividades in actvidad %}
-
-                        {% if actividades == None %}
+                    {% if actvidad == None %}
 
                             <div class="alert alert-danger text-center">
-                                <i class="fas fa-exclamation-circle"></i> {{error}}
+                                <i class="fas fa-exclamation-circle">{{ error }}</i> 
                             </div>
 
-                        {% else %}
+                    {% else %}
+
+                        {% for actividades in actvidad %}
 
                         <!-- Editar actividad -->
                         
@@ -57,10 +60,10 @@
                                 </a>
 
                             </div>
-                        
-                        {% endif %}
 
-                    {% endfor %}
+                        {% endfor %}
+                    
+                    {% endif %}
                     
                 </li>
             </ul>

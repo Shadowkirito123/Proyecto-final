@@ -6,7 +6,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 import random
-
+from django.template.loader import render_to_string
+from django.http import HttpResponse
 
 # Create your views here.
 def inicio(request):
@@ -140,8 +141,10 @@ def crear_actividad(request):
 def mostrar_actividades(request):
     if request.method == 'GET':
         actividad = Actividades.objects.filter(user = request.user)
+        error = 'No hay actividades'
         return render (request, 'actividades.html',{
-                'actvidad': actividad
+                'actvidad': actividad,
+                'error': error
             })
 
 @login_required
@@ -176,7 +179,7 @@ def eliminar_actividad(request, actividad_id):
 @login_required
 def filtrar_actividades_importantes(request):
     if request.method == 'POST':
-        actividad = Actividades.objects.filter(importante=True)
+        actividad = Actividades.objects.filter(importante=True, user = request.user)
         return render(request, 'detalles_actividades.html', {
             'actividad': actividad
         })
@@ -186,7 +189,7 @@ def filtrar_actividades_importantes(request):
 @login_required
 def filtrar_actividades_noimportantes(request):
     if request.method == 'POST':
-        actividad = Actividades.objects.filter(importante=False)
+        actividad = Actividades.objects.filter(importante=False, user = request.user)
         return render(request, 'detalles_actividades.html', {
             'actividad': actividad
         })
@@ -258,7 +261,6 @@ def planificacion(request):
 
 def agregar_otra_actividad(request):
     if request.method == 'GET':
-        return render(request, 'agregar_otra_actividad.html',{
-            'form': CrearActividad(),
-            'mostrar': SeleccionarMateria
-        })
+        form = CrearActividad()
+        html = render_to_string('agregar_otra_actividad.html', {'form': form})
+        return HttpResponse(html, content_type = 'text/html')
