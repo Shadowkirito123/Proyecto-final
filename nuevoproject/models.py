@@ -42,3 +42,10 @@ class Planificacion(models.Model):
     profesor = models.ForeignKey(Profesores, on_delete=models.CASCADE, default=None)
     estudiante = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
 
+class Carreras(models.Model):
+    nombre = models.CharField(max_length=250, default=None)
+    
+class Materias_por_Carreras(models.Model):
+    nombre = models.CharField(max_length=250, default=None)
+    carrera = models.ForeignKey(Carreras, on_delete=models.CASCADE, default=None)
+    materia = models.ForeignKey(Materia, on_delete=models.CASCADE, default=None)
