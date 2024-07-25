@@ -7,6 +7,17 @@ class Materia(models.Model):
     
     def __str__(self):
         return self.nombre
+    
+class Carreras(models.Model):
+    nombre = models.CharField(max_length=250)
+    
+    def __str__(self):
+        return self.nombre
+    
+class Estdiantes_por_carreras(models.Model):
+    estudiante = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    carrera = models.ForeignKey(Carreras, on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    nombre = models.CharField(max_length=250, default=None)
 
 class Actividades(models.Model):
     metas = models.TextField()
@@ -32,20 +43,10 @@ class Profesores(models.Model):
 class Estudiantes(models.Model):
     nombre = models.CharField(max_length=250, default=None)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, default=None)
-    
-class Profesores_asignados_Estudiantes(models.Model):
-    profesor = models.ForeignKey(Profesores, on_delete=models.CASCADE)
-    estudiante = models.ForeignKey(Estudiantes, on_delete=models.CASCADE)
+    carrera = models.ForeignKey(Carreras, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     
 class Planificacion(models.Model):
     actividades = models.ForeignKey(Actividades, on_delete=models.CASCADE)
     profesor = models.ForeignKey(Profesores, on_delete=models.CASCADE, default=None)
     estudiante = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
-
-class Carreras(models.Model):
-    nombre = models.CharField(max_length=250, default=None)
     
-class Materias_por_Carreras(models.Model):
-    nombre = models.CharField(max_length=250, default=None)
-    carrera = models.ForeignKey(Carreras, on_delete=models.CASCADE, default=None)
-    materia = models.ForeignKey(Materia, on_delete=models.CASCADE, default=None)

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Actividades, Profesores, Materia
+from .models import Actividades, Materia, Carreras
 
 class CrearActividad(forms.ModelForm):
     class Meta:
@@ -17,6 +17,13 @@ class SeleccionarMateria(forms.ModelForm):
         model = Materia
         fields = ()
         
+class SeleccionarCarrera(forms.ModelForm):
+    carrera = forms.ModelChoiceField(queryset=Carreras.objects.all())
+    
+    class Meta:
+        model = Carreras
+        fields = ()
+
 class MiFormulario(forms.Form):
     rol = forms.ChoiceField(choices=[('profesor', 'Soy profesor/docente'), ('no_profesor', 'No soy profesor/docente')])
     campo_adicional = forms.CharField(label='Campo adicional', required=False)

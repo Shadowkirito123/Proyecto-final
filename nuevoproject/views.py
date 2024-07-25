@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CrearActividad, MiFormulario, SeleccionarMateria
-from .models import Actividades, Profesores, Materia, Estudiantes, Planificacion
+from .forms import CrearActividad, MiFormulario, SeleccionarMateria, SeleccionarCarrera
+from .models import Actividades, Profesores, Materia, Estudiantes, Planificacion, Estdiantes_por_carreras
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
@@ -16,10 +16,12 @@ def inicio(request):
 def registrarse(request):
     if request.method == 'GET':
         return render(request,'registrarse.html',{
-            'mostrar': SeleccionarMateria()
+            'mostrar': SeleccionarMateria(),
+            'carrera': SeleccionarCarrera()
     })
     else:
         selectmateria = SeleccionarMateria(request.POST)
+        selectcarrera = SeleccionarCarrera(request.POST)
         
         if 'no_esta' in request.POST and request.POST['no_esta'] == 'True':
             # El usuario ha seleccionado la opción de escribir una nueva materia
@@ -40,15 +42,17 @@ def registrarse(request):
                     redirect_url = '/'
         
         else:
-            if selectmateria.is_valid():
+            if selectmateria.is_valid() and selectcarrera.is_valid():
                 if request.POST['clave1'] == request.POST['clave2']:
                     user = User.objects.create_user(username = request.POST['nombre_usuario'], password = request.POST['clave1'], first_name = request.POST['nombre'], last_name = request.POST['apellido'] )
                     es_estudiante = request.POST.get('es_estudiante')
                     user.save()
                     login(request, user)
                     if es_estudiante == 'True':
-                        estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'])
+                        estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'], carrera = selectcarrera.cleaned_data['carrera'])
                         estudiante.save()
+                        estudiante_por_carrera = Estdiantes_por_carreras(carrera = selectcarrera.cleaned_data['carrera'], estudiante = request.user, nombre = request.POST['nombre'])
+                        estudiante_por_carrera.save()
                         redirect_url = '/'
                     else:
                         profesor = Profesores(user = request.user, nombre = request.POST['nombre'], materia = selectmateria.cleaned_data['materia'])
@@ -264,3 +268,4 @@ def agregar_otra_actividad(request):
         form = CrearActividad()
         html = render_to_string('agregar_otra_actividad.html', {'form': form})
         return HttpResponse(html, content_type = 'text/html')
+    
