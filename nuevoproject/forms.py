@@ -1,5 +1,5 @@
 from django import forms
-from .models import Actividades, Materia, Carreras
+from .models import Actividades, Materia, Carreras, Estdiantes_por_carreras, Materias_por_carreras, Estudiantes
 
 class CrearActividad(forms.ModelForm):
     class Meta:
@@ -23,6 +23,33 @@ class SeleccionarCarrera(forms.ModelForm):
     class Meta:
         model = Carreras
         fields = ()
+
+class SeleccionarMateriasPorCarreras1(forms.ModelForm): 
+    materia = forms.ModelChoiceField(queryset=Materia.objects.all())
+
+    class Meta:
+        model = Materia
+        fields = ()
+
+    def __init__(self, *args, **kwargs):
+        carrera_id = kwargs.pop('carrera_id', None)
+        super().__init__(*args, **kwargs)
+        if carrera_id:
+            materias_por_carrera = Materias_por_carreras.objects.filter(carrera_id=carrera_id)
+            self.fields['materia'].queryset = Materia.objects.filter(id__in=[materia.materia_id for materia in materias_por_carrera])
+
+class SeleccionarMateriasPorCarreras(forms.ModelForm): 
+    materia = forms.ModelChoiceField(queryset=Materias_por_carreras.objects.all())
+
+    class Meta:
+        model = Materias_por_carreras
+        fields = ()
+
+    def __init__(self, *args, **kwargs):
+        carrera_id = kwargs.pop('carrera_id', None)
+        super().__init__(*args, **kwargs)
+        if carrera_id:
+            self.fields['materia'].queryset = Materias_por_carreras.objects.filter(carrera_id = carrera_id)
 
 class MiFormulario(forms.Form):
     rol = forms.ChoiceField(choices=[('profesor', 'Soy profesor/docente'), ('no_profesor', 'No soy profesor/docente')])

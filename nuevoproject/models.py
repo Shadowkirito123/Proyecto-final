@@ -19,6 +19,14 @@ class Estdiantes_por_carreras(models.Model):
     carrera = models.ForeignKey(Carreras, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     nombre = models.CharField(max_length=250, default=None)
 
+class Materias_por_carreras(models.Model):
+    carrera = models.ForeignKey(Carreras, on_delete=models.CASCADE, default=None)
+    materia = models.ForeignKey(Materia, on_delete=models.CASCADE, default=None)
+    nombre = models.CharField(max_length=250, default=None)
+
+    def __str__(self):
+        return self.carrera.nombre + ' - ' + self.materia.nombre    
+
 class Actividades(models.Model):
     metas = models.TextField()
     tarea = models.TextField(null=True)

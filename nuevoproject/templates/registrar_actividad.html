@@ -9,7 +9,7 @@
                 <form method="POST" class="bg-light p-4 border rounded">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    {{ mostrar.as_p }}
+                    {{ carrera1 }}
 
                     <p>¿La materia no esta en la lista? <input type="checkbox" name="no_esta" id="no" value="True"></p>
                     

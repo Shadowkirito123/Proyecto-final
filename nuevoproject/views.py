@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CrearActividad, MiFormulario, SeleccionarMateria, SeleccionarCarrera
+from .forms import CrearActividad, MiFormulario, SeleccionarMateria, SeleccionarCarrera, SeleccionarMateriasPorCarreras, SeleccionarMateriasPorCarreras1
 from .models import Actividades, Profesores, Materia, Estudiantes, Planificacion, Estdiantes_por_carreras
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -93,14 +93,17 @@ def cerrar_sesion(request):
 
 @login_required
 def crear_actividad(request):
+    estudiante = Estudiantes.objects.get(user = request.user)
+    carrera_id = estudiante.carrera
     if request.method == 'GET':
         return render(request, 'registrar_actividad.html',{
             'form': CrearActividad(),
-            'mostrar': SeleccionarMateria()
+            'mostrar': SeleccionarMateria(),
+            'carrera1': SeleccionarMateriasPorCarreras1(carrera_id = carrera_id)
         })
     else:
         form = CrearActividad(request.POST)
-        selectmateria = SeleccionarMateria(request.POST)  
+        selectmateria = SeleccionarMateriasPorCarreras1(request.POST)  
         
         if 'no_esta' in request.POST and request.POST['no_esta'] == 'True':
             # El usuario ha seleccionado la opción de escribir una nueva materia
