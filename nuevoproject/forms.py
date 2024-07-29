@@ -38,19 +38,6 @@ class SeleccionarMateriasPorCarreras1(forms.ModelForm):
             materias_por_carrera = Materias_por_carreras.objects.filter(carrera_id=carrera_id)
             self.fields['materia'].queryset = Materia.objects.filter(id__in=[materia.materia_id for materia in materias_por_carrera])
 
-class SeleccionarMateriasPorCarreras(forms.ModelForm): 
-    materia = forms.ModelChoiceField(queryset=Materias_por_carreras.objects.all())
-
-    class Meta:
-        model = Materias_por_carreras
-        fields = ()
-
-    def __init__(self, *args, **kwargs):
-        carrera_id = kwargs.pop('carrera_id', None)
-        super().__init__(*args, **kwargs)
-        if carrera_id:
-            self.fields['materia'].queryset = Materias_por_carreras.objects.filter(carrera_id = carrera_id)
-
 class MiFormulario(forms.Form):
     rol = forms.ChoiceField(choices=[('profesor', 'Soy profesor/docente'), ('no_profesor', 'No soy profesor/docente')])
     campo_adicional = forms.CharField(label='Campo adicional', required=False)
