@@ -18,7 +18,7 @@ class SeleccionarMateria(forms.ModelForm):
         fields = ()
         
 class SeleccionarCarrera(forms.ModelForm):
-    carrera = forms.ModelChoiceField(queryset=Carreras.objects.all())
+    carrera = forms.ModelChoiceField(queryset=Carreras.objects.all(), required=False)
     
     class Meta:
         model = Carreras
