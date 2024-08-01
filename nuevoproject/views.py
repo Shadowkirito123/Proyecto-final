@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CrearActividad, MiFormulario, SeleccionarMateria, SeleccionarCarrera, SeleccionarMateriasPorCarreras1
-from .models import Actividades, Profesores, Materia, Estudiantes, Planificacion, Estdiantes_por_carreras
+from .forms import CrearActividad, MiFormulario, SeleccionarMateria, SeleccionarCarrera, SeleccionarMateriasPorCarreras1, MiFormulario11
+from .models import Actividades, Profesores, Materia, Estudiantes, Planificacion, Estdiantes_por_carreras, Materias_por_carreras
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
@@ -99,7 +99,8 @@ def crear_actividad(request):
         return render(request, 'registrar_actividad.html',{
             'form': CrearActividad(),
             'mostrar': SeleccionarMateria(),
-            'carrera1': SeleccionarMateriasPorCarreras1(carrera_id = carrera_id)
+            'carrera1': SeleccionarMateriasPorCarreras1(carrera_id = carrera_id),
+            'hola':MiFormulario11()
         })
     else:
         form = CrearActividad(request.POST)

@@ -40,6 +40,10 @@
                 {{ carrera }}
             </div>
 
+            <div id="carrera" style="display: none;" class="form-group">
+                {{ carrera }}
+            </div>
+
             <div class="form-group">
                 <label for="profesor"><i class="fas fa-id-badge"></i> Profesor :</label>
                 <input type="radio" name="es_estudiante" id="profesor" value="False">
@@ -57,7 +61,14 @@
 
             </div>
 
+<<<<<<< HEAD
             
+=======
+            <div class="form-group">
+                <label for="cedula">Numero de cedula:</label>
+                <input type="text" class="form-control" name="cedula" id="cedula" placeholder="Numero de cedula">
+            </div>
+>>>>>>> 36665c74cf7b6aa29a26191f10a3886082cf996c
 
             <div class="form-group mt-3">
                 <label for="clave1"><i class="fas fa-lock"></i> Contraseña:</label>
@@ -77,33 +88,31 @@
 </div>
 </body>
 
-</div>
-</body>
-
 <script>
-    document.getElementById('no').addEventListener('click', function() {
-        if (this.checked) {
-            document.getElementById('materia').style.display = 'block';
-        } else {
-            document.getElementById('materia').style.display = 'none';
-        }
-    });
+// Get all the elements we need to work with
+const noCheckbox = document.getElementById('no');
+const profesorCheckbox = document.getElementById('profesor');
+const estudianteCheckbox = document.getElementById('estudiante');
+const materiaElement = document.getElementById('materia');
+const materiaFieldElement = document.getElementById('materia-field');
+const carreraElement = document.getElementById('carrera');
 
-    document.getElementById('profesor').addEventListener('click', function() {
-    if (this.checked) {
-        document.getElementById('materia-field').style.display = 'block';
-    } else {
-        document.getElementById('materia-field').style.display = 'none';
-    }
+// Add event listeners to the checkboxes
+noCheckbox.addEventListener('click', () => {
+  materiaElement.style.display = noCheckbox.checked? 'block' : 'none';
 });
 
-document.getElementById('estudiante').addEventListener('click', function() {
-    if (this.checked) {
-        document.getElementById('materia-field').style.display = 'none';
-    } else {
-        document.getElementById('materia-field').style.display = 'block';
-    }
+profesorCheckbox.addEventListener('click', () => {
+  materiaFieldElement.style.display = profesorCheckbox.checked? 'block' : 'none';
+  carreraElement.style.display = profesorCheckbox.checked? 'none' : 'block';
 });
+
+estudianteCheckbox.addEventListener('click', () => {
+  carreraElement.style.display = estudianteCheckbox.checked? 'block' : 'none';
+  materiaFieldElement.style.display = estudianteCheckbox.checked? 'none' : 'block';
+});
+
+estudianteCheckbox.checked && estudianteCheckbox.dispatchEvent(new Event('click'));
 </script>
 
 {%endblock%}
