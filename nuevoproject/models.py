@@ -42,6 +42,7 @@ class Actividades(models.Model):
 class Profesores(models.Model):
     nombre = models.CharField(max_length=250, default=None)
     materia = models.ForeignKey(Materia, on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    cedula = models.PositiveIntegerField(max_length=50, default=None)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profesor', default=None)
 
@@ -50,6 +51,7 @@ class Profesores(models.Model):
     
 class Estudiantes(models.Model):
     nombre = models.CharField(max_length=250, default=None)
+    cedula = models.PositiveIntegerField(max_length=50, default=None)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     carrera = models.ForeignKey(Carreras, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     

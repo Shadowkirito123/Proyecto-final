@@ -33,11 +33,11 @@ def registrarse(request):
                 user.save()
                 login(request, user)
                 if es_estudiante == 'True':
-                    estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'])
+                    estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'], cedula = request.POST['cedula'])
                     estudiante.save()
                     redirect_url = '/'
                 else:
-                    profesor = Profesores(user = request.user, nombre = request.POST['nombre'], materia = materia)
+                    profesor = Profesores(user = request.user, nombre = request.POST['nombre'], materia = materia, cedula = request.POST['cedula'])
                     profesor.save()
                     redirect_url = '/'
         
@@ -49,13 +49,13 @@ def registrarse(request):
                     user.save()
                     login(request, user)
                     if es_estudiante == 'True':
-                        estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'], carrera = selectcarrera.cleaned_data['carrera'])
+                        estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'], carrera = selectcarrera.cleaned_data['carrera'], cedula = request.POST['cedula'])
                         estudiante.save()
                         estudiante_por_carrera = Estdiantes_por_carreras(carrera = selectcarrera.cleaned_data['carrera'], estudiante = request.user, nombre = request.POST['nombre'])
                         estudiante_por_carrera.save()
                         redirect_url = '/'
                     else:
-                        profesor = Profesores(user = request.user, nombre = request.POST['nombre'], materia = selectmateria.cleaned_data['materia'])
+                        profesor = Profesores(user = request.user, nombre = request.POST['nombre'], materia = selectmateria.cleaned_data['materia'], cedula = request.POST['cedula'])
                         profesor.save()
                         redirect_url = '/'
                 
