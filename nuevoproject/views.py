@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CrearActividad, MiFormulario, SeleccionarMateria, SeleccionarCarrera, SeleccionarMateriasPorCarreras1
-from .models import Actividades, Profesores, Materia, Estudiantes, Planificacion, Estdiantes_por_carreras
+from .forms import CrearActividad, MiFormulario, SeleccionarMateria, SeleccionarCarrera, SeleccionarMateriasPorCarreras1, MiFormulario11
+from .models import Actividades, Profesores, Materia, Estudiantes, Planificacion, Estdiantes_por_carreras, Materias_por_carreras
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
@@ -33,11 +33,11 @@ def registrarse(request):
                 user.save()
                 login(request, user)
                 if es_estudiante == 'True':
-                    estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'])
+                    estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'], cedula = request.POST['cedula'])
                     estudiante.save()
                     redirect_url = '/'
                 else:
-                    profesor = Profesores(user = request.user, nombre = request.POST['nombre'], materia = materia)
+                    profesor = Profesores(user = request.user, nombre = request.POST['nombre'], materia = materia, cedula = request.POST['cedula'])
                     profesor.save()
                     redirect_url = '/'
         
@@ -49,13 +49,13 @@ def registrarse(request):
                     user.save()
                     login(request, user)
                     if es_estudiante == 'True':
-                        estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'], carrera = selectcarrera.cleaned_data['carrera'])
+                        estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'], carrera = selectcarrera.cleaned_data['carrera'], cedula = request.POST['cedula'])
                         estudiante.save()
                         estudiante_por_carrera = Estdiantes_por_carreras(carrera = selectcarrera.cleaned_data['carrera'], estudiante = request.user, nombre = request.POST['nombre'])
                         estudiante_por_carrera.save()
                         redirect_url = '/'
                     else:
-                        profesor = Profesores(user = request.user, nombre = request.POST['nombre'], materia = selectmateria.cleaned_data['materia'])
+                        profesor = Profesores(user = request.user, nombre = request.POST['nombre'], materia = selectmateria.cleaned_data['materia'], cedula = request.POST['cedula'])
                         profesor.save()
                         redirect_url = '/'
                 
@@ -99,7 +99,8 @@ def crear_actividad(request):
         return render(request, 'registrar_actividad.html',{
             'form': CrearActividad(),
             'mostrar': SeleccionarMateria(),
-            'carrera1': SeleccionarMateriasPorCarreras1(carrera_id = carrera_id)
+            'carrera1': SeleccionarMateriasPorCarreras1(carrera_id = carrera_id),
+            'hola':MiFormulario11()
         })
     else:
         form = CrearActividad(request.POST)

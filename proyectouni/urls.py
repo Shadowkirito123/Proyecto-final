@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from nuevoproject import views
 
 urlpatterns = [
@@ -36,6 +36,7 @@ urlpatterns = [
     path('planificacion/', views.planificacion, name='planificacion'),
     path('cerrar_sesion/', views.cerrar_sesion, name='cerrar sesion'),
     path('calendario/', views.calendario, name='calendario'),
-    path('agregar/', views.agregar_otra_actividad, name='agregar')
+    path('agregar/', views.agregar_otra_actividad, name='agregar'),
+    path("select2/", include("django_select2.urls"))
 
 ]
