@@ -37,6 +37,7 @@ urlpatterns = [
     path('cerrar_sesion/', views.cerrar_sesion, name='cerrar sesion'),
     path('calendario/', views.calendario, name='calendario'),
     path('agregar/', views.agregar_otra_actividad, name='agregar'),
-    path("select2/", include("django_select2.urls"))
+    path("select2/", include("django_select2.urls")),
+    path('sueper_usuario_usuarios/', views.super_usuario_usuarios, name='usuarios')
 
 ]

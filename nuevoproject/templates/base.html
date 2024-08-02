@@ -56,7 +56,29 @@
                                 </li>
 
                                 <p class="nav-link disabled" tabindex="-1" aria-disabled="true">Es profesor</p>
+                            
+                            {% elif user.is_superuser %}
 
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'cerrar sesion' %}">Cerrar sesión</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'usuarios' %}">Usuarios</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Materias</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Profesores</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Estudiantes</a>
+                                </li>
+                                
                             {% else %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="/">Inicio</a>
@@ -66,9 +88,9 @@
                                     <a class="nav-link" href="{% url 'mostrar actividades' %}">Actividades</a>
                                 </li>
 
-                                <!-- <li class="nav-item">
+                                <li class="nav-item">
                                     <a class="nav-link" href="{% url 'planificacion' %}">Planificacion</a>
-                                </li> -->
+                                </li>
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'calendario' %}">Calendario</a>
@@ -79,7 +101,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link user-highlight" href="#" tabindex="-1" aria-disabled="true">Usuario: {{ user.username }}</a>
+                                    <a class="nav-link user-highlight" href="{% url 'perfil' user.id %}" tabindex="-1" aria-disabled="true">Usuario: {{ user.username }}</a>
                                 </li>
                                 <li class="nav-item">
                                     <p class="nav-link user-highlight" tabindex="-1" aria-disabled="true">Es estudiante</p>
@@ -119,6 +141,22 @@
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     
+    <!-- Código para inicializar Select2 -->
+    
+    <!-- crear actividad -->
+    <script>
+        $(document).ready(function() {
+            $('#id_materia').select2();
+        });
+    </script>
+    <!--  -->
+    
+    <!-- registro -->
+    <script>
+        $(document).ready(function() {
+            $('#id_carrera').select2();
+        });
+    </script>
     
 </body>
 </html>

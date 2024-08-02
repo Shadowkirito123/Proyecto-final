@@ -2,11 +2,6 @@
 
 {% block content %}
     <h1>Perfil</h1>
-    <p>{{usuario.username}}</p>
-
-    <p>{% if estudiante == None %}  {% endif %}</p>
-
-    <p>{% if profesor != None %} Es profesor {% endif %}</p>
-    
-    <p>Materia: {{profesor.materia}}</p>
+    <p>Nombre de usuario: {{usuario.username}}</p>
+    <p>Nombre: {{usuario.first_name}}</p>
 {% endblock %}

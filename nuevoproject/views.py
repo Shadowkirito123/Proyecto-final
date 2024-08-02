@@ -244,25 +244,14 @@ def asignar_materia_a_profesor(request):
 @login_required
 def perfil(request, user_id):
     usuario = User.objects.get(id=user_id)
-    try:
-        estudiante = get_object_or_404(Estudiantes, user = user_id)
-        return render(request, 'perfil.html',{
-            'usuario': usuario,
-            'estudiante': estudiante,
-            'profesor': None
-        })
-    except:
-        profesor = get_object_or_404(Profesores, user = user_id)
-        return render(request, 'perfil.html',{
-            'usuario': usuario,
-            'profesor': profesor,
-            'estudiante': None
+    return render(request, 'perfil.html',{
+        'usuario': usuario
         })
 
 @login_required
 def planificacion(request):
     if request.method == 'GET':
-        planificacion = Planificacion.objects.get(estudiante = request.user.id)
+        planificacion = Planificacion.objects.filter(estudiante = request.user.id)
         return render (request, 'planificacion.html',{
             'planificacion': planificacion
         })
@@ -272,4 +261,9 @@ def agregar_otra_actividad(request):
         form = CrearActividad()
         html = render_to_string('agregar_otra_actividad.html', {'form': form})
         return HttpResponse(html, content_type = 'text/html')
-    
+
+def super_usuario_usuarios(request):
+    if request.method == 'GET':
+        return render(request, 'super_user_usuarios.html', {
+            'form': User.objects.all()
+        })
