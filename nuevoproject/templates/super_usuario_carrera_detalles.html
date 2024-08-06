@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Materias asociadas a la carrera</h1>
+
+    {% for materia in carreras %}
+        <p>Nombre de la materia: {{ materia.materia.nombre }}</p>
+    {% endfor %}
+    
+    <div style="border: solid 1px;" class="bg-light p-3 rounded;">
+        <h2>Asociar materias a carrera</h2>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{asociar_materias.as_p}}
+    
+            <button>Asociar</button>
+        </form>
+    </div>
+   
+{% endblock %}

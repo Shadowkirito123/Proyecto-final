@@ -45,6 +45,7 @@ class Profesores(models.Model):
     cedula = models.PositiveIntegerField(default=None)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profesor', default=None)
+    es_profesor = models.BooleanField(default=False)
 
     def __str__(self):
         return self.nombre

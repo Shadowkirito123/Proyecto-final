@@ -38,6 +38,11 @@ urlpatterns = [
     path('calendario/', views.calendario, name='calendario'),
     path('agregar/', views.agregar_otra_actividad, name='agregar'),
     path("select2/", include("django_select2.urls")),
-    path('sueper_usuario_usuarios/', views.super_usuario_usuarios, name='usuarios')
-
+    path('sueper_usuario_usuarios/', views.super_usuario_usuarios, name='usuarios'),
+    path('super_usuario_materias/', views.super_usuario_materias, name='materia'),
+    path('super_usuario_materias/<int:materia_id>', views.super_usuario_elimarmateria, name='materia eliminada'),
+    path('sueper_usuario_usuarios/super_usuario_usuarios_filtroprofesor/', views.super_usuario_usuarios_filtroprofesor, name='filtrar profesores'),
+    path('sueper_usuario_usuarios/super_usuario_usuarios_filtroestudiante', views.super_usuario_usuarios_filtroestudiante, name='filtrar estudiante'),
+    path('super_usuario_carrera/', views.super_usuario_carrera, name='super usuario carrera'),
+    path('super_usuario_carrera/super_usuario_carrera_detalles/<int:carreras_id>', views.super_usuario_carrera_detalles, name='detalles carreras')
 ]

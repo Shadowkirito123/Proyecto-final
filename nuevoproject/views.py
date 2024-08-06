@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CrearActividad, MiFormulario, SeleccionarMateria, SeleccionarCarrera, SeleccionarMateriasPorCarreras1, MiFormulario11
-from .models import Actividades, Profesores, Materia, Estudiantes, Planificacion, Estdiantes_por_carreras, Materias_por_carreras
+from .forms import CrearActividad, MiFormulario, SeleccionarMateria, SeleccionarCarrera, SeleccionarMateriasPorCarreras1, MiFormulario11, MateriaForm, CarreraFormCrear, MateriaPorCarreraCrear
+from .models import Actividades, Profesores, Materia, Estudiantes, Planificacion, Estdiantes_por_carreras, Materias_por_carreras, Carreras
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 import random
 from django.template.loader import render_to_string
 from django.http import HttpResponse
+from django.contrib import messages
+from django.db.models import Count
 
 # Create your views here.
 def inicio(request):
@@ -37,7 +39,7 @@ def registrarse(request):
                     estudiante.save()
                     redirect_url = '/'
                 else:
-                    profesor = Profesores(user = request.user, nombre = request.POST['nombre'], materia = materia, cedula = request.POST['cedula'])
+                    profesor = Profesores(user = request.user, nombre = request.POST['nombre'], materia = materia, cedula = request.POST['cedula'], es_profesor = True)
                     profesor.save()
                     redirect_url = '/'
         
@@ -55,7 +57,7 @@ def registrarse(request):
                         estudiante_por_carrera.save()
                         redirect_url = '/'
                     else:
-                        profesor = Profesores(user = request.user, nombre = request.POST['nombre'], materia = selectmateria.cleaned_data['materia'], cedula = request.POST['cedula'])
+                        profesor = Profesores(user = request.user, nombre = request.POST['nombre'], materia = selectmateria.cleaned_data['materia'], cedula = request.POST['cedula'], es_profesor = True)
                         profesor.save()
                         redirect_url = '/'
                 
@@ -262,8 +264,85 @@ def agregar_otra_actividad(request):
         html = render_to_string('agregar_otra_actividad.html', {'form': form})
         return HttpResponse(html, content_type = 'text/html')
 
+@login_required
 def super_usuario_usuarios(request):
     if request.method == 'GET':
         return render(request, 'super_user_usuarios.html', {
             'form': User.objects.all()
         })
+
+@login_required
+def super_usuario_usuarios_filtroprofesor(request):
+    if request.method == 'POST':
+        usuario = Profesores.objects.all()
+        return render(request, 'super_usuario_usuarios_filtrado.html',{
+                    'form':usuario
+        })
+
+@login_required
+def super_usuario_usuarios_filtroestudiante(request):
+    if request.method == 'POST':
+        usuario = Estudiantes.objects.all()
+        return render(request, 'super_usuario_usuarios_filtrado.html',{
+                    'form':usuario
+        })
+
+@login_required        
+def super_usuario_materias(request):
+    if request.method == 'GET':
+        materias = Materia.objects.all()
+        return render(request, 'super_usuario_materias.html', {'materias': materias, 'form':MateriaForm()})
+    else:
+        form = MateriaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Materia creada con éxito')
+            return redirect('materia')
+        else:
+            messages.error(request, 'Error al crear materia')
+            return render(request, 'super_usuario_materias.html', {'form': form})
+
+@login_required
+def super_usuario_elimarmateria(request,materia_id):
+    materia = get_object_or_404(Materia, pk=materia_id)
+    if request.method == 'POST':
+        materia.delete()
+        return redirect('materia')
+    
+@login_required
+def super_usuario_carrera(request):
+    if request.method == 'GET':
+        carrera = Carreras.objects.annotate(num_estudiantes=Count('estudiantes'))
+
+        return render(request, 'super_usuario_carrera.html',{
+            'carrera': carrera,
+            'crear_carrera': CarreraFormCrear()
+        })
+    else:
+        form = CarreraFormCrear(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Carrera creada con éxito')
+            return redirect('super usuario carrera')
+        else:
+            messages.error(request, 'Error al crear la carrera')
+            return render(request, 'super_usuario_materias.html', {'crear_carrera': form})
+        
+def super_usuario_carrera_detalles(request,carreras_id):
+    carrera = get_object_or_404(Carreras, pk=carreras_id)
+    if request.method == 'GET':
+        carreras = Materias_por_carreras.objects.filter(carrera = carreras_id)
+        form = MateriaPorCarreraCrear(carrera=carrera)
+        return render(request, 'super_usuario_carrera_detalles.html',{
+            'carreras': carreras,
+            'asociar_materias': form
+        })
+    else:
+        form = MateriaPorCarreraCrear(request.POST, carrera=carrera)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Materia asociada a carrera con éxito')
+            return redirect('super usuario carrera')
+        else:
+            messages.error(request, 'Error al asociar la materia a la carrera')
+            return render(request, 'super_usuario_materias.html', {'asociar_materias': form})

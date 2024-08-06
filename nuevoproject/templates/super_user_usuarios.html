@@ -2,9 +2,25 @@
 
 {% block content %}
     <h1>Usuarios</h1>
+    <form action="{% url 'filtrar profesores' %}" method="POST">
+        {% csrf_token %}
+        <button>Filtrar por profesores</button>
+    </form>
+
+    <form action="{% url 'filtrar estudiante' %}" method="POST">
+        {% csrf_token %}
+        <button>Filtrar estudiante</button>
+    </form>
+    
     {% for usuario in form %}
-        <ul>
-            <li>{{ usuario.username }}</li>
-        </ul>
+        {% if usuario.profesor %}
+            <ul>
+                <li>Nombre de usuario: {{ usuario.username }} Es profesor</li>
+            </ul>
+        {% else %}
+            <ul>
+                <li>Nombre de usuario: {{ usuario.username }} Es estudiante</li>
+            </ul>
+        {% endif %}
     {% endfor %}
 {% endblock %}

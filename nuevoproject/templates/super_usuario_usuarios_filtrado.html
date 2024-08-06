@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Profesores</h1>
+    {% for profesor_o_estudiante in form %}
+        <ul>
+            <li>
+                Nombre: {{profesor_o_estudiante.nombre}}
+            </li>
+        </ul>
+    {% endfor %}
+{% endblock %}

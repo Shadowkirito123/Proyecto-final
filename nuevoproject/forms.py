@@ -48,3 +48,24 @@ class MiFormulario11(forms.ModelForm):
     class Meta:
         model = Estudiantes
         fields = ['user']
+        
+class MateriaForm(forms.ModelForm):
+    class Meta:
+        model = Materia
+        fields = ['nombre']
+        
+class CarreraFormCrear(forms.ModelForm):
+    class Meta:
+        model = Carreras
+        fields = '__all__'
+        
+class MateriaPorCarreraCrear(forms.ModelForm):
+    class Meta:
+        model = Materias_por_carreras
+        fields = ['materia', 'nombre']
+        
+    def __init__(self, *args, **kwargs):
+        carrera = kwargs.pop('carrera', None)
+        super(MateriaPorCarreraCrear, self).__init__(*args, **kwargs)
+        if carrera:
+            self.instance.carrera = carrera
