@@ -33,6 +33,7 @@ class Actividades(models.Model):
     fecha_inicio = models.DateTimeField(null=True, blank=True)
     fecha_final = models.DateTimeField(null=True, blank=True)
     importante = models.BooleanField(default=False)
+    completada = models.BooleanField(default=False)
     materia = models.ForeignKey(Materia, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, default=None)
 
@@ -59,5 +60,14 @@ class Estudiantes(models.Model):
 class Planificacion(models.Model):
     actividades = models.ForeignKey(Actividades, on_delete=models.CASCADE)
     profesor = models.ForeignKey(Profesores, on_delete=models.CASCADE, default=None)
-    estudiante = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    estudiante = models.ForeignKey(Estudiantes, on_delete=models.CASCADE, default=None)
     
+    def __str__(self):
+        return self.profesor.nombre + ' - ' + self.estudiante.nombre
+    
+class Mensaje(models.Model):
+    texto = models.TextField()
+    emisor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='emisor')
+    receptor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receptor')
+    fecha_envio = models.DateTimeField(auto_now_add=True)
+    archivo = models.FileField(upload_to='mensajes_archivos/', blank=True, null=True)

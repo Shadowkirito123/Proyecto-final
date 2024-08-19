@@ -4,6 +4,7 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center mb-4"><i class="fas fa-tasks"></i> Actividades</h1>
+
         <div class="text-center mb-4">
             <a href="{% url 'actividad' %}"><button>Crear actividad</button></a>
         </div>
@@ -28,6 +29,13 @@
                             </button>
                         </form>
 
+                        <form action="{% url 'mostrar actividades completadas' %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-filter"></i> Actividades completadas
+                            </button>
+                        </form>
+
                     </div>
 
                     {% if actvidad == None %}
@@ -41,25 +49,26 @@
                         {% for actividades in actvidad %}
 
                         <!-- Editar actividad -->
+                            
                         
-                            <div id="texto" class="bg-light p-3 rounded;">
-                                <header>
-                                    <h3 class="text-primary"><i class="fas fa-book"></i> Materia: {{actividades.materia}}</h3>
-                                </header>
+                                <div id="texto" class="bg-light p-3 rounded;">
+                                    <header>
+                                        <h3 class="text-primary"><i class="fas fa-book"></i> Materia: {{actividades.materia}}</h3>
+                                    </header>
 
-                                <p><strong>Tarea:</strong> {{actividades.tarea}}</p>
-                                <p><strong>Metas:</strong> {{actividades.metas}}</p>
-                                <p><strong>Fecha de inicio:</strong> {{actividades.fecha_inicio}}</p>
-                                <p><strong>Fecha de culminación:</strong> {{actividades.fecha_final}}</p>
-                                <p>{% if actividades.importante %} <span class="badge badge-danger"><i class="fas fa-exclamation"></i> Es importante</span> {% else %} <span class="badge badge-secondary"><i class="fas fa-check"></i> No es importante</span> {% endif %}</p>
-                            </div>
+                                    <p><strong>Tarea:</strong> {{actividades.tarea}}</p>
+                                    <p><strong>Metas:</strong> {{actividades.metas}}</p>
+                                    <p><strong>Fecha de inicio:</strong> {{actividades.fecha_inicio}}</p>
+                                    <p><strong>Fecha de culminación:</strong> {{actividades.fecha_final}}</p>
+                                    <p>{% if actividades.importante %} <span class="badge badge-danger"><i class="fas fa-exclamation"></i> Es importante</span> {% else %} <span class="badge badge-secondary"><i class="fas fa-check"></i> No es importante</span> {% endif %}</p>
+                                </div>
 
-                            <div class="text-center mt-3">
-                                <a href="{% url 'editar actividad' actividades.id %}" class="btn btn-warning">
-                                    <i class="fas fa-edit"></i> Modificar
-                                </a>
+                                <div class="text-center mt-3">
+                                    <a href="{% url 'editar actividad' actividades.id %}" class="btn btn-warning">
+                                        <i class="fas fa-edit"></i> Modificar
+                                    </a>
 
-                            </div>
+                                </div>
 
                         {% endfor %}
                     

@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{{error}}
-<form method="POST" class="text-center p-3">
-    {% csrf_token %}
-    <div class="mb-3">
-        {{ crear }}
-    </div>
-    <button type="submit" class="btn btn-warning">
-        Actualizar
-    </button>
-</form>
+    {{error}}
+    <form method="POST" class="text-center p-3">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ crear }}
+        </div>
+        <button type="submit" class="btn btn-warning">
+            Actualizar
+        </button>
+    </form>
 
-<form action="{% url 'eliminar actividad' actividad.id %}" method="POST" class="text-center p-3">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">
-        Eliminar
-    </button>
-</form>
+    <form action="{% url 'eliminar actividad' actividad.id %}" method="POST" class="text-center p-3">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">
+            Eliminar
+        </button>
+    </form>
 
 {% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Enviar</button>
+  </form>
+
+  <h1><strong>Chat con {{ receptor.username }}</strong></h1>
+
+  <ul>
+    {% for mensaje in mensajes_recibidos %}
+      <li>
+        {{ mensaje.texto }}
+        {% if mensaje.archivo %}
+          <a href="{% url 'descargar_archivo' mensaje.pk %}" class="btn btn-secondary btn-sm">Descargar archivo</a>
+        {% endif %}
+        {% if mensaje.emisor.id == user.id %}
+          (enviado a {{ mensaje.receptor.username }})
+        {% else %}
+          (recibido de {{ mensaje.emisor.username }})
+        {% endif %}
+      </li>
+    {% empty %}
+      <li>No hay mensajes</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

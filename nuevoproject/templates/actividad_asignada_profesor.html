@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Actividades asignadas</h1>
+    <a href="#"><button>Actividades completadas</button></a>
+        <br>
+    <div style="border: solid 1px;" class="bg-light p-3 rounded;">
+        <h2>Estudiantes asignados:</h2>
+        {% regroup estudiantes|dictsort:"carrera.nombre" by carrera.nombre as carreras %}
+        {% for carrera in carreras %}
+            <h3>{{ carrera.grouper }}</h3>
+            <ul>
+                {% for estudiante in carrera.list %}
+                    <li>
+                        <a href="{% url 'detalles actividad de estudiante' estudiante.id %}">Estudiante: {{ estudiante.nombre }} <input type="hidden" value="{{ user.id }}">.</a> 
+                        Cedula:{% if estudiante.cedula %} {{ estudiante.cedula }}. {% else %} Cedula no disponible {% endif %}
+                        Actividades: {{ cantidad_actividades }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </div>
+    
+{% endblock %}

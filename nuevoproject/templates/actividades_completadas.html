@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for actividad in actividades %}
+
+        <!-- Editar actividad -->
+        
+        <div id="texto" class="bg-light p-3 rounded;">
+            <header>
+                <h3 class="text-primary"><i class="fas fa-book"></i> Materia: {{actividad.materia}}</h3>
+            </header>
+
+            <p><strong>Tarea:</strong> {{actividad.tarea}}</p>
+            <p><strong>Metas:</strong> {{actividad.metas}}</p>
+            <p><strong>Fecha de inicio:</strong> {{actividad.fecha_inicio}}</p>
+            <p><strong>Fecha de culminación:</strong> {{actividad.fecha_final}}</p>
+            <p>{% if actividad.importante %} <span class="badge badge-danger"><i class="fas fa-exclamation"></i> Es importante</span> {% else %} <span class="badge badge-secondary"><i class="fas fa-check"></i> No es importante</span> {% endif %}</p>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'editar actividad' actividad.id %}" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Modificar
+            </a>
+
+        </div>
+
+    {% endfor %}
+
+{% endblock %}

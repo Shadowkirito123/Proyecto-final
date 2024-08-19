@@ -12,8 +12,9 @@
                         <p>Tarea: {{planificaciones.actividades.tarea}}</p>
                         <p>Fecha de inicio: {{planificaciones.actividades.fecha_inicio}}</p>
                         <p>Fecha de culminación: {{planificaciones.actividades.fecha_final}}</p>
-                        <p>Profesor: {{planificaciones.profesor}}</p>
+                        <p>Profesor: {{planificaciones.profesor}} <a href="{% url 'enviar_mensaje' receptor_id=user.id %}"><button>Enviar mensaje a {{planificaciones.profesor}}</button></a> <input type="hidden" name="profe" id="profe" value="{{planificaciones.profesor.user.id}}"></p>
                         <p>{% if planificaciones.actividades.importante %} Es importante {% else %} No es importante {% endif %}</p>
+                        
                     {% endfor %}
                 </li>
             </ul>

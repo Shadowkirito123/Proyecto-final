@@ -1,11 +1,11 @@
 from django import forms
-from .models import Actividades, Materia, Carreras, Estdiantes_por_carreras, Materias_por_carreras, Estudiantes
+from .models import Actividades, Materia, Carreras, Estdiantes_por_carreras, Materias_por_carreras, Estudiantes, Mensaje
 from django_select2 import forms as select2_forms
 
 class CrearActividad(forms.ModelForm):
     class Meta:
         model = Actividades
-        fields = ['metas', 'tarea', 'fecha_inicio', 'fecha_final', 'importante']
+        fields = ['metas', 'tarea', 'fecha_inicio', 'fecha_final', 'importante', 'completada']
         widgets = {
             'fecha_inicio': forms.DateInput(attrs={'type': 'date'}),
             'fecha_final': forms.DateInput(attrs={'type': 'date'}),
@@ -69,3 +69,8 @@ class MateriaPorCarreraCrear(forms.ModelForm):
         super(MateriaPorCarreraCrear, self).__init__(*args, **kwargs)
         if carrera:
             self.instance.carrera = carrera
+            
+class MensajeForm(forms.ModelForm):
+    class Meta:
+        model = Mensaje
+        fields = ['texto', 'archivo', 'receptor']

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CrearActividad, MiFormulario, SeleccionarMateria, SeleccionarCarrera, SeleccionarMateriasPorCarreras1, MiFormulario11, MateriaForm, CarreraFormCrear, MateriaPorCarreraCrear
-from .models import Actividades, Profesores, Materia, Estudiantes, Planificacion, Estdiantes_por_carreras, Materias_por_carreras, Carreras
+from .forms import CrearActividad, MiFormulario, SeleccionarMateria, SeleccionarCarrera, SeleccionarMateriasPorCarreras1, MiFormulario11, MateriaForm, CarreraFormCrear, MateriaPorCarreraCrear, MensajeForm
+from .models import Actividades, Profesores, Materia, Estudiantes, Planificacion, Estdiantes_por_carreras, Materias_por_carreras, Carreras, Mensaje
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
@@ -10,6 +10,11 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.contrib import messages
 from django.db.models import Count
+from django.db.models import Q
+from django.http import HttpResponse
+from django.core.files.storage import FileSystemStorage
+
+
 
 # Create your views here.
 def inicio(request):
@@ -123,8 +128,8 @@ def crear_actividad(request):
                     random_profesor = random.choice(profesores)
                     planificacion = Planificacion.objects.create(
                         actividades = new_form,
-                        estudiante = request.user,
-                        profesor = random_profesor
+                        estudiante = estudiante,
+                        profesor = random_profesor 
                     )
                     planificacion.save()
         
@@ -140,7 +145,7 @@ def crear_actividad(request):
                     random_profesor = random.choice(profesores)
                     planificacion = Planificacion.objects.create(
                         actividades = new_form,
-                        estudiante = request.user,
+                        estudiante = estudiante,
                         profesor = random_profesor
                     )
                     planificacion.save()
@@ -150,13 +155,26 @@ def crear_actividad(request):
 @login_required        
 def mostrar_actividades(request):
     if request.method == 'GET':
-        actividad = Actividades.objects.filter(user = request.user)
+        actividad = Actividades.objects.filter(user = request.user, completada = False)
         error = 'No hay actividades'
         return render (request, 'actividades.html',{
                 'actvidad': actividad,
                 'error': error
             })
 
+@login_required
+def mostrar_actividades_completadas(request):
+    if request.method == 'POST':
+        actividad = Actividades.objects.filter(user=request.user, completada=True)
+        error = 'No hay actividades completadas' if not actividad else None
+        return render(request, 'actividades_completadas.html', {
+            'actividades': actividad,
+            'error': error
+        })
+        
+    else:
+        return HttpResponse("Método no permitido", status=405)
+        
 @login_required
 def editar_actividad(request, actividad_id):
     if request.method == 'GET':
@@ -252,8 +270,9 @@ def perfil(request, user_id):
 
 @login_required
 def planificacion(request):
+    profesor_asig = get_object_or_404(Estudiantes, user = request.user)
     if request.method == 'GET':
-        planificacion = Planificacion.objects.filter(estudiante = request.user.id)
+        planificacion = Planificacion.objects.filter(estudiante = profesor_asig)
         return render (request, 'planificacion.html',{
             'planificacion': planificacion
         })
@@ -328,6 +347,7 @@ def super_usuario_carrera(request):
             messages.error(request, 'Error al crear la carrera')
             return render(request, 'super_usuario_materias.html', {'crear_carrera': form})
         
+@login_required
 def super_usuario_carrera_detalles(request,carreras_id):
     carrera = get_object_or_404(Carreras, pk=carreras_id)
     if request.method == 'GET':
@@ -346,3 +366,87 @@ def super_usuario_carrera_detalles(request,carreras_id):
         else:
             messages.error(request, 'Error al asociar la materia a la carrera')
             return render(request, 'super_usuario_materias.html', {'asociar_materias': form})
+
+@login_required        
+def estudiante_asignado_profesor(request):
+    profesor_pro = get_object_or_404(Profesores, user = request.user )
+    if request.method == 'GET':
+        actividad_asignada = Planificacion.objects.filter(profesor = profesor_pro)
+        estudiantes_unicos = actividad_asignada.values_list('estudiante', flat=True).distinct()
+        estudiantes = Estudiantes.objects.filter(id__in=estudiantes_unicos)
+        return render(request, 'actividad_asignada_profesor.html', {
+            'estudiantes': estudiantes
+        })
+ 
+@login_required       
+def estudiante_asignado_profesor_detalle_actividad(request, estudiantes_id):
+    estudiante = Estudiantes.objects.get(id = estudiantes_id)
+    if request.method == 'GET':
+        actividad_detalle = Actividades.objects.filter(user = estudiante.user)
+        cantidad_actividades = actividad_detalle.count()
+        return render(request, 'actividad_asignada_detalles.html', {
+            'actividad_detalle': actividad_detalle,
+            'cantidad_actividades': cantidad_actividades
+        })
+
+@login_required
+def enviar_mensaje(request, receptor_id):
+    try:
+        receptor = User.objects.get(id = receptor_id)
+        estudiante = Estudiantes.objects.get(user = receptor)
+        planificacion = Planificacion.objects.filter(estudiante = estudiante.pk).first()
+        profesores = planificacion.profesor.user
+        emisor = request.user
+    
+    # estudiantes
+        if request.method == 'POST':
+            form = MensajeForm(request.POST, request.FILES, initial={'receptor': profesores})
+            if form.is_valid():
+                mensaje = form.save(commit=False)
+                mensaje.emisor = emisor
+                mensaje.save()
+                return redirect('enviar_mensaje', receptor_id=receptor_id)
+        else:
+            form = MensajeForm(initial={'receptor': profesores})
+            mensajes_recibidos = Mensaje.objects.filter(receptor=request.user).order_by('fecha_envio')
+            mensajes_enviados = Mensaje.objects.filter(emisor=request.user).order_by('fecha_envio')
+            mensajes = mensajes_recibidos | mensajes_enviados
+        return render(request, 'enviar_mensaje.html', {
+            'form': form,
+            'receptor': profesores,
+            'mensajes_recibidos': mensajes
+        })
+    except:
+        # profesores
+        receptor = User.objects.get(id = receptor_id)
+        profesor = Profesores.objects.get(user = receptor)
+        planificacion = Planificacion.objects.filter(profesor = profesor.pk).first()
+        profesores = planificacion.estudiante.user
+        emisor = request.user
+        
+        if request.method == 'POST':
+            form = MensajeForm(request.POST, request.FILES)
+            if form.is_valid():
+                mensaje = form.save(commit=False)
+                mensaje.emisor = emisor
+                mensaje.receptor = profesores
+                mensaje.save()
+                return redirect('enviar_mensaje', receptor_id=receptor_id)
+        else:
+            form = MensajeForm()
+            mensajes = mensajes = Mensaje.objects.filter(
+        Q(emisor=emisor, receptor=profesores) | Q(emisor=profesores, receptor=emisor)
+    ).order_by('fecha_envio')
+        return render(request, 'enviar_mensaje.html', {
+            'form': form,
+            'receptor': profesores,
+            'mensajes_recibidos': mensajes
+        })
+    
+def descargar_archivo(request, pk):
+    mensaje = Mensaje.objects.get(pk=pk)
+    archivo = mensaje.archivo
+    fs = FileSystemStorage()
+    response = HttpResponse(fs.open(archivo.name, 'rb').read(), content_type='application/octet-stream')
+    response['Content-Disposition'] = 'attachment; filename="%s"' % archivo.name
+    return response
