@@ -53,17 +53,13 @@
                         <p><strong>Metas:</strong> {{actividades.metas}}</p>
                         <p><strong>Fecha de inicio:</strong> {{actividades.fecha_inicio}}</p>
                         <p><strong>Fecha de culminación:</strong> {{actividades.fecha_final}}</p>
-                        <p>
-                            {% if actividades.importante %}
-                                <span class="badge badge-danger">
-                                    <i class="fas fa-exclamation"></i> Es importante
-                                </span>
-                            {% else %}
-                                <span class="badge badge-secondary">
-                                    <i class="fas fa-check"></i> No es importante
-                                </span>
-                            {% endif %}
+                        <p class="mt-3">
+                            <span class="badge {% if actividades.importante %}bg-danger{% else %}bg-secondary{% endif %}">
+                                <i class="fas fa-exclamation-circle me-1"></i>
+                                {% if actividades.importante %} Es importante {% else %} No es importante {% endif %}
+                            </span>
                         </p>
+
                         <div class="text-center mt-3">
                             <a href="{% url 'editar actividad' actividades.id %}" class="btn btn-warning">
                                 <i class="fas fa-edit"></i> Modificar
