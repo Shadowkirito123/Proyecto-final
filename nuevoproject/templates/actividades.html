@@ -3,82 +3,77 @@
 {% block content %}
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-4"><i class="fas fa-tasks"></i> Actividades</h1>
+        <h1 class="text-center mb-4">
+            <i class="fas fa-tasks"></i> Actividades
+        </h1>
 
         <div class="text-center mb-4">
-            <a href="{% url 'actividad' %}"><button>Crear actividad</button></a>
+            <a href="{% url 'actividad' %}" class="btn btn-success btn-lg">
+                <i class="fas fa-plus"></i> Crear actividad
+            </a>
         </div>
         
-        <div class="border rounded p-4 shadow-sm">
-            <ul class="list-unstyled">
-                <li class="mb-4">
-
-                    <div class="d-flex justify-content-center mb-4">
-
-                        <form action="{% url 'mostrar actividades importantes' %}" method="POST" class="mr-2">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-filter"></i> Filtrar por importante
-                            </button>
-                        </form>
+        <div class="border rounded p-4 shadow-sm bg-white">
+            <div class="d-flex justify-content-center mb-4">
+                <form action="{% url 'mostrar actividades importantes' %}" method="POST" class="mx-2">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-star"></i> Filtrar por importante
+                    </button>
+                </form>
             
-                        <form action="{% url 'mostrar actividades no importantes' %}" method="POST">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-secondary">
-                                <i class="fas fa-filter"></i> Filtrar por no importante
-                            </button>
-                        </form>
+                <form action="{% url 'mostrar actividades no importantes' %}" method="POST" class="mx-2">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-minus-circle"></i> Filtrar por no importante
+                    </button>
+                </form>
 
-                        <form action="{% url 'mostrar actividades completadas' %}" method="POST">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-warning">
-                                <i class="fas fa-filter"></i> Actividades completadas
-                            </button>
-                        </form>
+                <form action="{% url 'mostrar actividades completadas' %}" method="POST" class="mx-2">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-warning btn-lg">
+                        <i class="fas fa-check-circle"></i> Actividades completadas
+                    </button>
+                </form>
+            </div>
 
+            {% if actvidad == None %}
+                <div class="alert alert-danger text-center">
+                    <i class="fas fa-exclamation-circle"></i> {{ error }}
+                </div>
+            {% else %}
+                {% for actividades in actvidad %}
+                    <div class="bg-light p-4 rounded mb-4 shadow-sm">
+                        <header class="mb-3">
+                            <h3 class="text-primary">
+                                <i class="fas fa-book"></i> Materia: {{actividades.materia}}
+                            </h3>
+                        </header>
+                        <p><strong>Tarea:</strong> {{actividades.tarea}}</p>
+                        <p><strong>Metas:</strong> {{actividades.metas}}</p>
+                        <p><strong>Fecha de inicio:</strong> {{actividades.fecha_inicio}}</p>
+                        <p><strong>Fecha de culminación:</strong> {{actividades.fecha_final}}</p>
+                        <p>
+                            {% if actividades.importante %}
+                                <span class="badge badge-danger">
+                                    <i class="fas fa-exclamation"></i> Es importante
+                                </span>
+                            {% else %}
+                                <span class="badge badge-secondary">
+                                    <i class="fas fa-check"></i> No es importante
+                                </span>
+                            {% endif %}
+                        </p>
+                        <div class="text-center mt-3">
+                            <a href="{% url 'editar actividad' actividades.id %}" class="btn btn-warning">
+                                <i class="fas fa-edit"></i> Modificar
+                            </a>
+                        </div>
                     </div>
-
-                    {% if actvidad == None %}
-
-                            <div class="alert alert-danger text-center">
-                                <i class="fas fa-exclamation-circle">{{ error }}</i> 
-                            </div>
-
-                    {% else %}
-
-                        {% for actividades in actvidad %}
-
-                        <!-- Editar actividad -->
-                            
-                        
-                                <div id="texto" class="bg-light p-3 rounded;">
-                                    <header>
-                                        <h3 class="text-primary"><i class="fas fa-book"></i> Materia: {{actividades.materia}}</h3>
-                                    </header>
-
-                                    <p><strong>Tarea:</strong> {{actividades.tarea}}</p>
-                                    <p><strong>Metas:</strong> {{actividades.metas}}</p>
-                                    <p><strong>Fecha de inicio:</strong> {{actividades.fecha_inicio}}</p>
-                                    <p><strong>Fecha de culminación:</strong> {{actividades.fecha_final}}</p>
-                                    <p>{% if actividades.importante %} <span class="badge badge-danger"><i class="fas fa-exclamation"></i> Es importante</span> {% else %} <span class="badge badge-secondary"><i class="fas fa-check"></i> No es importante</span> {% endif %}</p>
-                                </div>
-
-                                <div class="text-center mt-3">
-                                    <a href="{% url 'editar actividad' actividades.id %}" class="btn btn-warning">
-                                        <i class="fas fa-edit"></i> Modificar
-                                    </a>
-
-                                </div>
-
-                        {% endfor %}
-                    
-                    {% endif %}
-                    
-                </li>
-            </ul>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 </body>
-</html>
 
 {% endblock %}

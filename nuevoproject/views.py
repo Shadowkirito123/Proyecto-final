@@ -13,10 +13,8 @@ from django.db.models import Count
 from django.db.models import Q
 from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
-from datetime import datetime, date
-import json
-from django.http import JsonResponse
-from django.views.generic import TemplateView
+
+
 
 # Create your views here.
 def inicio(request):
@@ -126,16 +124,14 @@ def crear_actividad(request):
                 new_form.save()
                 
                 profesores = Profesores.objects.filter(materia=materia)
-                if len(profesores) > 1:
+                if profesores.exists():
                     random_profesor = random.choice(profesores)
-                else:
-                    random_profesor = profesores[0]
-                planificacion = Planificacion.objects.create(
-                    actividades = new_form,
-                    estudiante = estudiante,
-                    profesor = random_profesor 
-                )
-                planificacion.save()
+                    planificacion = Planificacion.objects.create(
+                        actividades = new_form,
+                        estudiante = estudiante,
+                        profesor = random_profesor 
+                    )
+                    planificacion.save()
         
         else:
             if form.is_valid() and selectmateria.is_valid():
@@ -145,16 +141,14 @@ def crear_actividad(request):
                 new_form.save()
                 
                 profesores = Profesores.objects.filter(materia=selectmateria.cleaned_data['materia'])
-                if len(profesores) > 1:
+                if profesores.exists():
                     random_profesor = random.choice(profesores)
-                else:
-                    random_profesor = profesores[0]
-                planificacion = Planificacion.objects.create(
-                    actividades = new_form,
-                    estudiante = estudiante,
-                    profesor = random_profesor
+                    planificacion = Planificacion.objects.create(
+                        actividades = new_form,
+                        estudiante = estudiante,
+                        profesor = random_profesor
                     )
-                planificacion.save()
+                    planificacion.save()
 
         return redirect('mostrar actividades')
 
@@ -368,7 +362,7 @@ def super_usuario_carrera_detalles(request,carreras_id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Materia asociada a carrera con éxito')
-            return redirect('detalles carreras', carreras_id)
+            return redirect('super usuario carrera')
         else:
             messages.error(request, 'Error al asociar la materia a la carrera')
             return render(request, 'super_usuario_materias.html', {'asociar_materias': form})
@@ -398,30 +392,28 @@ def estudiante_asignado_profesor_detalle_actividad(request, estudiantes_id):
 @login_required
 def enviar_mensaje(request, receptor_id):
     try:
-        receptor = get_object_or_404(User, id=receptor_id)
-        estudiante = Estudiantes.objects.get(user=receptor)
-        planificacion = Planificacion.objects.select_related('profesor').filter(estudiante=estudiante.pk)
+        receptor = User.objects.get(id = receptor_id)
+        estudiante = Estudiantes.objects.get(user = receptor)
+        planificacion = Planificacion.objects.filter(estudiante = estudiante.pk).first()
+        profesores = planificacion.profesor.user
         emisor = request.user
-        
-        # Obtener el profesor asociado a la actividad a través de la planificación
-        profesor_por_defecto = planificacion[0].profesor.user
-        
+    
+    # estudiantes
         if request.method == 'POST':
-            form = MensajeForm(request.POST, request.FILES, initial={'receptor': profesor_por_defecto})
+            form = MensajeForm(request.POST, request.FILES, initial={'receptor': profesores})
             if form.is_valid():
                 mensaje = form.save(commit=False)
                 mensaje.emisor = emisor
-                mensaje.receptor = profesor_por_defecto
                 mensaje.save()
                 return redirect('enviar_mensaje', receptor_id=receptor_id)
         else:
-            form = MensajeForm(initial={'receptor': profesor_por_defecto})
+            form = MensajeForm(initial={'receptor': profesores})
             mensajes_recibidos = Mensaje.objects.filter(receptor=request.user).order_by('fecha_envio')
             mensajes_enviados = Mensaje.objects.filter(emisor=request.user).order_by('fecha_envio')
             mensajes = mensajes_recibidos | mensajes_enviados
         return render(request, 'enviar_mensaje.html', {
             'form': form,
-            'receptor': profesor_por_defecto,
+            'receptor': profesores,
             'mensajes_recibidos': mensajes
         })
     except:
@@ -451,7 +443,6 @@ def enviar_mensaje(request, receptor_id):
             'mensajes_recibidos': mensajes
         })
     
-@login_required
 def descargar_archivo(request, pk):
     mensaje = Mensaje.objects.get(pk=pk)
     archivo = mensaje.archivo
@@ -459,11 +450,3 @@ def descargar_archivo(request, pk):
     response = HttpResponse(fs.open(archivo.name, 'rb').read(), content_type='application/octet-stream')
     response['Content-Disposition'] = 'attachment; filename="%s"' % archivo.name
     return response
-
-@login_required
-def calendario(request):
-    if request.method == 'GET':
-        actividades = Actividades.objects.filter(user = request.user)
-        return render(request, 'calendario.html',{
-            'actividades': actividades
-        })

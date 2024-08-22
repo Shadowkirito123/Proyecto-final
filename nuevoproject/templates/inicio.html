@@ -3,37 +3,106 @@
 {% block content %}
 <head>
     <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* Estilos del encabezado principal */
+        .jumbotron {
+            background-color: #007bff;
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Estilos para las características */
+        .features-section {
+            padding: 40px 20px;
+            background-color: #ffffff;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-box {
+            margin-bottom: 30px;
+        }
+
+        .feature-box i {
+            font-size: 50px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        /* Estilos para la sección de contacto */
         .contact-info {
             background-color: #f8f9fa;
             padding: 40px 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
+
         .contact-info h5 {
             color: #007bff;
         }
+
         .contact-info ul {
             list-style-type: none;
             padding: 0;
         }
+
         .contact-info ul li {
             margin-bottom: 10px;
         }
+
         .contact-info ul li i {
             margin-right: 10px;
+        }
+
+        /* Estilos de alineación */
+        .text-center {
+            text-align: center;
         }
     </style>
 </head>
 <body>
+    <!-- Encabezado principal -->
     <div class="container mt-5">
         <div class="jumbotron">
-            <h1 class="display-4" >¡Bienvenido a Student Helper!</h1>
-            <p class="lead">Tu plataforma para gestionar y mejorar tus actividades estudiantiles.</p>
+            <h1 class="display-4">¡Bienvenido a Student Helper!</h1>
+            <p class="lead">Gestiona y mejora tu experiencia académica fácilmente.</p>
             <hr class="my-4">
-            <p>Utiliza los recursos y herramientas que ofrecemos para maximizar tu rendimiento académico.</p>
+            <p>Explora nuestras herramientas para organizar tareas, hacer seguimiento a tu progreso y conectar con profesores y compañeros.</p>
         </div>
     </div>
 
+    <!-- Sección de características -->
+    <div class="container features-section">
+        <div class="row">
+            <div class="col-md-4 text-center feature-box">
+                <i class="fas fa-tasks"></i>
+                <h5>Gestión de Tareas</h5>
+                <p>Organiza tus asignaciones y tareas de manera sencilla.</p>
+            </div>
+            <div class="col-md-4 text-center feature-box">
+                <i class="fas fa-chart-line"></i>
+                <h5>Seguimiento Académico</h5>
+                <p>Monitorea tu rendimiento académico en tiempo real.</p>
+            </div>
+            <div class="col-md-4 text-center feature-box">
+                <i class="fas fa-users"></i>
+                <h5>Colaboración</h5>
+                <p>Conéctate con compañeros y profesores para trabajar en equipo.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de contacto -->
     <div class="container contact-info my-5">
         <div class="row">
             <div class="col-md-12 text-center mb-4">
@@ -49,12 +118,7 @@
             </div>
         </div>
     </div>
-    
-    
-    
 </body>
-</html>
-
 
 
 {% endblock %}
