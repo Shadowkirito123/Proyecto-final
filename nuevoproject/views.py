@@ -124,14 +124,17 @@ def crear_actividad(request):
                 new_form.save()
                 
                 profesores = Profesores.objects.filter(materia=materia)
-                if profesores.exists():
-                    random_profesor = random.choice(profesores)
-                    planificacion = Planificacion.objects.create(
-                        actividades = new_form,
-                        estudiante = estudiante,
-                        profesor = random_profesor 
-                    )
-                    planificacion.save()
+                if profesores.count() > 1:
+                    random_profesor = random.choice(list(profesores))
+                else:
+                    random_profesor = profesores[0]
+
+                planificacion = Planificacion.objects.create(
+                    actividades=new_form,
+                    estudiante=estudiante,
+                    profesor=random_profesor
+                )
+                planificacion.save()
         
         else:
             if form.is_valid() and selectmateria.is_valid():
@@ -141,14 +144,17 @@ def crear_actividad(request):
                 new_form.save()
                 
                 profesores = Profesores.objects.filter(materia=selectmateria.cleaned_data['materia'])
-                if profesores.exists():
-                    random_profesor = random.choice(profesores)
-                    planificacion = Planificacion.objects.create(
-                        actividades = new_form,
-                        estudiante = estudiante,
-                        profesor = random_profesor
-                    )
-                    planificacion.save()
+                if profesores.count() > 1:
+                    random_profesor = random.choice(list(profesores))
+                else:
+                    random_profesor = profesores[0]
+
+                planificacion = Planificacion.objects.create(
+                    actividades=new_form,
+                    estudiante=estudiante,
+                    profesor=random_profesor
+                )
+                planificacion.save()
 
         return redirect('mostrar actividades')
 
@@ -362,7 +368,7 @@ def super_usuario_carrera_detalles(request,carreras_id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Materia asociada a carrera con éxito')
-            return redirect('super usuario carrera')
+            return redirect('detalles carreras', carreras_id)
         else:
             messages.error(request, 'Error al asociar la materia a la carrera')
             return render(request, 'super_usuario_materias.html', {'asociar_materias': form})
@@ -443,6 +449,7 @@ def enviar_mensaje(request, receptor_id):
             'mensajes_recibidos': mensajes
         })
     
+@login_required
 def descargar_archivo(request, pk):
     mensaje = Mensaje.objects.get(pk=pk)
     archivo = mensaje.archivo
@@ -450,3 +457,11 @@ def descargar_archivo(request, pk):
     response = HttpResponse(fs.open(archivo.name, 'rb').read(), content_type='application/octet-stream')
     response['Content-Disposition'] = 'attachment; filename="%s"' % archivo.name
     return response
+
+@login_required
+def calendario(request):
+    if request.method == 'GET':
+        actividades = Actividades.objects.filter(user = request.user)
+        return render(request, 'calendario.html',{
+            'actividades': actividades
+        })
