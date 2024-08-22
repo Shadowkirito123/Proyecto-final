@@ -14,7 +14,7 @@
       <li>
         {{ mensaje.texto }}
         {% if mensaje.archivo %}
-          <a href="{% url 'descargar_archivo' mensaje.pk %}" class="btn btn-secondary btn-sm">Descargar archivo</a>
+          <a href="{% url 'descargar_archivo' mensaje.pk %}" class="btn btn-secondary btn-sm">(Archivo adjunto: Descargar)</a>
         {% endif %}
         {% if mensaje.emisor.id == user.id %}
           (enviado a {{ mensaje.receptor.username }})

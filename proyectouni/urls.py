@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from nuevoproject import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,7 +38,7 @@ urlpatterns = [
     path('iniciar_sesion/', views.iniciar_sesion, name='iniciar sesion'),
     path('planificacion/', views.planificacion, name='planificacion'),
     path('cerrar_sesion/', views.cerrar_sesion, name='cerrar sesion'),
-    path('calendario/', views.calendario, name='calendario'),
+    path('calendario/', views.calendario, name='calendario_view'),
     path('agregar/', views.agregar_otra_actividad, name='agregar'),
     path("select2/", include("django_select2.urls")),
     path('sueper_usuario_usuarios/', views.super_usuario_usuarios, name='usuarios'),
@@ -50,4 +52,4 @@ urlpatterns = [
     path('estudiante_asignado_profesor_detalle_actividad/<int:estudiantes_id>', views.estudiante_asignado_profesor_detalle_actividad, name='detalles actividad de estudiante'),
     path('enviar_mensaje/<int:receptor_id>/', views.enviar_mensaje, name='enviar_mensaje'),
     path('mensajes/<pk>/descargar_archivo/', views.descargar_archivo, name='descargar_archivo')
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

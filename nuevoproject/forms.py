@@ -73,4 +73,4 @@ class MateriaPorCarreraCrear(forms.ModelForm):
 class MensajeForm(forms.ModelForm):
     class Meta:
         model = Mensaje
-        fields = ['texto', 'archivo', 'receptor']
+        fields = ('texto', 'archivo', 'receptor')
