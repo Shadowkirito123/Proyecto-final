@@ -68,9 +68,65 @@
         .text-center {
             text-align: center;
         }
+
+        /* Estilos para la ventana de bienvenida */
+        .welcome-popup {
+            display: none; /* Inicialmente oculta */
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px; /* Más grande */
+            background-color: #ff5722; /* Color diferente */
+            color: white;
+            padding: 25px; /* Más grande */
+            border-radius: 15px; /* Más redondeada */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra un poco más intensa */
+            z-index: 1000;
+            font-size: 20px; /* Texto más grande */
+        }
+
+        .welcome-popup .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            background-color: white;
+            color: #ff5722;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            font-size: 18px;
+            line-height: 30px;
+        }
     </style>
+    <script>
+        window.onload = function() {
+            var popup = document.getElementById('welcome-popup');
+            var closeBtn = document.getElementById('close-btn');
+
+            // Mostrar la ventana al cargar la página
+            popup.style.display = 'block';
+
+            // Ocultar la ventana después de 5 segundos si no se cierra manualmente
+            setTimeout(function() {
+                popup.style.display = 'none';
+            }, 5000);
+
+            // Cerrar la ventana al hacer clic en la "x"
+            closeBtn.onclick = function() {
+                popup.style.display = 'none';
+            }
+        }
+    </script>
 </head>
 <body>
+    <div id="welcome-popup" class="welcome-popup">
+        ¡Bienvenido! ¡Hoy es un gran día para alcanzar tus metas! 🚀
+        <button id="close-btn" class="close-btn">&times;</button>
+    </div>
+
     <!-- Encabezado principal -->
     <div class="container mt-5">
         <div class="jumbotron">
@@ -119,6 +175,5 @@
         </div>
     </div>
 </body>
-
 
 {% endblock %}
