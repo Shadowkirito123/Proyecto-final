@@ -158,33 +158,65 @@
     </script>
     <!-- FullCalendar JS -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                initialDate: '2024-08-07',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
-                events: [
-                    {% for actividad in actividades %}
-                        {
-                            title: "Meta: {{actividad.metas}}",
-                            start: "{{actividad.fecha_inicio | date:'Y-m-d'}}",
-                            end: "{{actividad.fecha_final | date:'Y-m-d'}}",
-                            backgroundColor: 'rgb(182,197,157)',
-                            textColor: 'blue',
+    {% if user.is_authenticated %}
+        {% if user.profesor %}
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var calendarEl = document.getElementById('calendar');
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        initialDate: '2024-08-07',
+                        headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
                         },
-                    {% endfor %}
-                ]
-            });
-            calendar.render();
-            calendar.setOption('locale', 'es');
-        });
-    </script>
+                        events: [
+                            {% for actividad in actividades %}  // display only 10 events
+                                {
+                                title: "Meta: {{ actividad.estudiante.nombre }}",
+                                start: "{{ actividad.actividades.fecha_inicio|date:'Y-m-d' }}",
+                                end: "{{ actividad.actividades.fecha_final|date:'Y-m-d' }}",
+                                backgroundColor: 'rgb(182,197,157)',
+                                textColor: 'blue',
+                                },
+                            {% endfor %}
+                        ]
+                    });
+                    calendar.render();
+                    calendar.setOption('locale', 'es');
+                });
+            </script>
+
+        {% else %}
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var calendarEl = document.getElementById('calendar');
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        initialDate: '2024-08-07',
+                        headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        },
+                        events: [
+                            {% for actividad in actividades %}
+                                {
+                                    title: "Meta: {{actividad.metas}}",
+                                    start: "{{actividad.fecha_inicio | date:'Y-m-d'}}",
+                                    end: "{{actividad.fecha_final | date:'Y-m-d'}}",
+                                    backgroundColor: 'rgb(182,197,157)',
+                                    textColor: 'blue',
+                                },
+                            {% endfor %}
+                        ]
+                    });
+                    calendar.render();
+                    calendar.setOption('locale', 'es');
+                });
+            </script>
+        {% endif %}
+    {% endif %}
 </body>
 </html>

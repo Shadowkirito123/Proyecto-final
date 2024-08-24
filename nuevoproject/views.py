@@ -461,7 +461,16 @@ def descargar_archivo(request, pk):
 @login_required
 def calendario(request):
     if request.method == 'GET':
-        actividades = Actividades.objects.filter(user = request.user)
-        return render(request, 'calendario.html',{
-            'actividades': actividades
-        })
+        try:
+            actividades = Actividades.objects.filter(user = request.user)
+            return render(request, 'calendario.html',{
+                'actividades': actividades
+            })
+        except:
+            profesor_pro = get_object_or_404(Profesores, user = request.user )
+            actividad_asignada = Planificacion.objects.filter(profesor = profesor_pro)
+            
+            estudiantes = Estudiantes.objects.filter(id = actividad_asignada.estudiante )
+            return render(request, 'actividad_asignada_profesor.html', {
+                'actividades': estudiantes
+            })
