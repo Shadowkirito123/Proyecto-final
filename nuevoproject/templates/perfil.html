@@ -3,5 +3,8 @@
 {% block content %}
     <h1>Perfil</h1>
     <p>Nombre de usuario: {{usuario.username}}</p>
-    <p>Nombre: {{usuario.first_name}}</p>
+    <p>Nombre real: {{usuario.first_name}}</p>
+    <p>Correo electronico: {% if usuario.email %} {{usuario.email}} {% else %} No hay correo {% endif %}</p>
+    <a href="{% url 'modificar perfil' user.id %}"><button>Editar usuario</button></a> <br>
+    <a href="{% url 'cambiar contraseña' %}"><button>Cambiar contraseña</button></a>
 {% endblock %}

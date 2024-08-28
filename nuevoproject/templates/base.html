@@ -74,8 +74,11 @@
                             </li>
                             <li class="nav-item">
                                 <div class="user-highlight">
-                                    <i class="fas fa-user"></i> {{ user.username }}
-                                    <span class="user-role">Es profesor</span>
+                                    <a href="{% url 'perfil' user.id %}">
+                                        <i class="fas fa-user"></i> {{ user.username }}
+                                        <span class="user-role">Es profesor</span>
+                                    </a>
+                                    
                                 </div>
                             </li>
                         {% elif user.is_superuser %}
@@ -115,8 +118,10 @@
                             </li>
                             <li class="nav-item">
                                 <div class="user-highlight">
-                                    <i class="fas fa-user"></i> {{ user.username }}
+                                    <a href="{% url 'perfil' user.id %}">
+                                        <i class="fas fa-user"></i> {{ user.username }}
                                     <span class="user-role">Es estudiante</span>
+                                    </a>
                                 </div>
                             </li>
                         {% endif %}

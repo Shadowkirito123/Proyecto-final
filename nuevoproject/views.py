@@ -13,8 +13,16 @@ from django.db.models import Count
 from django.db.models import Q
 from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
-
-
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+#Para enviar token de cambio de clave
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.forms import SetPasswordForm
 
 # Create your views here.
 def inicio(request):
@@ -34,11 +42,20 @@ def registrarse(request):
             # El usuario ha seleccionado la opción de escribir una nueva materia
             materia_nueva = request.POST['materia_nueva']
             materia, created = Materia.objects.get_or_create(nombre = materia_nueva)
+            
             if request.POST['clave1'] == request.POST['clave2']:
-                user = User.objects.create_user(username = request.POST['nombre_usuario'], password = request.POST['clave1'], first_name = request.POST['nombre'], last_name = request.POST['apellido'] )
+                user = User.objects.create_user(username = request.POST['nombre_usuario'], password = request.POST['clave1'], first_name = request.POST['nombre'], last_name = request.POST['apellido'], email = request.POST['correo'] )
                 es_estudiante = request.POST.get('es_estudiante')
+                email1 = request.POST['correo']
                 user.save()
                 login(request, user)
+                send_mail(
+                    'Hola desde django app',
+                    'Felicidades has creado tu cuenta exitosamente',
+                    'pruebadedjango46@gmail.com',
+                    [email1],
+                    fail_silently=False  
+                    )
                 if es_estudiante == 'True':
                     estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'], cedula = request.POST['cedula'])
                     estudiante.save()
@@ -51,10 +68,18 @@ def registrarse(request):
         else:
             if selectmateria.is_valid() and selectcarrera.is_valid():
                 if request.POST['clave1'] == request.POST['clave2']:
-                    user = User.objects.create_user(username = request.POST['nombre_usuario'], password = request.POST['clave1'], first_name = request.POST['nombre'], last_name = request.POST['apellido'] )
+                    user = User.objects.create_user(username = request.POST['nombre_usuario'], password = request.POST['clave1'], first_name = request.POST['nombre'], last_name = request.POST['apellido'], email = request.POST['correo'] )
                     es_estudiante = request.POST.get('es_estudiante')
+                    email1 = request.POST['correo']
                     user.save()
                     login(request, user)
+                    send_mail(
+                    'Hola desde django app',
+                    'Felicidades has creado tu cuenta exitosamente',
+                    'pruebadedjango46@gmail.com',
+                    [email1],
+                    fail_silently=False  
+                    )
                     if es_estudiante == 'True':
                         estudiante = Estudiantes(user = request.user, nombre = request.POST['nombre'], carrera = selectcarrera.cleaned_data['carrera'], cedula = request.POST['cedula'])
                         estudiante.save()
@@ -273,7 +298,55 @@ def perfil(request, user_id):
     return render(request, 'perfil.html',{
         'usuario': usuario
         })
+    
+@login_required
+def modificar_perfil(request, user_id):
+    if  request.method == 'GET':
+        usuario = User.objects.get(id=user_id)
+        return render(request, 'perfil_modificar.html',{
+            'usuario': usuario,
+        })
+    else:
+        try:
+            #Obtener datos nuevos del usuario
+            dato_nombreDeusuario = request.POST['nombre_usuario']
+            dato_nombreRealUsuario = request.POST['nombre_real']
+            dato_correoUsuario = request.POST['correo']
+            
+            #Actualizar datos nuevos (Estudiante)
+            datos_usuario = User.objects.get(id=user_id)
+            datos_usuario2 = Estudiantes.objects.get(user = user_id)
+            datos_usuario.username = dato_nombreDeusuario
+            datos_usuario.first_name = dato_nombreRealUsuario
+            datos_usuario2.nombre = dato_nombreRealUsuario
+            datos_usuario.email = dato_correoUsuario
+            datos_usuario.save()
+            datos_usuario2.save()
+            return redirect('perfil', user_id=user_id)
+        except:
+            #Actualizar datos nuevos (Profesor)
+            datos_usuario = User.objects.get(id=user_id)
+            datos_usuario2 = Profesores.objects.get(user = user_id)
+            datos_usuario.username = dato_nombreDeusuario
+            datos_usuario.first_name = dato_nombreRealUsuario
+            datos_usuario2.nombre = dato_nombreRealUsuario
+            datos_usuario.email = dato_correoUsuario
+            datos_usuario.save()
+            datos_usuario2.save()
+            return redirect('perfil', user_id=user_id)
 
+def cambio_contraseña(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Contraseña cambiada con éxito')
+            return redirect('/')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'cambiar_contraseña.html', {'form': form})
+        
 @login_required
 def planificacion(request):
     profesor_asig = get_object_or_404(Estudiantes, user = request.user)

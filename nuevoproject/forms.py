@@ -1,5 +1,5 @@
 from django import forms
-from .models import Actividades, Materia, Carreras, Estdiantes_por_carreras, Materias_por_carreras, Estudiantes, Mensaje
+from .models import Actividades, Materia, Carreras, Materias_por_carreras, Estudiantes, Mensaje
 from django_select2 import forms as select2_forms
 
 class CrearActividad(forms.ModelForm):

@@ -176,3 +176,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 REDIS_DB = 0
+
+#Configuracion gmail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # por ejemplo: smtp.gmail.com
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'pruebadedjango46@gmail.com'
+EMAIL_HOST_PASSWORD = 'luhvxgshgupfbefi'

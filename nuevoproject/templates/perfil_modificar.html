@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Actualizar datos</h1>
+    <br>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <p>
+            <label for="nombre_usuario">
+                Nombre de usuario: <input type="text" name="nombre_usuario" id="nombre_usuario" value="{{usuario.username}}">
+            </label>
+        </p>
+        
+        <p>
+            <label for="nombre_real">
+                Nombre de real: <input type="text" name="nombre_real" id="nombre_real" value="{{usuario.first_name}}">
+            </label>
+        </p>
+
+        <p>
+            <label for="correo">
+                Correo electronico: <input type="email" name="correo" id="correo" placeholder="{% if usuario.email %} {{usuario.email}} {% else %} No hay correo {% endif %}" value="{{usuario.email}}">
+            </label>
+        </p>
+        <button>
+            Actualizar
+        </button>
+
+    </form>
+    
+{% endblock %}

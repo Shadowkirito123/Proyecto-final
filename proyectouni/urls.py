@@ -24,6 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.inicio, name='inicio'),
     path('usuario/<int:user_id>', views.perfil, name='perfil'),
+    path('usuario/modificar_perfil/<int:user_id>', views.modificar_perfil, name='modificar perfil'),
+    path('usuario/cambio_contraseña/', views.cambio_contraseña, name='cambiar contraseña'),
     path('crear_actividad/', views.crear_actividad, name='actividad'),
     path('crear_actividad/otra_actividad', views.agregar_otra_actividad, name='agregar otra actividad'),
     path('mostrar_actividad/', views.mostrar_actividades, name='mostrar actividades'),
