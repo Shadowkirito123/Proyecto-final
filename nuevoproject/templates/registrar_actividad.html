@@ -8,7 +8,25 @@
                 <h1 class="text-center mb-4">Crear una actividad</h1>
                 <form method="POST" class="bg-light p-4 border rounded">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    <label for="{{ form.metas.id_for_label }}">Metas:</label>
+                    {{ form.metas }}
+                    <br>
+                    <label for="{{ form.tarea.id_for_label }}">Tarea:</label>
+                    {{ form.tarea }}
+                    <br>
+                    <label for="{{ form.fecha_inicio.id_for_label }}">Fecha de inicio:</label>
+                    {{ form.fecha_inicio }}
+                    <br>
+                    <label for="{{ form.fecha_final.id_for_label }}">Fecha final:</label>
+                    {{ form.fecha_final }}
+                    <br>
+                    <label for="{{ form.importante.id_for_label }}">Importante:</label>
+                    {{ form.importante }}
+                    <br>
+                    <label for="{{ form.completada.id_for_label }}">Completada:</label>
+                    {{ form.completada }}
+                    <br>
+
                     {{ carrera1 }}
 
                     <p>¿La materia no esta en la lista? <input type="checkbox" name="no_esta" id="no" value="True"></p>

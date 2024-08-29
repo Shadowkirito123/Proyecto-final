@@ -4,7 +4,9 @@
 <div class="border rounded p-3 bg-light shadow-sm">
     <ul class="list-unstyled">
         <li class="mb-4">
-            {% for planificaciones in planificacion %}
+            {% if planificacion %}
+
+                {% for planificaciones in planificacion %}
                 <header class="mb-3">
                     <h3 class="text-primary"><i class="fas fa-book-open me-2"></i>Materia: {{planificaciones.profesor.materia}}</h3>
                 </header>
@@ -28,7 +30,14 @@
                     </span>
                 </p>
                 <hr>
-            {% endfor %}
+                {% endfor %}
+
+            {% else %}
+                <div class="alert alert-danger text-center">
+                    <i class="fas fa-exclamation-circle"></i> {{ error }}
+                </div>
+            {% endif %}
+            
         </li>
     </ul>
 </div>

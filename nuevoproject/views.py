@@ -15,14 +15,16 @@ from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+
 #Para enviar token de cambio de clave
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.forms import SetPasswordForm
+
 
 # Create your views here.
 def inicio(request):
@@ -189,7 +191,7 @@ def mostrar_actividades(request):
         actividad = Actividades.objects.filter(user = request.user, completada = False)
         error = 'No hay actividades'
         return render (request, 'actividades.html',{
-                'actvidad': actividad,
+                'actividades': actividad,
                 'error': error
             })
 
@@ -335,6 +337,7 @@ def modificar_perfil(request, user_id):
             datos_usuario2.save()
             return redirect('perfil', user_id=user_id)
 
+login_required
 def cambio_contraseña(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
@@ -352,8 +355,10 @@ def planificacion(request):
     profesor_asig = get_object_or_404(Estudiantes, user = request.user)
     if request.method == 'GET':
         planificacion = Planificacion.objects.filter(estudiante = profesor_asig)
+        error = 'No hay nada en planificacion, tienes que crear una actividad o aún no hay profesores designados para la materia'
         return render (request, 'planificacion.html',{
-            'planificacion': planificacion
+            'planificacion': planificacion,
+            'error': error
         })
 
 def agregar_otra_actividad(request):
@@ -547,3 +552,43 @@ def calendario(request):
             return render(request, 'actividad_asignada_profesor.html', {
                 'actividades': estudiantes
             })
+
+#funcion para token de la contraseña no usar
+def password_reset_request(request):
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            user = form.cleaned_data['email']
+            user = User.objects.get(email=user)
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            reset_url = f"{request.scheme}://{request.get_host()}/reset-password/{uid}/{token}/"
+            subject = "Restablecer contraseña"
+            message = render_to_string('password_reset_email.html', {
+                'user': user,
+                'reset_url': reset_url
+            })
+            send_mail(subject, message, 'pruebadedjango46@gmail.com', [user.email])
+            return HttpResponse("Se ha enviado un correo electrónico con instrucciones para restablecer su contraseña.")
+    else:
+        form = PasswordResetForm()
+    return render(request, 'password_reset.html', {'form': form})
+
+#funcion para token de la contraseña no usar
+def password_reset_confirm(request, uidb64, token):
+    try:
+        uid = str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            form = SetPasswordForm(user, request.POST)
+            if form.is_valid():
+                form.save()
+                return HttpResponse("Contraseña restablecida con éxito.")
+        else:
+            form = SetPasswordForm(user)
+        return render(request, 'password_reset_confirm.html', {'form': form})
+    else:
+        return HttpResponse("El enlace de restablecimiento de contraseña no es válido.")

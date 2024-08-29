@@ -53,5 +53,8 @@ urlpatterns = [
     path('estudiante_asignado_profesor/', views.estudiante_asignado_profesor, name='estudiante asignado'),
     path('estudiante_asignado_profesor_detalle_actividad/<int:estudiantes_id>', views.estudiante_asignado_profesor_detalle_actividad, name='detalles actividad de estudiante'),
     path('enviar_mensaje/<int:receptor_id>/', views.enviar_mensaje, name='enviar_mensaje'),
-    path('mensajes/<pk>/descargar_archivo/', views.descargar_archivo, name='descargar_archivo')
+    path('mensajes/<pk>/descargar_archivo/', views.descargar_archivo, name='descargar_archivo'),
+    #url para los tokens de la contraseña
+    path('password-reset/', views.password_reset_request, name='password_reset_request'),
+    path('reset-password/<uidb64>/<token>/', views.password_reset_confirm, name='password_reset_confirm'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
