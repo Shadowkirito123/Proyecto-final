@@ -1,27 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Carreras</h1>
-    
-    <p></p>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Carreras</h1>
 
-    {% for carreras in carrera %}
-        <form action="" method="POST">
-            <ul>
-                <li>Nombre: <a href="{% url 'detalles carreras' carreras.id %}">{{ carreras.nombre }}</a> Cantidad de estudiantes: ({{ carreras.num_estudiantes }} estudiantes)</li>
-            </ul>
-        </form>
-        
-    {% endfor %}
-    
-    <div style="border: solid 1px;" class="bg-light p-3 rounded;">
-        <h2>Crear carrera</h2>
+    <div class="mb-4">
+        {% for carreras in carrera %}
+            <form action="" method="POST">
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Nombre: 
+                        <a href="{% url 'detalles carreras' carreras.id %}">{{ carreras.nombre }}</a>
+                        <span class="badge bg-primary rounded-pill">
+                            {{ carreras.num_estudiantes }} estudiantes
+                        </span>
+                    </li>
+                </ul>
+            </form>
+        {% endfor %}
+    </div>
+
+    <div class="border border-primary bg-light p-4 rounded">
+        <h2 class="mb-3">Crear carrera</h2>
         <form action="" method="POST">
             {% csrf_token %}
-            {{crear_carrera.as_p}}
+            {{ crear_carrera.as_p }}
     
-            <button>Crear</button>
+            <button type="submit" class="btn btn-primary mt-3">Crear</button>
         </form>
     </div>
-    
+</div>
+
 {% endblock %}

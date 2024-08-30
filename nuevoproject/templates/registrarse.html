@@ -1,118 +1,100 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<body>
-
-<div class="container mt-5 d-flex justify-content-center">
-    <div class="card p-4" style="max-width: 500px; width: 100%;">
-        <h1 class="text-center">Registro de usuario</h1>
-        <form action="" method="POST" class="mt-4">
-
-            {% if error %}
-
-                <div class="alert alert-danger text-center">
-                    <i class="fas fa-exclamation-circle"></i> {{error}}
+<body style="background-color: #f8f9fa;">
+    <div class="container mt-5 d-flex justify-content-center">
+        <div class="card p-4 shadow" style="max-width: 600px; width: 100%; border-radius: 15px;">
+            <h1 class="text-center text-dark mb-4"><i class="fas fa-user-plus"></i> Registro de usuario</h1>
+            <form action="" method="POST" class="mt-4">
+                {% if error %}
+                    <div class="alert alert-danger text-center">
+                        <i class="fas fa-exclamation-circle"></i> {{error}}
+                    </div>
+                {% endif %}
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    <label for="nombre_usuario" class="form-label"><i class="fas fa-user"></i> Nombre de usuario:</label>
+                    <input type="text" class="form-control" name="nombre_usuario" id="nombre_usuario" placeholder="Nombre de usuario" style="border-radius: 10px;" required>
                 </div>
-
-            {% endif %}
-
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="nombre_usuario"><i class="fas fa-user"></i> Nombre de usuario:</label>
-                <input type="text" class="form-control" name="nombre_usuario" id="nombre_usuario" placeholder="Nombre de usuario" required>
-            </div>
-
-            <div class="form-group">
-                <label for="nombre"><i class="fas fa-id-badge"></i> Nombre:</label>
-                <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre" required>
-            </div>
-
-            <div class="form-group">
-                <label for="apellido"><i class="fas fa-id-badge"></i> Apellido:</label>
-                <input type="text" class="form-control" name="apellido" id="apellido" placeholder="Apellido" required>
-            </div>
-
-            <div class="form-group">
-                <label for="estudiante"><i class="fas fa-id-badge"></i> Estudiante :</label>
-                <input type="radio" name="es_estudiante" id="estudiante" value="True" checked>
-            </div>
-
-            <div id="carrera" style="display: none;" class="form-group">
-                {{ carrera }}
-            </div>
-
-            <div class="form-group">
-                <label for="profesor"><i class="fas fa-id-badge"></i> Profesor :</label>
-                <input type="radio" name="es_estudiante" id="profesor" value="False">
-            </div>
-            
-
-            <div id="materia-field" style="display: none;" class="form-group">
-                {{mostrar.as_p}}
-
-                <p>¿La materia no esta en la lista? <input type="checkbox" name="no_esta" id="no" value="True"></p>
-
-                <div id="materia" style="display: none;">
-                    Escribe la materia aqui: <input type="text" name="materia_nueva" id="materia_nueva">
+                <div class="form-group mb-3">
+                    <label for="nombre" class="form-label"><i class="fas fa-id-badge"></i> Nombre:</label>
+                    <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre" style="border-radius: 10px;" required>
                 </div>
-
-            </div>
-
-            <br>
-
-            <div class="form-group">
-                <label for="correo">Correo electronico:</label>
-                <input type="email" class="form-control" name="correo" id="correo" placeholder="Correo electronico" required>
-            </div>
-
-            <div class="form-group">
-                <label for="cedula">Numero de cedula:</label>
-                <input type="text" class="form-control" name="cedula" id="cedula" placeholder="Numero de cedula" required>
-            </div>
-
-            <div class="form-group mt-3">
-                <label for="clave1"><i class="fas fa-lock"></i> Contraseña:</label>
-                <input type="password" class="form-control" name="clave1" id="clave1" placeholder="Ingresa la contraseña" required>
-            </div>
-
-            <div class="form-group">
-                <label for="clave2"><i class="fas fa-lock"></i> Confirmar contraseña:</label>
-                <input type="password" class="form-control" name="clave2" id="clave2" placeholder="Ingresa nuevamente la contraseña" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary btn-block">
-                <i class="fas fa-user-plus"></i> Registrar
-            </button>
-        </form>
+                <div class="form-group mb-3">
+                    <label for="apellido" class="form-label"><i class="fas fa-id-badge"></i> Apellido:</label>
+                    <input type="text" class="form-control" name="apellido" id="apellido" placeholder="Apellido" style="border-radius: 10px;" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label"><i class="fas fa-graduation-cap"></i> Tipo de usuario:</label><br>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="es_estudiante" id="estudiante" value="True" checked>
+                        <label class="form-check-label" for="estudiante">Estudiante</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="es_estudiante" id="profesor" value="False">
+                        <label class="form-check-label" for="profesor">Profesor</label>
+                    </div>
+                </div>
+                <div id="carrera" style="display: none;" class="form-group mb-3">
+                    {{ carrera }}
+                </div>
+                <div id="materia-field" style="display: none;" class="form-group mb-3">
+                    {{mostrar.as_p}}
+                    <p>¿La materia no está en la lista? <input type="checkbox" name="no_esta" id="no" value="True"></p>
+                    <div id="materia" style="display: none;">
+                        Escribe la materia aquí: <input type="text" class="form-control" name="materia_nueva" id="materia_nueva" style="border-radius: 10px;">
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="correo" class="form-label"><i class="fas fa-envelope"></i> Correo electrónico:</label>
+                    <input type="email" class="form-control" name="correo" id="correo" placeholder="Correo electrónico" style="border-radius: 10px;" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="cedula" class="form-label"><i class="fas fa-id-card"></i> Número de cédula:</label>
+                    <input type="text" class="form-control" name="cedula" id="cedula" placeholder="Número de cédula" style="border-radius: 10px;" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="clave1" class="form-label"><i class="fas fa-lock"></i> Contraseña:</label>
+                    <input type="password" class="form-control" name="clave1" id="clave1" placeholder="Ingresa la contraseña" style="border-radius: 10px;" required>
+                </div>
+                <div class="form-group mb-4">
+                    <label for="clave2" class="form-label"><i class="fas fa-lock"></i> Confirmar contraseña:</label>
+                    <input type="password" class="form-control" name="clave2" id="clave2" placeholder="Ingresa nuevamente la contraseña" style="border-radius: 10px;" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" style="border-radius: 10px; font-weight: bold;">
+                    <i class="fas fa-user-plus"></i> Registrar
+                </button>
+            </form>
+        </div>
     </div>
-</div>
-</body>
-
-<script>
-// Get all the elements we need to work with
-const noCheckbox = document.getElementById('no');
-const profesorCheckbox = document.getElementById('profesor');
-const estudianteCheckbox = document.getElementById('estudiante');
-const materiaElement = document.getElementById('materia');
-const materiaFieldElement = document.getElementById('materia-field');
-const carreraElement = document.getElementById('carrera');
-
-// Add event listeners to the checkboxes
-noCheckbox.addEventListener('click', () => {
-  materiaElement.style.display = noCheckbox.checked? 'block' : 'none';
-});
-
-profesorCheckbox.addEventListener('click', () => {
-  materiaFieldElement.style.display = profesorCheckbox.checked? 'block' : 'none';
-  carreraElement.style.display = profesorCheckbox.checked? 'none' : 'block';
-});
-
-estudianteCheckbox.addEventListener('click', () => {
-  carreraElement.style.display = estudianteCheckbox.checked? 'block' : 'none';
-  materiaFieldElement.style.display = estudianteCheckbox.checked? 'none' : 'block';
-});
-
-estudianteCheckbox.checked && estudianteCheckbox.dispatchEvent(new Event('click'));
-</script>
-
+    </body>
+    
+    <script>
+    // Get all the elements we need to work with
+    const noCheckbox = document.getElementById('no');
+    const profesorCheckbox = document.getElementById('profesor');
+    const estudianteCheckbox = document.getElementById('estudiante');
+    const materiaElement = document.getElementById('materia');
+    const materiaFieldElement = document.getElementById('materia-field');
+    const carreraElement = document.getElementById('carrera');
+    
+    // Add event listeners to the checkboxes
+    noCheckbox.addEventListener('click', () => {
+      materiaElement.style.display = noCheckbox.checked ? 'block' : 'none';
+    });
+    
+    profesorCheckbox.addEventListener('click', () => {
+      materiaFieldElement.style.display = profesorCheckbox.checked ? 'block' : 'none';
+      carreraElement.style.display = profesorCheckbox.checked ? 'none' : 'block';
+    });
+    
+    estudianteCheckbox.addEventListener('click', () => {
+      carreraElement.style.display = estudianteCheckbox.checked ? 'block' : 'none';
+      materiaFieldElement.style.display = estudianteCheckbox.checked ? 'none' : 'block';
+    });
+    
+    // Trigger click event to set initial state
+    estudianteCheckbox.checked && estudianteCheckbox.dispatchEvent(new Event('click'));
+    </script>
+    
 {%endblock%}

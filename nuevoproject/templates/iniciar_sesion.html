@@ -1,30 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<body>
-<div class="container mt-5 d-flex justify-content-center">
-    <div class="card p-4" style="max-width: 500px; width: 100%;">
-        <h1 class="text-center">Iniciar sesión</h1>
-        <form method="POST" class="mt-4">
-            {% if error %}
-                {{ error }}
-            {% endif %}
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="nombre_usuario"><i class="fas fa-user"></i> Nombre de usuario:</label>
-                <input type="text" class="form-control" name="nombre_usuario" id="nombre_usuario" placeholder="Nombre de usuario">
-            </div>
-            <div class="form-group">
-                <label for="clave1"><i class="fas fa-lock"></i> Contraseña:</label>
-                <input type="password" class="form-control" name="clave1" id="clave1" placeholder="Ingresa la contraseña">
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">
-                <i class="fas fa-sign-in-alt"></i> Entrar
-            </button>
-        </form>
+<body style="background-color: #f8f9fa;">
+    <div class="container mt-5 d-flex justify-content-center">
+        <div class="card p-4 shadow" style="max-width: 500px; width: 100%; border-radius: 15px;">
+            <h1 class="text-center text-dark mb-4"><i class="fas fa-sign-in-alt"></i> Iniciar sesión</h1>
+            <form method="POST" class="mt-4">
+                {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endif %}
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    <label for="nombre_usuario" class="form-label"><i class="fas fa-user"></i> Nombre de usuario:</label>
+                    <input type="text" class="form-control" name="nombre_usuario" id="nombre_usuario" placeholder="Nombre de usuario" style="border-radius: 10px;">
+                </div>
+                <div class="form-group mb-4">
+                    <label for="clave1" class="form-label"><i class="fas fa-lock"></i> Contraseña:</label>
+                    <input type="password" class="form-control" name="clave1" id="clave1" placeholder="Ingresa la contraseña" style="border-radius: 10px;">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" style="border-radius: 10px; font-weight: bold;">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
+            </form>
+        </div>
     </div>
-</div>
-</body>
-</html>
+    </body>
+    
 
 {% endblock %}

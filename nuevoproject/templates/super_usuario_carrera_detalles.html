@@ -1,28 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Materias asociadas a la carrera</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Materias asociadas a la carrera</h1>
 
-    {% for materia in carreras %}
-        <p>Nombre de la materia: <strong>{{ materia.materia.nombre }}</strong></p>
-    {% endfor %}
-    
-    <div style="border: solid 1px;" class="bg-light p-3 rounded;">
-        <h2>Asociar materias a carrera</h2>
+    <div class="mb-4">
+        {% for materia in carreras %}
+            <p class="mb-2">
+                <i class="fas fa-book text-primary"></i>
+                Nombre de la materia: <strong>{{ materia.materia.nombre }}</strong>
+            </p>
+        {% endfor %}
+    </div>
+
+    <div class="border border-secondary bg-light p-4 rounded">
+        <h2 class="mb-3"><i class="fas fa-link text-secondary"></i> Asociar materias a carrera</h2>
         <form action="" method="POST">
             {% csrf_token %}
-            {{asociar_materias.as_p}}
-            
+            {{ asociar_materias.as_p }}
+
             {% if messages %}
-                <ul class="messages">
+                <ul class="list-group mb-3">
                     {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        <li class="list-group-item {% if message.tags %} {{ message.tags }} {% endif %}">
+                            {{ message }}
+                        </li>
                     {% endfor %}
                 </ul>
             {% endif %}
-    
-            <button>Asociar</button>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paperclip"></i> Asociar
+            </button>
         </form>
     </div>
-   
+</div>
+
 {% endblock %}

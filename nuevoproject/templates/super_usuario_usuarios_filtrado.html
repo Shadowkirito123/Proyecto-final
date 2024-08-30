@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Profesores</h1>
-    {% for profesor_o_estudiante in form %}
-        <ul>
-            <li>
-                Nombre: {{profesor_o_estudiante.nombre}}
-            </li>
-        </ul>
-    {% endfor %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Profesores</h1>
+
+    <div class="mb-4">
+        {% for profesor_o_estudiante in form %}
+            <ul class="list-group mb-3">
+                <li class="list-group-item d-flex align-items-center">
+                    <i class="fas fa-user-graduate text-info me-3"></i> <!-- Icono de FontAwesome -->
+                    <span class="text-primary">Nombre: {{ profesor_o_estudiante.nombre }}</span>
+                </li>
+            </ul>
+        {% endfor %}
+    </div>
+</div>
+
+
 {% endblock %}
