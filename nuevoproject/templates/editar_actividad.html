@@ -5,7 +5,42 @@
     <form method="POST" class="text-center p-3">
         {% csrf_token %}
         <div class="mb-3">
-            {{ crear }}
+            <div class="form-group mb-3">
+                <label for="{{ crear.metas.id_for_label }}">Titulo:</label>
+                {{ crear.metas }}
+            </div>
+            
+            <div class="form-group mb-3">
+                <label for="{{ crear.tarea.id_for_label }}">Descripcion:</label>
+                {{ crear.tarea }}
+            </div>
+            
+            <div class="form-group mb-3">
+                <label for="{{ crear.fecha_inicio.id_for_label }}">Fecha de inicio:</label>
+                {{ crear.fecha_inicio }}
+            </div>
+            
+            <div class="form-group mb-3">
+                <label for="{{ crear.fecha_final.id_for_label }}">Fecha final:</label>
+                {{ crear.fecha_final }}
+            </div>
+            
+            <div class="form-group mb-3">
+                <label for="{{ crear.importante.id_for_label }}">Importante:</label>
+                {{ crear.importante }}
+            </div>
+
+            {{ carrera1 }}
+
+            <div class="form-group mt-3 mb-3">
+                <p>¿La materia no está en la lista? 
+                   <input type="checkbox" name="no_esta" id="no" class="form-check-input" value="True">
+                </p>
+                <div id="materia-field" class="mt-2" style="display: none;">
+                    <label for="materia_nueva">Escribe la materia aquí:</label>
+                    <input type="text" name="materia_nueva" id="materia_nueva" class="form-control">
+                </div>
+            </div>
         </div>
         <button type="submit" class="btn btn-warning">
             Actualizar

@@ -24,7 +24,10 @@
         <h2 class="mb-3">Crear carrera</h2>
         <form action="" method="POST">
             {% csrf_token %}
-            {{ crear_carrera.as_p }}
+            <div class="form-group mb-3">
+                <label for="{{ crear_carrera.nombre.id_for_label }}">Nombre:</label>
+                {{ crear_carrera.nombre }}
+            </div>
     
             <button type="submit" class="btn btn-primary mt-3">Crear</button>
         </form>
