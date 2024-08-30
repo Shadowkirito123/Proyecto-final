@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'nuevoproject',
     'django_select2',
-    'schedule'
+    'schedule',
+    'widget_tweaks'
 ]
 
 MIDDLEWARE = [
