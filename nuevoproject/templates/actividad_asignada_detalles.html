@@ -3,6 +3,7 @@
 {% block content %}
     <h1>Detalles de la(s) actividad(es)</h1>
     <a href="{% url 'enviar_mensaje' receptor_id=user.id %}"><button>Enviar mensaje</button></a>
+    <a href="{% url 'detalles actividad de estudiante completada' estudiante.id %}"><button>Actvidades completadas</button></a>
     <div style="border: solid 1px;" class="bg-light p-3 rounded;">
 
         {% if actividad_detalle %}
@@ -10,11 +11,6 @@
             <div class="d-flex justify-content-center mb-4">
                 
                 <h2 class="">Numero de actividades pendientes: {{cantidad_actividades}}</h2> <br>
-
-                <input type="hidden" name="actividad_estudiante" id="actividad_estudiante" value="{{estudiante.id}}">
-                
-
-                <a href="{% url 'detalles actividad de estudiante completada' %}"><button>Actvidades completadas</button></a>
                 
             </div>
 

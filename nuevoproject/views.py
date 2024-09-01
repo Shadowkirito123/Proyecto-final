@@ -479,7 +479,7 @@ def estudiante_asignado_profesor_detalle_actividad(request, estudiantes_id):
 @login_required
 def estudiante_asignado_profesor_detalle_verActividad(request, actividad_id):
     if request.method == 'GET':
-        actividad = get_object_or_404(Planificacion, pk = actividad_id)
+        actividad = get_object_or_404(Planificacion, actividades = actividad_id)
         return render(request, 'actividad_asignada_profesor_verDetalles.html',{
             'actividad': actividad,
             'form': Actividad_lista()
@@ -489,14 +489,17 @@ def estudiante_asignado_profesor_detalle_verActividad(request, actividad_id):
         completada = 'completada' in request.POST
         dato_actvidad.completada = completada
         dato_actvidad.save()
-        return redirect('/')
+        return redirect('detalles actividad de estudiante', estudiantes_id = dato_actvidad.estudiante.pk)
 
 @login_required
-def estudiante_asignado_profesor_detalle_actividad_completada(request):
+def estudiante_asignado_profesor_detalle_actividad_completada(request, estudiante_id):
+    estudiante = Estudiantes.objects.get(id = estudiante_id)
     if request.method == 'GET':
-        actvidad = Planificacion.objects.filter( estudiante = request.POST.get['actividad_estudiante'], completada = True)
+        actvidad_detalle = Planificacion.objects.filter( estudiante = estudiante, completada = True)
+        cantidad_actividades = actvidad_detalle.count()
         return render(request, 'actividad_asignada_detalles_completada.html', {
-            'actvidad': actvidad
+            'actividad_detalle': actvidad_detalle,
+            'cantidad_actividades': cantidad_actividades,
         })
     
 @login_required

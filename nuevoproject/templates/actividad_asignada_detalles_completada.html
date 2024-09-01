@@ -1,10 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Actividades completadas</h1> <br>
-    <h1>Titulo: {{actividad.actividades.metas}}</h1>
-    <strong>Descripcion:</strong> {{actividad.actividades.tarea}} <br>
-    <strong>Fecha de inicio:</strong> {{actividad.actividades.fecha_inicio}}  <br>
-    <strong>Fecha de finalizacion:</strong> {{actividad.actividades.fecha_final}} <br>
-    <strong>Estado:</strong> {% if actividad.completada %} Completada {% else %} En proceso {% endif %} 
+    <h1>Actividades completadas</h1>
+    <div style="border: solid 1px;" class="bg-light p-3 rounded;">
+
+        {% if actividad_detalle %}
+
+            <div class="d-flex justify-content-center mb-4">
+                
+                <h2 class="">Actividades completada: {{cantidad_actividades}}</h2> <br>
+                
+            </div>
+
+            {% for actividad in actividad_detalle %}
+
+                <ul>
+                    <li>
+                        <strong>Titulo:</strong> {{ actividad.actividades.metas }}. <strong>Estudiante: </strong> {{actividad.actividades.user.username}}. <strong>Estado:</strong> {% if actividad.completada %} Completada {% else %} En proceso {% endif %} 
+                    </li>
+
+                </ul>
+
+            {% endfor %}
+
+        {% else %}
+
+            {{error}}
+
+        {% endif %}
+
+        
+    </div>
+
 {% endblock %}
