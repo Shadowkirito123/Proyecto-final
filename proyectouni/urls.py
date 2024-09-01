@@ -52,6 +52,8 @@ urlpatterns = [
     path('super_usuario_carrera/super_usuario_carrera_detalles/<int:carreras_id>', views.super_usuario_carrera_detalles, name='detalles carreras'),
     path('estudiante_asignado_profesor/', views.estudiante_asignado_profesor, name='estudiante asignado'),
     path('estudiante_asignado_profesor_detalle_actividad/<int:estudiantes_id>', views.estudiante_asignado_profesor_detalle_actividad, name='detalles actividad de estudiante'),
+    path('estudiante_asignado_profesor_detalle_actividad/<int:actividad_id>/ver', views.estudiante_asignado_profesor_detalle_verActividad, name='ver'),
+    path('estudiante_asignado_profesor/actividad_completada/', views.estudiante_asignado_profesor_detalle_actividad_completada, name='detalles actividad de estudiante completada'),
     path('enviar_mensaje/<int:receptor_id>/', views.enviar_mensaje, name='enviar_mensaje'),
     path('mensajes/<pk>/descargar_archivo/', views.descargar_archivo, name='descargar_archivo'),
     #url para los tokens de la contraseña

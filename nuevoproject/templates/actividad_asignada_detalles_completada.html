@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Actividades completadas</h1> <br>
+    <h1>Titulo: {{actividad.actividades.metas}}</h1>
+    <strong>Descripcion:</strong> {{actividad.actividades.tarea}} <br>
+    <strong>Fecha de inicio:</strong> {{actividad.actividades.fecha_inicio}}  <br>
+    <strong>Fecha de finalizacion:</strong> {{actividad.actividades.fecha_final}} <br>
+    <strong>Estado:</strong> {% if actividad.completada %} Completada {% else %} En proceso {% endif %} 
+{% endblock %}

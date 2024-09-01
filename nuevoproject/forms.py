@@ -1,5 +1,5 @@
 from django import forms
-from .models import Actividades, Materia, Carreras, Materias_por_carreras, Estudiantes, Mensaje
+from .models import Actividades, Materia, Carreras, Materias_por_carreras, Estudiantes, Mensaje, Planificacion
 from django_select2 import forms as select2_forms
 
 class CrearActividad(forms.ModelForm):
@@ -74,3 +74,8 @@ class MensajeForm(forms.ModelForm):
     class Meta:
         model = Mensaje
         fields = ('texto', 'archivo', 'receptor')
+        
+class Actividad_lista(forms.ModelForm):
+    class Meta:
+        model = Planificacion
+        fields = ['completada']

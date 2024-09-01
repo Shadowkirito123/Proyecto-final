@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Titulo: {{actividad.actividades.metas}}</h1>
+    <strong>Descripcion:</strong> {{actividad.actividades.tarea}} <br>
+    <strong>Fecha de inicio:</strong> {{actividad.actividades.fecha_inicio}}  <br>
+    <strong>Fecha de finalizacion:</strong> {{actividad.actividades.fecha_final}} <br>
+    <strong>Estado:</strong> {% if actividad.completada %} Completada {% else %} En proceso {% endif %} 
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        Completada: <input type="checkbox" name="completada" id="completada">
+        
+        <br>
+
+        <button>
+            Listo
+        </button>
+    </form>
+    
+{% endblock %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CrearActividad, MiFormulario, SeleccionarMateria, SeleccionarCarrera, SeleccionarMateriasPorCarreras1, MiFormulario11, MateriaForm, CarreraFormCrear, MateriaPorCarreraCrear, MensajeForm
+from .forms import CrearActividad, MiFormulario, SeleccionarMateria, SeleccionarCarrera, SeleccionarMateriasPorCarreras1, MiFormulario11, MateriaForm, CarreraFormCrear, MateriaPorCarreraCrear, MensajeForm, Actividad_lista
 from .models import Actividades, Profesores, Materia, Estudiantes, Planificacion, Estdiantes_por_carreras, Materias_por_carreras, Carreras, Mensaje
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -466,13 +466,39 @@ def estudiante_asignado_profesor(request):
 def estudiante_asignado_profesor_detalle_actividad(request, estudiantes_id):
     estudiante = Estudiantes.objects.get(id = estudiantes_id)
     if request.method == 'GET':
-        actividad_detalle = Actividades.objects.filter(user = estudiante.user)
+        actividad_detalle = Planificacion.objects.filter(estudiante = estudiante, completada = False)
         cantidad_actividades = actividad_detalle.count()
+        error = 'No hay actividades pendientes'
         return render(request, 'actividad_asignada_detalles.html', {
             'actividad_detalle': actividad_detalle,
-            'cantidad_actividades': cantidad_actividades
+            'cantidad_actividades': cantidad_actividades,
+            'error': error,
+            'estudiante': estudiante
         })
+        
+@login_required
+def estudiante_asignado_profesor_detalle_verActividad(request, actividad_id):
+    if request.method == 'GET':
+        actividad = get_object_or_404(Planificacion, pk = actividad_id)
+        return render(request, 'actividad_asignada_profesor_verDetalles.html',{
+            'actividad': actividad,
+            'form': Actividad_lista()
+        })
+    else:
+        dato_actvidad = Planificacion.objects.get(actividades = actividad_id)
+        completada = 'completada' in request.POST
+        dato_actvidad.completada = completada
+        dato_actvidad.save()
+        return redirect('/')
 
+@login_required
+def estudiante_asignado_profesor_detalle_actividad_completada(request):
+    if request.method == 'GET':
+        actvidad = Planificacion.objects.filter( estudiante = request.POST.get['actividad_estudiante'], completada = True)
+        return render(request, 'actividad_asignada_detalles_completada.html', {
+            'actvidad': actvidad
+        })
+    
 @login_required
 def enviar_mensaje(request, receptor_id):
     try:
