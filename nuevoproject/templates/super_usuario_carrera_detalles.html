@@ -2,38 +2,69 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Materias asociadas a la carrera</h1>
-
-    <div class="mb-4">
-        {% for materia in carreras %}
-            <p class="mb-2">
-                <i class="fas fa-book text-primary"></i>
-                Nombre de la materia: <strong>{{ materia.materia.nombre }}</strong>
-            </p>
-        {% endfor %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0"> Asociar materias a carrera</h2>
     </div>
 
-    <div class="border border-secondary bg-light p-4 rounded">
-        <h2 class="mb-3"><i class="fas fa-link text-secondary"></i> Asociar materias a carrera</h2>
-        <form action="" method="POST">
-            {% csrf_token %}
-            {{ asociar_materias.as_p }}
+    <div class="row">
+        <!-- Columna del formulario -->
+        <div class="col-lg-6 mb-4">
+            <div class="bg-light p-4 shadow-sm rounded border border-primary">
+                
 
-            {% if messages %}
-                <ul class="list-group mb-3">
-                    {% for message in messages %}
-                        <li class="list-group-item {% if message.tags %} {{ message.tags }} {% endif %}">
-                            {{ message }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+                <!-- Mover mensajes aquí para que aparezcan arriba del formulario -->
+                {% if messages %}
+                    <ul id="message-container" class="list-group mb-3">
+                        {% for message in messages %}
+                            <li class="list-group-item {% if message.tags %} bg-{{ message.tags }} text-white {% else %} bg-info text-white {% endif %}">
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
 
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-paperclip"></i> Asociar
-            </button>
-        </form>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ asociar_materias.as_p }}
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-paperclip me-2"></i> Asociar
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Columna de la lista de materias -->
+        <div class="col-lg-6">
+            <div class="p-4 bg-light border border-secondary rounded">
+                <h3 class="mb-4 text-primary">
+                    <i class="fas fa-book text-primary me-2"></i> Materias asociadas
+                </h3>
+                {% for materia in carreras %}
+                    <p class="d-flex align-items-center mb-2">
+                        <i class="fas fa-book text-primary me-2"></i>
+                        <span>Nombre de la materia: <strong>{{ materia.materia.nombre }}</strong></span>
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Seleccionar el contenedor de mensajes
+        var messageContainer = document.getElementById('message-container');
+
+        if (messageContainer) {
+            // Configurar un temporizador para ocultar el mensaje después de 5 segundos
+            setTimeout(function() {
+                messageContainer.style.opacity = '0';
+                messageContainer.style.transition = 'opacity 1s';
+            }, 5000); // 5000 milisegundos = 5 segundos
+        }
+    });
+</script>
+
+
 
 {% endblock %}
