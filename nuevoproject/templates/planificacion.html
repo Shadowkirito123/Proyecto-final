@@ -1,14 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="border rounded p-3 bg-light shadow-sm">
+<style>
+    .custom-background {
+        background-color: rgba(0, 64, 128, 0.2); /* Azul #004080 con 20% de opacidad */
+        border-radius: 10px; /* Ajusta el valor para controlar el grado de curvatura */
+        border: 1px solid rgba(0, 64, 128, 0.3); /* Borde azul claro con 30% de opacidad */
+    }
+    .text-dark {
+        color: #000; /* Color negro */
+    }
+</style>
+
+<div class="border rounded p-3 custom-background shadow-sm">
     <ul class="list-unstyled">
         <li class="mb-4">
             {% if planificacion %}
 
                 {% for planificaciones in planificacion %}
                 <header class="mb-3">
-                    <h3 class="text-primary"><i class="fas fa-book-open me-2"></i>Materia: {{planificaciones.profesor.materia}}</h3>
+                    <h3 class="text-dark"><i class="fas fa-book-open me-2"></i>Materia: {{planificaciones.profesor.materia}}</h3>
                 </header>
                 <p class="mb-2"><strong><i class="fas fa-bullseye me-2"></i>Metas:</strong> {{planificaciones.actividades.metas}}</p>
                 <p class="mb-2"><strong><i class="fas fa-tasks me-2"></i>Tarea:</strong> {{planificaciones.actividades.tarea}}</p>
@@ -41,5 +52,6 @@
         </li>
     </ul>
 </div>
+
 
 {% endblock %}

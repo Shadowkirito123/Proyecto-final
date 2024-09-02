@@ -1,34 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container mt-4">
-        <div class="card">
-            <div class="card-header">
-                <h1 class="card-title">Perfil</h1>
-            </div>
-            <div class="card-body">
-                <p class="card-text"><strong>Nombre de usuario:</strong> {{ usuario.username }}</p>
-                <p class="card-text"><strong>Nombre real:</strong> {{ usuario.first_name }}</p>
-                <p class="card-text"><strong>Correo electrónico:</strong> {% if usuario.email %} {{ usuario.email }} {% else %} No hay correo {% endif %}</p>
-                <a href="{% url 'modificar perfil' user.id %}" class="btn btn-primary">Editar usuario</a>
-                <a href="{% url 'cambiar contraseña' %}" class="btn btn-secondary mt-2">Cambiar contraseña</a>
-            </div>
-        </div>
-    </div>
+<h1 class="mb-4"> Perfil</h1>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+<div class="bg-light p-4 rounded shadow-sm">
+    <p class="mb-2"><strong>Nombre de usuario:</strong> {{ usuario.username }}</p>
+    <p class="mb-2"><strong>Nombre real:</strong> {{ usuario.first_name }}</p>
+    <p class="mb-3"><strong>Correo electrónico:</strong> 
+        {% if usuario.email %} 
+            {{ usuario.email }} 
+        {% else %} 
+            No hay correo 
+        {% endif %}
+    </p>
+    <a href="{% url 'modificar perfil' user.id %}" class="btn btn-primary me-2">
+         Editar usuario
+    </a>
+    <a href="{% url 'cambiar contraseña' %}" class="btn btn-secondary">
+         Cambiar contraseña
+    </a>
+</div>
 
 {% endblock %}

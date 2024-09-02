@@ -1,23 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Actividades asignadas</h1>
-        <br>
-    <div style="border: solid 1px;" class="bg-light p-3 rounded;">
-        <h2>Estudiantes asignados:</h2>
-        {% regroup estudiantes|dictsort:"carrera.nombre" by carrera.nombre as carreras %}
-        {% for carrera in carreras %}
-            <h3>{{ carrera.grouper }}</h3>
-            <ul>
-                {% for estudiante in carrera.list %}
-                    <li>
-                        <a href="{% url 'detalles actividad de estudiante' estudiante.id %}">Estudiante: {{ estudiante.nombre }} <input type="hidden" value="{{ user.id }}">.</a> 
-                        Cedula:{% if estudiante.cedula %} {{ estudiante.cedula }}. {% else %} Cedula no disponible {% endif %}
-                        Actividades: {{ cantidad_actividades }}
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endfor %}
-    </div>
-    
+<h1 class="mb-4">Actividades asignadas</h1>
+
+<div class="bg-transparent p-4 shadow-sm rounded">
+    <h2 class="mb-3">Estudiantes asignados:</h2>
+    {% regroup estudiantes|dictsort:"carrera.nombre" by carrera.nombre as carreras %}
+    {% for carrera in carreras %}
+        <h3 class="mt-4">{{ carrera.grouper }}</h3>
+        <ul class="list-unstyled">
+            {% for estudiante in carrera.list %}
+                <li class="mb-3">
+                    <a href="{% url 'detalles actividad de estudiante' estudiante.id %}" class="text-decoration-none">
+                        Estudiante: {{ estudiante.nombre }} <input type="hidden" value="{{ user.id }}">.
+                    </a>
+                    <br>
+                    Cedula: {% if estudiante.cedula %} {{ estudiante.cedula }}. {% else %} Cedula no disponible {% endif %}
+                    <br>
+                    Actividades: {{ cantidad_actividades }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</div>
+
 {% endblock %}
