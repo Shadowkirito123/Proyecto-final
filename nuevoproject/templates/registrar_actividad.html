@@ -2,21 +2,27 @@
 
 {% block content %}
 {% load widget_tweaks %}
+<style>
+    .transparent-green-bg {
+        background-color: rgba(0, 128, 0, 0.2); /* Verde con 20% de opacidad */
+    }
+    
+</style>
 <body>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <h1 class="text-center mb-4">Crear una actividad</h1>
-                <form method="POST" class="bg-light p-4 border rounded shadow-sm">
+                <form method="POST" class="p-3 border rounded shadow-sm transparent-green-bg">
                     {% csrf_token %}
                     
                     <div class="form-group mb-3">
-                        <label for="{{ form.metas.id_for_label }}">Titulo:</label>
+                        <label for="{{ form.metas.id_for_label }}">Título:</label>
                         {{ form.metas|add_class:"form-control"|attr:"rows:1" }}
                     </div>
                     
                     <div class="form-group mb-3">
-                        <label for="{{ form.tarea.id_for_label }}">Descripcion:</label>
+                        <label for="{{ form.tarea.id_for_label }}">Descripción:</label>
                         {{ form.tarea|add_class:"form-control"|attr:"rows:1" }}
                     </div>
                     
@@ -61,14 +67,12 @@
 </body>
 
 <script>
+    // Script para mostrar/ocultar el campo de materia
     document.getElementById('no').addEventListener('click', function() {
-        if (this.checked) {
-            document.getElementById('materia-field').style.display = 'block';
-        } else {
-            document.getElementById('materia-field').style.display = 'none';
-        }
+        document.getElementById('materia-field').style.display = this.checked ? 'block' : 'none';
     });
 
+    // Script para agregar más actividades mediante AJAX
     $(document).ready(function() {
         $('#add-more-activities').on('click', function() {
             $.ajax({
@@ -82,4 +86,5 @@
         });
     });
 </script>
+
 {% endblock %}

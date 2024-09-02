@@ -7,13 +7,13 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
-            color: #333;
+            color: #333; /* Color del texto general */
         }
 
         /* Estilos del encabezado principal */
         .jumbotron {
-            background-color: #007bff;
-            color: white;
+            background-color: rgba(255, 255, 255, 0.8); /* Blanco con transparencia */
+            color: black; /* Cambiado a negro */
             padding: 50px 30px;
             text-align: center;
             border-radius: 10px;
@@ -23,7 +23,7 @@
         /* Estilos para las características */
         .features-section {
             padding: 40px 20px;
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.8); /* Blanco con transparencia */
             margin-top: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -35,20 +35,24 @@
 
         .feature-box i {
             font-size: 50px;
-            color: #007bff;
+            color: #000; /* Iconos en negro */
             margin-bottom: 20px;
+        }
+
+        .feature-box h5, .feature-box p {
+            color: black; /* Cambiado a negro */
         }
 
         /* Estilos para la sección de contacto */
         .contact-info {
-            background-color: #f8f9fa;
+            background-color: rgba(255, 255, 255, 0.8); /* Blanco con transparencia */
             padding: 40px 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .contact-info h5 {
-            color: #007bff;
+            color: black; /* Cambiado a negro */
         }
 
         .contact-info ul {
@@ -58,10 +62,12 @@
 
         .contact-info ul li {
             margin-bottom: 10px;
+            color: black; /* Cambiado a negro */
         }
 
         .contact-info ul li i {
             margin-right: 10px;
+            color: black; /* Cambiado a negro */
         }
 
         /* Estilos de alineación */
@@ -76,8 +82,8 @@
             bottom: 20px;
             right: 20px;
             width: 350px; /* Más grande */
-            background-color: #ff5722; /* Color diferente */
-            color: white;
+            background-color: rgba(255, 193, 7, 0.8); /* Amarillo con transparencia */
+            color: black; /* Cambiado a negro */
             padding: 25px; /* Más grande */
             border-radius: 15px; /* Más redondeada */
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra un poco más intensa */
@@ -90,8 +96,8 @@
             top: 10px;
             right: 10px;
             cursor: pointer;
-            background-color: white;
-            color: #ff5722;
+            background-color: black;
+            color: #FFC107;
             border: none;
             border-radius: 50%;
             width: 30px;
@@ -175,5 +181,6 @@
         </div>
     </div>
 </body>
+
 
 {% endblock %}
