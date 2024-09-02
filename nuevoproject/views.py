@@ -15,6 +15,7 @@ from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+import re
 
 #Para enviar token de cambio de clave
 from django.template.loader import render_to_string
@@ -39,6 +40,43 @@ def registrarse(request):
     else:
         selectmateria = SeleccionarMateria(request.POST)
         selectcarrera = SeleccionarCarrera(request.POST)
+
+        # validaciones
+        
+        # Validación del nombre de usuario
+        if not re.match(r'^[a-zA-Z ]+$', request.POST['nombre_usuario']):
+            return render(request,'registrarse.html',{
+                'mostrar': SeleccionarMateria(),
+                'carrera': SeleccionarCarrera(),
+                'error': 'El nombre de usuario no es valido, no puede llevar caracteres especiales'
+            })
+        
+        # Validación del nombre
+        if not re.match(r'^[a-zA-Z ]+$', request.POST['nombre']):
+            return render(request,'registrarse.html',{
+                'mostrar': SeleccionarMateria(),
+                'carrera': SeleccionarCarrera(),
+                'error': 'El nombre no es valido, no puede llevar caracteres especiales'
+            })
+        
+        # Validación del apellido
+        if not re.match(r'^[a-zA-Z ]+$', request.POST['apellido']):
+            return render(request,'registrarse.html',{
+                'mostrar': SeleccionarMateria(),
+                'carrera': SeleccionarCarrera(),
+                'error': 'El apellido no es valido, no puede llevar caracteres especiales'
+            })
+        
+        # Validación de cédula
+        if not re.match(r'^\d{8}$', request.POST['cedula']):
+            return render(request,'registrarse.html',{
+                'mostrar': SeleccionarMateria(),
+                'carrera': SeleccionarCarrera(),
+                'error': 'La cédula no es válida'
+            })
+
+        # fin validaciones
+
         
         if 'no_esta' in request.POST and request.POST['no_esta'] == 'True':
             # El usuario ha seleccionado la opción de escribir una nueva materia
