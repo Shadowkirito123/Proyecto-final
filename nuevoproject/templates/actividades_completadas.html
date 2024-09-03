@@ -120,19 +120,19 @@
                 <header>
                     <h3 class="text-primary"><i class="fas fa-book"></i> Materia: {{actividad.materia}}</h3>
                 </header>
-
-                <p><strong>Tarea:</strong> {{actividad.tarea}}</p>
-                <p><strong>Metas:</strong> {{actividad.metas}}</p>
+                <p><strong>Titulo:</strong> {{actividad.metas}}</p>
+                <p><strong>Descripcion:</strong> {{actividad.tarea}}</p>
                 <p><strong>Fecha de inicio:</strong> {{actividad.fecha_inicio}}</p>
                 <p><strong>Fecha de culminación:</strong> {{actividad.fecha_final}}</p>
                 <p>{% if actividad.importante %} <span class="badge badge-danger"><i class="fas fa-exclamation"></i> Es importante</span> {% else %} <span class="badge badge-secondary"><i class="fas fa-check"></i> No es importante</span> {% endif %}</p>
+                <div class="text-center mt-3">
+                    <a href="{% url 'editar actividad' actividad.id %}" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Modificar
+                    </a>
+                </div>
             </div>
 
-            <div class="text-center mt-3">
-                <a href="{% url 'editar actividad' actividad.id %}" class="btn btn-warning">
-                    <i class="fas fa-edit"></i> Modificar
-                </a>
-            </div>
+            
         {% endif %}
     {% endfor %}
 </body>

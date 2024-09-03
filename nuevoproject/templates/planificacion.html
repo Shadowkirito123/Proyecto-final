@@ -3,12 +3,12 @@
 {% block content %}
 <style>
     .custom-background {
-        background-color: rgba(0, 64, 128, 0.2); /* Azul #004080 con 20% de opacidad */
-        border-radius: 10px; /* Ajusta el valor para controlar el grado de curvatura */
-        border: 1px solid rgba(0, 64, 128, 0.3); /* Borde azul claro con 30% de opacidad */
+        background-color: white; /* Añadido el punto y coma */
+        border-radius: 10px; 
+        border: 1px solid rgba(0, 64, 128, 0.3);
     }
     .text-dark {
-        color: #000; /* Color negro */
+        color: #000; 
     }
 </style>
 
@@ -21,8 +21,8 @@
                 <header class="mb-3">
                     <h3 class="text-dark"><i class="fas fa-book-open me-2"></i>Materia: {{planificaciones.profesor.materia}}</h3>
                 </header>
-                <p class="mb-2"><strong><i class="fas fa-bullseye me-2"></i>Metas:</strong> {{planificaciones.actividades.metas}}</p>
-                <p class="mb-2"><strong><i class="fas fa-tasks me-2"></i>Tarea:</strong> {{planificaciones.actividades.tarea}}</p>
+                <p class="mb-2"><strong><i class="fas fa-bullseye me-2"></i>Titulo:</strong> {{planificaciones.actividades.metas}}</p>
+                <p class="mb-2"><strong><i class="fas fa-tasks me-2"></i>Descripcion:</strong> {{planificaciones.actividades.tarea}}</p>
                 <p class="mb-2"><strong><i class="fas fa-calendar-alt me-2"></i>Fecha de inicio:</strong> {{planificaciones.actividades.fecha_inicio}}</p>
                 <p class="mb-2"><strong><i class="fas fa-calendar-check me-2"></i>Fecha de culminación:</strong> {{planificaciones.actividades.fecha_final}}</p>
                 <p class="mb-2">
@@ -52,6 +52,7 @@
         </li>
     </ul>
 </div>
+
 
 
 {% endblock %}
