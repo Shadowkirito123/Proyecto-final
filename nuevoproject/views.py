@@ -392,10 +392,11 @@ def cambio_contraseña(request):
 def planificacion(request):
     profesor_asig = get_object_or_404(Estudiantes, user = request.user)
     if request.method == 'GET':
-        planificacion = Planificacion.objects.filter(estudiante = profesor_asig)
+        planificacion = Planificacion.objects.filter(estudiante = profesor_asig.pk)
         error = 'No hay nada en planificacion, tienes que crear una actividad o aún no hay profesores designados para la materia'
         return render (request, 'planificacion.html',{
             'planificacion': planificacion,
+            'plani':planificacion,
             'error': error
         })
 
@@ -541,53 +542,44 @@ def estudiante_asignado_profesor_detalle_actividad_completada(request, estudiant
         })
     
 @login_required
-def enviar_mensaje(request, emisor_id):
-        receptor = User.objects.get(id = emisor_id)
-        estudiante = Estudiantes.objects.get(user = receptor)
-        planificacion = Planificacion.objects.filter(estudiante = estudiante.pk).first()
-        profesores = planificacion.profesor.user
-        emisor = request.user
-    
-    # estudiantes
-        if request.method == 'POST':
-            form = MensajeForm(request.POST, request.FILES, initial={'receptor': profesores})
-            if form.is_valid():
-                mensaje = form.save(commit=False)
-                mensaje.emisor = emisor
-                mensaje.save()
-                return redirect('enviar_mensaje', emisor_id=emisor_id)
-        else:
-            form = MensajeForm(initial={'receptor': profesores})
-            mensajes_recibidos = Mensaje.objects.filter(receptor=request.user).order_by('fecha_envio')
-            mensajes_enviados = Mensaje.objects.filter(emisor=request.user).order_by('fecha_envio')
-            mensajes = mensajes_recibidos | mensajes_enviados
-        return render(request, 'enviar_mensaje.html', {
-            'form': form,
-            'receptor': profesores,
-            'mensajes_recibidos': mensajes
-        })
-        
+def enviar_mensaje(request, receptor_id):
+    receptor = User.objects.get(id=receptor_id)
+    emisor = request.user
 
-def enviar_mensaje_profesor(request, estudiante_id):
-    # profesores
-        emisor = request.user
-        planificacion = Planificacion.objects.filter(estudiante = estudiante_id).first()
-        if request.method == 'POST':
-            form = MensajeForm(request.POST, request.FILES)
-            if form.is_valid():
-                mensaje = form.save(commit=False)
-                mensaje.emisor = emisor
-                mensaje.save()
-                return redirect('enviar_mensaje', emisor_id = request.user.id)
-        else:
-            form = MensajeForm()
-            mensajes = mensajes = Mensaje.objects.filter(
-        Q(emisor=emisor, receptor=planificacion.estudiante.user) | Q(emisor=planificacion.estudiante.user, receptor=emisor)
-    ).order_by('fecha_envio')
+    if request.method == 'POST':
+        form = MensajeForm(request.POST, request.FILES, initial={'receptor': receptor})
+        if form.is_valid():
+            mensaje = form.save(commit=False)
+            mensaje.emisor = emisor
+            mensaje.save()
+            return redirect('enviar_mensaje', receptor_id = receptor_id)
+    else:
+        form = MensajeForm(initial={'receptor': receptor})
+        mensajes_recibidos = Mensaje.objects.filter(Q(emisor=emisor, receptor=receptor) | Q(emisor=receptor, receptor=emisor)).order_by('fecha_envio')
         return render(request, 'enviar_mensaje.html', {
             'form': form,
-            'receptor': planificacion.estudiante.nombre,
-            'mensajes_recibidos': mensajes
+            'receptor': receptor,
+            'mensajes_recibidos': mensajes_recibidos
+        })        
+
+@login_required
+def enviar_mensaje_estudiante(request, receptor_id):
+    receptor = User.objects.get(id=receptor_id)
+    emisor = request.user
+    if request.method == 'POST':
+        form = MensajeForm(request.POST, request.FILES, initial={'receptor': receptor})
+        if form.is_valid():
+            mensaje = form.save(commit=False)
+            mensaje.emisor = emisor
+            mensaje.save()
+            return redirect('enviar_mensaje', receptor_id = receptor_id)
+    else:
+        form = MensajeForm(initial={'receptor': receptor})
+        mensajes_recibidos = Mensaje.objects.filter(Q(emisor=emisor, receptor=receptor) | Q(emisor=receptor, receptor=emisor)).order_by('fecha_envio')
+        return render(request, 'enviar_mensaje.html', {
+            'form': form,
+            'receptor': receptor,
+            'mensajes_recibidos': mensajes_recibidos
         })
     
 @login_required

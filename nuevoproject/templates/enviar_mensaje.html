@@ -27,19 +27,41 @@
   <form method="post" enctype="multipart/form-data" class="chat-form">
       {% csrf_token %}
       <div class="input-group">
-          {{ form.as_p }}
-          <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane me-1"></i>Enviar</button>
-          <span class="input-group-text" id="file-icon" style="cursor: pointer;">
+        <div>
+            {{ form.texto }}
+        </div>
+
+        <div>
+            {{form.emisor}}
+        </div>
+
+        <div>
+            <span class="input-group-text" id="file-icon" style="cursor: pointer;">
               <i class="fas fa-paperclip"></i>
-          </span>
-          <input type="file" id="file-input" name="archivo" style="display: none;">
+            </span>
+            {{ form.archivo }}
+            <style>
+              #id_archivo { 
+                display: none;
+              }
+            </style>
+          </div>
+        <div>
+
+        <div>
+            {{form.receptor}}
+        </div>
+
+          
+          <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane me-1"></i>Enviar</button>
+          
       </div>
   </form>
 </div>
 
 <script>
   document.getElementById('file-icon').addEventListener('click', function() {
-      document.getElementById('file-input').click();
+      document.getElementById('id_archivo').click();
   });
 </script>
 

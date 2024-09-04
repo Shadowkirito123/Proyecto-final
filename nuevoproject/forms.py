@@ -82,6 +82,9 @@ class MensajeForm(forms.ModelForm):
     class Meta:
         model = Mensaje
         fields = ('texto', 'archivo', 'receptor')
+        widgets = {
+            'receptor': forms.HiddenInput(),
+        }
         
 class Actividad_lista(forms.ModelForm):
     class Meta:
