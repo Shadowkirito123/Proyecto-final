@@ -125,7 +125,7 @@
     <div class="background-shape shape-2"></div>
     <div class="background-shape shape-3"></div>
     <div class="background-shape shape-4"></div>
-    <div class="background-shape shape-5"></div> <!-- Nueva forma morada -->
+    <div class="background-shape shape-5"></div> 
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-custom">
@@ -161,9 +161,7 @@
                                 </div>
                             </li>
                         {% elif user.is_superuser %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'cerrar sesion' %}">Cerrar sesión</a>
-                            </li>
+                            
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'usuarios' %}">Usuarios</a>
                             </li>
@@ -172,6 +170,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'super usuario carrera' %}">Carrera</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'cerrar sesion' %}">Cerrar sesión</a>
                             </li>
                             <li class="nav-item">
                                 <div class="user-highlight">

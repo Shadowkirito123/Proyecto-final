@@ -1,27 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="mb-4">Actividades asignadas</h1>
+<h1 class="mb-4 text-primary"><i class="fas fa-tasks"></i> Actividades asignadas</h1>
 
-<div class="bg-transparent p-4 shadow-sm rounded">
-    <h2 class="mb-3">Estudiantes asignados:</h2>
+<div class="bg-light p-4 shadow-sm rounded" style="background-color: #e6e0ff;">
+    <h2 class="mb-3"><i class="fas fa-user-graduate"></i> Estudiantes asignados:</h2>
     {% regroup estudiantes|dictsort:"carrera.nombre" by carrera.nombre as carreras %}
     {% for carrera in carreras %}
-        <h3 class="mt-4">{{ carrera.grouper }}</h3>
+        <h3 class="mt-4"><i class="fas fa-university"></i> {{ carrera.grouper }}</h3>
         <ul class="list-unstyled">
             {% for estudiante in carrera.list %}
                 <li class="mb-3">
                     <a href="{% url 'detalles actividad de estudiante' estudiante.id %}" class="text-decoration-none">
-                        Estudiante: {{ estudiante.nombre }} <input type="hidden" value="{{ user.id }}">.
+                        <i class="fas fa-user"></i> Estudiante: {{ estudiante.nombre }} <input type="hidden" value="{{ user.id }}">
                     </a>
                     <br>
-                    Cedula: {% if estudiante.cedula %} {{ estudiante.cedula }}. {% else %} Cedula no disponible {% endif %}
+                    <i class="fas fa-id-card"></i> Cédula: {% if estudiante.cedula %} {{ estudiante.cedula }} {% else %} Cédula no disponible {% endif %}
                     <br>
-                    Actividades: {{ cantidad_actividades }}
+                    <i class="fas fa-tasks"></i> Actividades: {{ cantidad_actividades }}
                 </li>
             {% endfor %}
         </ul>
     {% endfor %}
 </div>
+
 
 {% endblock %}

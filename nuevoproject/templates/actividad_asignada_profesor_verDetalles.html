@@ -1,21 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Titulo: {{actividad.actividades.metas}}</h1>
-    <strong>Descripcion:</strong> {{actividad.actividades.tarea}} <br>
-    <strong>Fecha de inicio:</strong> {{actividad.actividades.fecha_inicio}}  <br>
-    <strong>Fecha de finalizacion:</strong> {{actividad.actividades.fecha_final}} <br>
-    <strong>Estado:</strong> {% if actividad.completada %} Completada {% else %} En proceso {% endif %} 
+<div class="card my-4 p-4 shadow-sm" style="border-radius: 15px; background-color: #e0f0ff;">
+    <h1 class="card-title text-primary">
+        <i class="fas fa-bullseye"></i> {{ actividad.actividades.metas }}
+    </h1>
+    <div class="card-body">
+        <p class="lead">
+            <strong><i class="fas fa-align-left"></i> Descripción:</strong> {{ actividad.actividades.tarea }}
+        </p>
+        <p>
+            <strong><i class="fas fa-calendar-alt"></i> Fecha de inicio:</strong> {{ actividad.actividades.fecha_inicio | date:"d M, Y" }}
+        </p>
+        <p>
+            <strong><i class="fas fa-calendar-check"></i> Fecha de finalización:</strong> {{ actividad.actividades.fecha_final | date:"d M, Y" }}
+        </p>
+        <p>
+            <strong><i class="fas fa-tasks"></i> Estado:</strong>
+            {% if actividad.completada %}
+                <span class="badge bg-success">Completada</span>
+            {% else %}
+                <span class="badge bg-warning text-dark">En proceso</span>
+            {% endif %}
+        </p>
+    </div>
 
-    <form action="" method="POST">
+    <form action="" method="POST" class="mt-3">
         {% csrf_token %}
-        Completada: <input type="checkbox" name="completada" id="completada">
-        
-        <br>
+        <div class="form-check">
+            <label class="form-check-label" for="completada">
+                <strong> Completada:</strong>
+            </label>
+            <input type="checkbox" class="form-check-input ms-2" name="completada" id="completada">
+        </div>
 
-        <button>
-            Listo
+        <button type="submit" class="btn btn-primary mt-3">
+            <i class="fas fa-paper-plane"></i> Listo
         </button>
     </form>
+</div>
+
     
 {% endblock %}

@@ -1,39 +1,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Detalles de la(s) actividad(es)</h1>
-    <a href="{% url 'mensajes_estudiante' estudiante.user.id %}"><button>Enviar mensaje a: {{ estudiante.user.username }}</button></a>
+<div class="my-4 p-4 shadow-sm" style="border-radius: 15px; background-color: #e0f0ff;">
+    <h1 class="text-primary mb-4"><i class="fas fa-tasks"></i> Detalles de la(s) actividad(es)</h1>
+    
+    <div class="mb-3">
+        <a href="{% url 'mensajes_estudiante' estudiante.user.id %}">
+            <button class="btn btn-outline-primary">
+                <i class="fas fa-envelope"></i> Enviar mensaje a: {{ estudiante.user.username }}
+            </button>
+        </a>
+    </div>
 
-    <a href="{% url 'detalles actividad de estudiante completada' estudiante.id %}"><button>Actvidades completadas</button></a>
-    <div style="border: solid 1px;" class="bg-light p-3 rounded;">
+    <div class="mb-3">
+        <a href="{% url 'detalles actividad de estudiante completada' estudiante.id %}">
+            <button class="btn btn-outline-success">
+                <i class="fas fa-check-circle"></i> Actividades completadas
+            </button>
+        </a>
+    </div>
 
+    <div class="bg-light p-4 rounded shadow-sm">
         {% if actividad_detalle %}
-
             <div class="d-flex justify-content-center mb-4">
-                
-                <h2 class="">Numero de actividades pendientes: {{cantidad_actividades}}</h2> <br>
-                
+                <h2 class="text-secondary"><i class="fas fa-list"></i> Número de actividades pendientes: {{cantidad_actividades}}</h2>
             </div>
 
             {% for actividad_obtenida in actividad_detalle %}
-
-                <ul>
-                    <li>
-                        <strong>Titulo:</strong> {{actividad_obtenida.actividades.metas}}. <strong>Estudiante: </strong> {{actividad_obtenida.actividades.user.username}}
+                <ul class="list-group mb-3">
+                    <li class="list-group-item">
+                        <strong><i class="fas fa-bullseye"></i> Título:</strong> {{actividad_obtenida.actividades.metas}} 
+                        <strong><i class="fas fa-user"></i> Estudiante:</strong> {{actividad_obtenida.actividades.user.username}}
                     </li>
-
                 </ul>
-                <a href="{% url 'ver' actividad_obtenida.actividades.id %}"><button>Ver actividad</button></a>
-
+                <a href="{% url 'ver' actividad_obtenida.actividades.id %}">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-eye"></i> Ver actividad
+                    </button>
+                </a>
             {% endfor %}
 
         {% else %}
-
-            {{error}}
-
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i> {{error}}
+            </div>
         {% endif %}
-
-        
     </div>
+</div>
+
 
 {% endblock %}
