@@ -335,8 +335,17 @@ def asignar_materia_a_profesor(request):
 @login_required
 def perfil(request, user_id):
     usuario = User.objects.get(id=user_id)
-    return render(request, 'perfil.html',{
-        'usuario': usuario
+    try:
+        cedula = Estudiantes.objects.get(user = usuario)
+        return render(request, 'perfil.html',{
+        'usuario': usuario,
+        'cedula': cedula.cedula
+        })
+    except:
+        cedula = Profesores.objects.get(user = usuario)
+        return render(request, 'perfil.html',{
+        'usuario': usuario,
+        'cedula': cedula.cedula
         })
     
 @login_required
