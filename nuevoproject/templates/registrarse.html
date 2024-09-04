@@ -3,29 +3,29 @@
 {% block content %}
 <body style="background-color: #f8f9fa;">
     <div class="container mt-5 d-flex justify-content-center">
-        <div class="card p-4 shadow" style="max-width: 600px; width: 100%; border-radius: 15px;">
-            <h1 class="text-center text-dark mb-4"><i class="fas fa-user-plus"></i> Registro de usuario</h1>
+        <div class="card p-4 shadow" style="max-width: 600px; width: 100%; border-radius: 15px; background-color: rgba(153, 102, 255, 0.5); color: black;">
+            <h1 class="text-center mb-4"><i class="fas fa-user-plus" style="color: #000;"></i> Registro de usuario</h1>
             <form action="" method="POST" class="mt-4">
                 {% if error %}
                     <div class="alert alert-danger text-center">
-                        <i class="fas fa-exclamation-circle"></i> {{error}}
+                        <i class="fas fa-exclamation-circle" style="color: #000;"></i> {{error}}
                     </div>
                 {% endif %}
                 {% csrf_token %}
                 <div class="form-group mb-3">
-                    <label for="nombre_usuario" class="form-label"><i class="fas fa-user"></i> Nombre de usuario:</label>
-                    <input type="text" class="form-control" name="nombre_usuario" id="nombre_usuario" placeholder="Nombre de usuario" style="border-radius: 10px;" required>
+                    <label for="nombre_usuario" class="form-label"><i class="fas fa-user" style="color: #000;"></i> Nombre de usuario:</label>
+                    <input type="text" class="form-control" name="nombre_usuario" id="nombre_usuario" placeholder="Nombre de usuario" style="border-radius: 10px; border-color: #000;" required>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="nombre" class="form-label"><i class="fas fa-id-badge"></i> Nombre:</label>
-                    <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre" style="border-radius: 10px;" required>
+                    <label for="nombre" class="form-label"><i class="fas fa-id-badge" style="color: #000;"></i> Nombre:</label>
+                    <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre" style="border-radius: 10px; border-color: #000;" required>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="apellido" class="form-label"><i class="fas fa-id-badge"></i> Apellido:</label>
-                    <input type="text" class="form-control" name="apellido" id="apellido" placeholder="Apellido" style="border-radius: 10px;" required>
+                    <label for="apellido" class="form-label"><i class="fas fa-id-badge" style="color: #000;"></i> Apellido:</label>
+                    <input type="text" class="form-control" name="apellido" id="apellido" placeholder="Apellido" style="border-radius: 10px; border-color: #000;" required>
                 </div>
                 <div class="form-group mb-3">
-                    <label class="form-label"><i class="fas fa-graduation-cap"></i> Tipo de usuario:</label><br>
+                    <label class="form-label"><i class="fas fa-graduation-cap" style="color: #000;"></i> Tipo de usuario:</label><br>
                     <div class="form-check form-check-inline">
                         <input type="radio" class="form-check-input" name="es_estudiante" id="estudiante" value="True" checked>
                         <label class="form-check-label" for="estudiante">Estudiante</label>
@@ -40,36 +40,36 @@
                 </div>
                 <div id="materia-field" style="display: none;" class="form-group mb-3">
                     {{mostrar.as_p}}
-                    <p>¿La materia no está en la lista? <input type="checkbox" name="no_esta" id="no" value="True"></p>
+                    <p class="text-dark">¿La materia no está en la lista? <input type="checkbox" name="no_esta" id="no" value="True"></p>
                     <div id="materia" style="display: none;">
-                        Escribe la materia aquí: <input type="text" class="form-control" name="materia_nueva" id="materia_nueva" style="border-radius: 10px;">
+                        Escribe la materia aquí: <input type="text" class="form-control" name="materia_nueva" id="materia_nueva" style="border-radius: 10px; border-color: #000;">
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="correo" class="form-label"><i class="fas fa-envelope"></i> Correo electrónico:</label>
-                    <input type="email" class="form-control" name="correo" id="correo" placeholder="Correo electrónico" style="border-radius: 10px;" required>
+                    <label for="correo" class="form-label"><i class="fas fa-envelope" style="color: #000;"></i> Correo electrónico:</label>
+                    <input type="email" class="form-control" name="correo" id="correo" placeholder="Correo electrónico" style="border-radius: 10px; border-color: #000;" required>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="cedula" class="form-label"><i class="fas fa-id-card"></i> Número de cédula:</label>
-                    <input type="text" class="form-control" name="cedula" id="cedula" placeholder="Número de cédula" style="border-radius: 10px;" required>
+                    <label for="cedula" class="form-label"><i class="fas fa-id-card" style="color: #000;"></i> Número de cédula:</label>
+                    <input type="text" class="form-control" name="cedula" id="cedula" placeholder="Número de cédula" style="border-radius: 10px; border-color: #000;" required>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="clave1" class="form-label"><i class="fas fa-lock"></i> Contraseña:</label>
-                    <input type="password" class="form-control" name="clave1" id="clave1" placeholder="Ingresa la contraseña" style="border-radius: 10px;" required>
+                    <label for="clave1" class="form-label"><i class="fas fa-lock" style="color: #000;"></i> Contraseña:</label>
+                    <input type="password" class="form-control" name="clave1" id="clave1" placeholder="Ingresa la contraseña" style="border-radius: 10px; border-color: #000;" required>
                 </div>
                 <div class="form-group mb-4">
-                    <label for="clave2" class="form-label"><i class="fas fa-lock"></i> Confirmar contraseña:</label>
-                    <input type="password" class="form-control" name="clave2" id="clave2" placeholder="Ingresa nuevamente la contraseña" style="border-radius: 10px;" required>
+                    <label for="clave2" class="form-label"><i class="fas fa-lock" style="color: #000;"></i> Confirmar contraseña:</label>
+                    <input type="password" class="form-control" name="clave2" id="clave2" placeholder="Ingresa nuevamente la contraseña" style="border-radius: 10px; border-color: #000;" required>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block" style="border-radius: 10px; font-weight: bold;">
-                    <i class="fas fa-user-plus"></i> Registrar
+                <button type="submit" class="btn btn-dark btn-block" style="background-color: #6f42c1; color: white; border-radius: 10px; font-weight: bold;">
+                    <i class="fas fa-user-plus" style="color: #fff;"></i> Registrar
                 </button>
             </form>
         </div>
     </div>
-    </body>
-    
-    <script>
+</body>
+
+<script>
     // Get all the elements we need to work with
     const noCheckbox = document.getElementById('no');
     const profesorCheckbox = document.getElementById('profesor');
@@ -95,6 +95,6 @@
     
     // Trigger click event to set initial state
     estudianteCheckbox.checked && estudianteCheckbox.dispatchEvent(new Event('click'));
-    </script>
-    
+</script>
+
 {%endblock%}

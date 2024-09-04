@@ -1,5 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-      <div id='calendar'></div>
+<style>
+      #calendar {
+            background-color: rgba(128, 128, 128, 0.2); /* Gris transparente */
+            color: black; /* Cambia el color del texto a negro */
+            border-radius: 10px; /* Da bordes redondeados */
+            border: 1px solid #ccc; /* Añade un borde ligero para mejor apariencia */
+            padding: 10px; /* Añade un poco de espacio interno */
+        }
+        
+        /* Opcional: Si necesitas ajustar el color del texto de los eventos dentro del calendario */
+        .fc-event {
+            color: black; /* Cambia el color del texto de los eventos a negro */
+        }
+        
+</style>
+      <div id='calendar'  style="background-color: white;"></div>
+
 {% endblock %}

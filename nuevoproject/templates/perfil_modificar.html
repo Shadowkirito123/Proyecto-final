@@ -1,33 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Actualizar datos</h1>
-    <br>
+<h1 class="mb-4"> Actualizar datos</h1>
 
-    <form action="" method="POST">
-        {% csrf_token %}
-        <p>
-            <label for="nombre_usuario">
-                Nombre de usuario: <input type="text" name="nombre_usuario" id="nombre_usuario" value="{{usuario.username}}">
-            </label>
-        </p>
-        
-        <p>
-            <label for="nombre_real">
-                Nombre de real: <input type="text" name="nombre_real" id="nombre_real" value="{{usuario.first_name}}">
-            </label>
-        </p>
+<form action="" method="POST" class="bg-light p-4 rounded shadow-sm">
+    {% csrf_token %}
+    
+    <div class="mb-3">
+        <label for="nombre_usuario" class="form-label">
+             Nombre de usuario
+        </label>
+        <input type="text" name="nombre_usuario" id="nombre_usuario" class="form-control" value="{{ usuario.username }}">
+    </div>
+    
+    <div class="mb-3">
+        <label for="nombre_real" class="form-label">
+             Nombre real
+        </label>
+        <input type="text" name="nombre_real" id="nombre_real" class="form-control" value="{{ usuario.first_name }}">
+    </div>
 
-        <p>
-            <label for="correo">
-                Correo electronico: <input type="email" name="correo" id="correo" placeholder="{% if usuario.email %} {{usuario.email}} {% else %} No hay correo {% endif %}" value="{{usuario.email}}">
-            </label>
-        </p>
-        <button>
-            Actualizar
-        </button>
+    <div class="mb-3">
+        <label for="correo" class="form-label">
+             Correo electrónico
+        </label>
+        <input type="email" name="correo" id="correo" class="form-control" placeholder="{% if usuario.email %} {{ usuario.email }} {% else %} No hay correo {% endif %}" value="{{ usuario.email }}">
+    </div>
 
-    </form>
-    <a href="{% url 'perfil' user.id %}"><button>Cancelar</button></a>
+    <button type="submit" class="btn btn-primary">
+         Actualizar
+    </button>
+    <a href="{% url 'perfil' user.id %}" class="btn btn-secondary ms-2">
+         Cancelar
+    </a>
+</form>
+
     
 {% endblock %}

@@ -12,43 +12,122 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- FullCalendar CSS and JS -->
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/index.global.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.15/index.global.min.js'></script>
 
     <style>
-        /* Estilos personalizados para la barra de navegación */
-        .navbar-custom {
-            background-color: #004080; /* Azul oscuro */
+        body {
+            background-color: #E0F7FA;
+            position: relative;
+            overflow-x: hidden;
         }
+
+        /* Estilo para las formas del fondo */
+        .background-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background-color: #99FFCC;
+            top: 50px;
+            left: -100px;
+        }
+
+        .shape-2 {
+            width: 600px;
+            height: 600px;
+            background-color: #66CCFF;
+            bottom: -200px;
+            right: -300px;
+        }
+
+        .shape-3 {
+            width: 300px;
+            height: 300px;
+            background-color: #B2FF59;
+            top: 400px;
+            left: -150px;
+        }
+
+        .shape-4 {
+            width: 250px;
+            height: 250px;
+            background-color: #FFEB3B;
+            bottom: 150px;
+            right: 100px;
+        }
+
+        .shape-5 {
+            width: 350px;
+            height: 350px;
+            background-color: #AB47BC; /* Morado */
+            top: 200px;
+            right: -180px;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .navbar-custom {
+            background-color: #ffffff; /* Fondo blanco */
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
         .navbar-custom .navbar-brand,
         .navbar-custom .nav-link {
-            color: #ffffff; /* Texto en blanco */
+            color: black;
         }
+
         .navbar-custom .nav-link:hover {
-            color: #c0c0c0; /* Gris claro al pasar el cursor */
+            color: #c0c0c0;
         }
+
         .navbar-custom .nav-link.disabled {
             color: #ffffff;
         }
+
         .navbar-custom .user-highlight {
             font-weight: bold;
-            background-color: #0059b3; /* Azul más claro para resaltar */
+            background-color: #D3A6F5; /* Morado clarito */
             border-radius: 5px;
             padding: 5px 10px;
             display: inline-block;
             text-align: center;
-            color: #ffffff; /* Asegurar que el texto sea blanco */
+            color: black;
         }
+
+        .navbar-custom .user-highlight a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .navbar-custom .user-highlight a:hover {
+            color: #D3A6F5;
+        }
+
         .user-role {
-            font-size: 0.8rem; /* Tamaño más pequeño para el rol */
-            color: #ffffff; /* Color blanco para resaltar sobre el azul */
+            font-size: 0.8rem;
+            color: #ffffff;
             display: block;
             margin-top: 3px;
         }
+        
     </style>
 </head>
 <body>
+    <!-- Formas del fondo -->
+    <div class="background-shape shape-1"></div>
+    <div class="background-shape shape-2"></div>
+    <div class="background-shape shape-3"></div>
+    <div class="background-shape shape-4"></div>
+    <div class="background-shape shape-5"></div> <!-- Nueva forma morada -->
+
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Student Helper!</a>
@@ -151,7 +230,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- FontAwesome JS -->
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://kit.fontawesome.com/697ae6364c.js" crossorigin="anonymous"></script>
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>

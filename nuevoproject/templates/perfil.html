@@ -1,10 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Perfil</h1>
-    <p>Nombre de usuario: {{usuario.username}}</p>
-    <p>Nombre real: {{usuario.first_name}}</p>
-    <p>Correo electronico: {% if usuario.email %} {{usuario.email}} {% else %} No hay correo {% endif %}</p>
-    <a href="{% url 'modificar perfil' user.id %}"><button>Editar usuario</button></a> <br>
-    <a href="{% url 'cambiar contraseña' %}"><button>Cambiar contraseña</button></a>
+<h1 class="mb-4"> Perfil</h1>
+
+<div class="bg-light p-4 rounded shadow-sm">
+    <p class="mb-2"><strong>Nombre de usuario:</strong> {{ usuario.username }}</p>
+    <p class="mb-2"><strong>Nombre real:</strong> {{ usuario.first_name }}</p>
+    <p class="mb-3"><strong>Correo electrónico:</strong> 
+        {% if usuario.email %} 
+            {{ usuario.email }} 
+        {% else %} 
+            No hay correo 
+        {% endif %}
+    </p>
+    <a href="{% url 'modificar perfil' user.id %}" class="btn btn-primary me-2">
+         Editar usuario
+    </a>
+    <a href="{% url 'cambiar contraseña' %}" class="btn btn-secondary">
+         Cambiar contraseña
+    </a>
+</div>
+
 {% endblock %}

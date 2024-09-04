@@ -1,62 +1,85 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {{error}}
-    <form method="POST" class="text-center p-3">
-        {% csrf_token %}
-        <div class="mb-3">
-            <div class="form-group mb-3">
-                <label for="{{ crear.metas.id_for_label }}">Titulo:</label>
-                {{ crear.metas }}
-            </div>
-            
-            <div class="form-group mb-3">
-                <label for="{{ crear.tarea.id_for_label }}">Descripcion:</label>
-                {{ crear.tarea }}
-            </div>
-            
-            <div class="form-group mb-3">
-                <label for="{{ crear.fecha_inicio.id_for_label }}">Fecha de inicio:</label>
-                {{ crear.fecha_inicio }}
-            </div>
-            
-            <div class="form-group mb-3">
-                <label for="{{ crear.fecha_final.id_for_label }}">Fecha final:</label>
-                {{ crear.fecha_final }}
-            </div>
-            
-            <div class="form-group mb-3">
-                <label for="{{ crear.importante.id_for_label }}">Importante:</label>
-                {{ crear.importante }}
-            </div>
+{% load widget_tweaks %}
+<style>
+    .transparent-green-bg {
+        background-color: rgba(0, 128, 0, 0.2); /* Verde con 20% de opacidad */
+    }
+    
+</style>
+<div class="container">
+    <!-- Contenedor para centrar el formulario -->
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <!-- Formulario para crear o editar -->
+            <form method="POST" class="p-3 border rounded shadow-sm transparent-green-bg">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <div class="form-group mb-3">
+                        <label for="{{ crear.metas.id_for_label }}">Título:</label>
+                        {{ crear.metas|add_class:"form-control" |attr:"rows:1"  }}
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label for="{{ crear.tarea.id_for_label }}">Descripción:</label>
+                        {{ crear.tarea|add_class:"form-control" |attr:"rows:1"  }}
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label for="{{ crear.fecha_inicio.id_for_label }}">Fecha de inicio:</label>
+                        {{ crear.fecha_inicio|add_class:"form-control" }}
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label for="{{ crear.fecha_final.id_for_label }}">Fecha final:</label>
+                        {{ crear.fecha_final|add_class:"form-control" }}
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label for="{{ crear.importante.id_for_label }}">Importante:</label>
+                        {{ crear.importante|add_class:"form-check-input" }}
+                    </div>
 
-            <div class="form-group mb-3">
-                <label for="{{ crear.completada.id_for_label }}">Completada:</label>
-                {{ crear.completada }}
-            </div>
+                    <div class="form-group mb-3">
+                        <label for="{{ crear.completada.id_for_label }}">Completada:</label>
+                        {{ crear.completada|add_class:"form-check-input" }}
+                    </div>
 
-            {{ carrera1 }}
+                    {{ carrera1 }}
 
-            <div class="form-group mt-3 mb-3">
-                <p>¿La materia no está en la lista? 
-                   <input type="checkbox" name="no_esta" id="no" class="form-check-input" value="True">
-                </p>
-                <div id="materia-field" class="mt-2" style="display: none;">
-                    <label for="materia_nueva">Escribe la materia aquí:</label>
-                    <input type="text" name="materia_nueva" id="materia_nueva" class="form-control">
+                    <div class="form-group mt-3 mb-3">
+                        <p>¿La materia no está en la lista? 
+                           <input type="checkbox" name="no_esta" id="no" class="form-check-input" value="True">
+                        </p>
+                        <div id="materia-field" class="mt-2" style="display: none;">
+                            <label for="materia_nueva">Escribe la materia aquí:</label>
+                            <input type="text" name="materia_nueva" id="materia_nueva" class="form-control">
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-warning">
-            Actualizar
-        </button>
-    </form>
+                <button type="submit" class="btn btn-warning w-100">
+                    Actualizar
+                </button>
+            </form>
 
-    <form action="{% url 'eliminar actividad' actividad.id %}" method="POST" class="text-center p-3">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">
-            Eliminar
-        </button>
-    </form>
+            <!-- Formulario para eliminar -->
+            <form action="{% url 'eliminar actividad' actividad.id %}" method="POST" class="p-3 mt-3 border rounded shadow-sm transparent-green-bg">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger w-100">
+                    Eliminar
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Script para mostrar/ocultar el campo de materia
+    document.getElementById('no').addEventListener('change', function () {
+        document.getElementById('materia-field').style.display = this.checked ? 'block' : 'none';
+    });
+</script>
+
 
 {% endblock %}

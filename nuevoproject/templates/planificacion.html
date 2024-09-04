@@ -1,17 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="border rounded p-3 bg-light shadow-sm">
+<style>
+    .custom-background {
+        background-color: white; /* Añadido el punto y coma */
+        border-radius: 10px; 
+        border: 1px solid rgba(0, 64, 128, 0.3);
+    }
+    .text-dark {
+        color: #000; 
+    }
+</style>
+
+<div class="border rounded p-3 custom-background shadow-sm">
     <ul class="list-unstyled">
         <li class="mb-4">
             {% if planificacion %}
 
                 {% for planificaciones in planificacion %}
                 <header class="mb-3">
-                    <h3 class="text-primary"><i class="fas fa-book-open me-2"></i>Materia: {{planificaciones.profesor.materia}}</h3>
+                    <h3 class="text-dark"><i class="fas fa-book-open me-2"></i>Materia: {{planificaciones.profesor.materia}}</h3>
                 </header>
-                <p class="mb-2"><strong><i class="fas fa-bullseye me-2"></i>Metas:</strong> {{planificaciones.actividades.metas}}</p>
-                <p class="mb-2"><strong><i class="fas fa-tasks me-2"></i>Tarea:</strong> {{planificaciones.actividades.tarea}}</p>
+                <p class="mb-2"><strong><i class="fas fa-bullseye me-2"></i>Titulo:</strong> {{planificaciones.actividades.metas}}</p>
+                <p class="mb-2"><strong><i class="fas fa-tasks me-2"></i>Descripcion:</strong> {{planificaciones.actividades.tarea}}</p>
                 <p class="mb-2"><strong><i class="fas fa-calendar-alt me-2"></i>Fecha de inicio:</strong> {{planificaciones.actividades.fecha_inicio}}</p>
                 <p class="mb-2"><strong><i class="fas fa-calendar-check me-2"></i>Fecha de culminación:</strong> {{planificaciones.actividades.fecha_final}}</p>
                 <p class="mb-2">
@@ -41,5 +52,7 @@
         </li>
     </ul>
 </div>
+
+
 
 {% endblock %}
