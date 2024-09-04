@@ -1,6 +1,7 @@
 from django import forms
 from .models import Actividades, Materia, Carreras, Materias_por_carreras, Estudiantes, Mensaje, Planificacion
 from django_select2 import forms as select2_forms
+import re
 
 class CrearActividad(forms.ModelForm):
     class Meta:
@@ -10,6 +11,13 @@ class CrearActividad(forms.ModelForm):
             'fecha_inicio': forms.DateInput(attrs={'type': 'date'}),
             'fecha_final': forms.DateInput(attrs={'type': 'date'}),
         }
+        
+    def clean(self):
+        cleaned_data = super().clean()
+        for field in ['metas', 'tarea']:
+            if not re.match("^[a-zA-Z0-9\s]*$", cleaned_data.get(field, '')):
+                self.add_error(field, "No se permiten caracteres especiales en este campo")
+        return cleaned_data
         
 class SeleccionarMateria(forms.ModelForm):
     materia = forms.ModelChoiceField(queryset=Materia.objects.all(), required=False)

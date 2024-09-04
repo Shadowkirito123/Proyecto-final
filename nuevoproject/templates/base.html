@@ -165,6 +165,7 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
     {% if user.is_authenticated %}
         {% if user.profesor %}
+        <!-- //calendario para profesor// -->
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     var calendarEl = document.getElementById('calendar');
@@ -177,13 +178,13 @@
                             right: 'dayGridMonth,timeGridWeek,timeGridDay'
                         },
                         events: [
-                            {% for actividad in actividades %}  // display only 10 events
+                            {% for actividad in actividades %}
                                 {
-                                title: "Meta: {{ actividad.estudiante.nombre }}",
-                                start: "{{ actividad.actividades.fecha_inicio|date:'Y-m-d' }}",
-                                end: "{{ actividad.actividades.fecha_final|date:'Y-m-d' }}",
-                                backgroundColor: 'rgb(182,197,157)',
-                                textColor: 'blue',
+                                    title: "Meta: {{  actividad.actividades.metas }}",
+                                    start: "{{ actividad.fecha_inicio|date:'Y-m-d' }}",
+                                    end: "{{ actividad.fecha_final|date:'Y-m-d' }}",
+                                    backgroundColor: 'rgb(182,197,157)',
+                                    textColor: 'blue',
                                 },
                             {% endfor %}
                         ]
@@ -194,6 +195,7 @@
             </script>
 
         {% else %}
+        <!-- //calendario para estudiante// -->
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     var calendarEl = document.getElementById('calendar');

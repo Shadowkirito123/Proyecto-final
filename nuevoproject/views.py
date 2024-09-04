@@ -503,9 +503,8 @@ def estudiante_asignado_profesor_detalle_actividad_completada(request, estudiant
         })
     
 @login_required
-def enviar_mensaje(request, receptor_id):
-    try:
-        receptor = User.objects.get(id = receptor_id)
+def enviar_mensaje(request, emisor_id):
+        receptor = User.objects.get(id = emisor_id)
         estudiante = Estudiantes.objects.get(user = receptor)
         planificacion = Planificacion.objects.filter(estudiante = estudiante.pk).first()
         profesores = planificacion.profesor.user
@@ -518,7 +517,7 @@ def enviar_mensaje(request, receptor_id):
                 mensaje = form.save(commit=False)
                 mensaje.emisor = emisor
                 mensaje.save()
-                return redirect('enviar_mensaje', receptor_id=receptor_id)
+                return redirect('enviar_mensaje', emisor_id=emisor_id)
         else:
             form = MensajeForm(initial={'receptor': profesores})
             mensajes_recibidos = Mensaje.objects.filter(receptor=request.user).order_by('fecha_envio')
@@ -529,30 +528,27 @@ def enviar_mensaje(request, receptor_id):
             'receptor': profesores,
             'mensajes_recibidos': mensajes
         })
-    except:
-        # profesores
-        receptor = User.objects.get(id = receptor_id)
-        profesor = Profesores.objects.get(user = receptor)
-        planificacion = Planificacion.objects.filter(profesor = profesor.pk).first()
-        profesores = planificacion.estudiante.user
-        emisor = request.user
         
+
+def enviar_mensaje_profesor(request, estudiante_id):
+    # profesores
+        emisor = request.user
+        planificacion = Planificacion.objects.filter(estudiante = estudiante_id).first()
         if request.method == 'POST':
             form = MensajeForm(request.POST, request.FILES)
             if form.is_valid():
                 mensaje = form.save(commit=False)
                 mensaje.emisor = emisor
-                mensaje.receptor = profesores
                 mensaje.save()
-                return redirect('enviar_mensaje', receptor_id=receptor_id)
+                return redirect('enviar_mensaje', emisor_id = request.user.id)
         else:
             form = MensajeForm()
             mensajes = mensajes = Mensaje.objects.filter(
-        Q(emisor=emisor, receptor=profesores) | Q(emisor=profesores, receptor=emisor)
+        Q(emisor=emisor, receptor=planificacion.estudiante.user) | Q(emisor=planificacion.estudiante.user, receptor=emisor)
     ).order_by('fecha_envio')
         return render(request, 'enviar_mensaje.html', {
             'form': form,
-            'receptor': profesores,
+            'receptor': planificacion.estudiante.nombre,
             'mensajes_recibidos': mensajes
         })
     
@@ -574,12 +570,11 @@ def calendario(request):
                 'actividades': actividades
             })
         except:
-            profesor_pro = get_object_or_404(Profesores, user = request.user )
-            actividad_asignada = Planificacion.objects.filter(profesor = profesor_pro)
-            
-            estudiantes = Estudiantes.objects.filter(id = actividad_asignada.estudiante )
-            return render(request, 'actividad_asignada_profesor.html', {
-                'actividades': estudiantes
+            profesor_pro = Profesores.objects.get(user=request.user)
+            planificaciones = Planificacion.objects.filter(profesor=profesor_pro)
+            actividades = [plan.actividades for plan in planificaciones]
+            return render(request, 'calendario.html', {
+                'actividades': actividades
             })
 
 #funcion para token de la contraseña no usar
