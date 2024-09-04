@@ -237,7 +237,7 @@ def mostrar_actividades(request):
 def mostrar_actividades_completadas(request):
     if request.method == 'POST':
         actividad = Actividades.objects.filter(user=request.user, completada=True)
-        error = 'No hay actividades completadas' if not actividad else None
+        error = 'No hay actividades completadas'
         return render(request, 'actividades_completadas.html', {
             'actividades': actividad,
             'error': error

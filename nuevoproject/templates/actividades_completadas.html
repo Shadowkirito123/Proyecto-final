@@ -81,60 +81,84 @@
     </script>
 </head>
 <body>
-    <div id="congrats-popup" class="congrats-popup">
-        ¡Felicitaciones por completar la actividad! 🎉
-        <button id="close-btn" class="close-btn">&times;</button>
-    </div>
+    {% if actividades %}
+        <div id="congrats-popup" class="congrats-popup">
+            ¡Felicitaciones por completar la actividad! 🎉
+            <button id="close-btn" class="close-btn">&times;</button>
+        </div>
 
-    <div class="d-flex justify-content-center mb-4">
-        <form action="{% url 'mostrar actividades importantes' %}" method="POST" class="mx-2">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary btn-lg">
-                <i class="fas fa-star"></i> Filtrar por importante
-            </button>
-        </form>
+        <div class="d-flex justify-content-center mb-4">
+            <form action="{% url 'mostrar actividades importantes' %}" method="POST" class="mx-2">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-star"></i> Filtrar por importante
+                </button>
+            </form>
 
-        <form action="{% url 'mostrar actividades no importantes' %}" method="POST" class="mx-2">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-secondary btn-lg">
-                <i class="fas fa-minus-circle"></i> Filtrar por no importante
-            </button>
-        </form>
+            <form action="{% url 'mostrar actividades no importantes' %}" method="POST" class="mx-2">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-minus-circle"></i> Filtrar por no importante
+                </button>
+            </form>
 
-        <form action="{% url 'mostrar actividades completadas' %}" method="POST" class="mx-2">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-warning btn-lg">
-                <i class="fas fa-check-circle"></i> Actividades completadas
-            </button>
-        </form>
-    </div>
+            <form action="{% url 'mostrar actividades completadas' %}" method="POST" class="mx-2">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-warning btn-lg">
+                    <i class="fas fa-check-circle"></i> Actividades completadas
+                </button>
+            </form>
+        </div>
 
 
-    {% for actividad in actividades %}
-        {% if actividad == None %}
-            <p>No hay actividades para mostrar</p>
-        {% else %}
-            <!-- Editar actividad -->
-            
-            <div id="texto" class="bg-light p-3 rounded;">
-                <header>
-                    <h3 class="text-primary"><i class="fas fa-book"></i> Materia: {{actividad.materia}}</h3>
-                </header>
-                <p><strong>Titulo:</strong> {{actividad.metas}}</p>
-                <p><strong>Descripcion:</strong> {{actividad.tarea}}</p>
-                <p><strong>Fecha de inicio:</strong> {{actividad.fecha_inicio}}</p>
-                <p><strong>Fecha de culminación:</strong> {{actividad.fecha_final}}</p>
-                <p>{% if actividad.importante %} <span class="badge badge-danger"><i class="fas fa-exclamation"></i> Es importante</span> {% else %} <span class="badge badge-secondary"><i class="fas fa-check"></i> No es importante</span> {% endif %}</p>
-                <div class="text-center mt-3">
-                    <a href="{% url 'editar actividad' actividad.id %}" class="btn btn-warning">
-                        <i class="fas fa-edit"></i> Modificar
-                    </a>
+        {% for actividad in actividades %}
+                <!-- Editar actividad -->
+                
+                <div id="texto" class="bg-light p-3 rounded;">
+                    <header>
+                        <h3 class="text-primary"><i class="fas fa-book"></i> Materia: {{actividad.materia}}</h3>
+                    </header>
+                    <p><strong>Titulo:</strong> {{actividad.metas}}</p>
+                    <p><strong>Descripcion:</strong> {{actividad.tarea}}</p>
+                    <p><strong>Fecha de inicio:</strong> {{actividad.fecha_inicio}}</p>
+                    <p><strong>Fecha de culminación:</strong> {{actividad.fecha_final}}</p>
+                    <p>{% if actividad.importante %} <span class="badge badge-danger"><i class="fas fa-exclamation"></i> Es importante</span> {% else %} <span class="badge badge-secondary"><i class="fas fa-check"></i> No es importante</span> {% endif %}</p>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'editar actividad' actividad.id %}" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Modificar
+                        </a>
+                    </div>
                 </div>
-            </div>
+        {% endfor %}
 
-            
-        {% endif %}
-    {% endfor %}
+    {% else %}
+        <div class="d-flex justify-content-center mb-4">
+            <form action="{% url 'mostrar actividades importantes' %}" method="POST" class="mx-2">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-star"></i> Filtrar por importante
+                </button>
+            </form>
+
+            <form action="{% url 'mostrar actividades no importantes' %}" method="POST" class="mx-2">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-minus-circle"></i> Filtrar por no importante
+                </button>
+            </form>
+
+            <form action="{% url 'mostrar actividades completadas' %}" method="POST" class="mx-2">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-warning btn-lg">
+                    <i class="fas fa-check-circle"></i> Actividades completadas
+                </button>
+            </form>
+        </div>
+        
+        <div class="alert alert-danger text-center">
+            <i class="fas fa-exclamation-circle"></i> {{ error }}
+        </div>
+    {% endif %}
 </body>
 
 {% endblock %}
