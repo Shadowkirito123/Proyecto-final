@@ -509,7 +509,7 @@ def estudiante_asignado_profesor(request):
         return render(request, 'actividad_asignada_profesor.html', {
             'estudiantes': estudiantes
         })
- 
+
 @login_required       
 def estudiante_asignado_profesor_detalle_actividad(request, estudiantes_id):
     estudiante = Estudiantes.objects.get(id = estudiantes_id)
@@ -545,9 +545,11 @@ def estudiante_asignado_profesor_detalle_actividad_completada(request, estudiant
     if request.method == 'GET':
         actvidad_detalle = Planificacion.objects.filter( estudiante = estudiante, completada = True)
         cantidad_actividades = actvidad_detalle.count()
+        error = 'No hay actividades completadas'
         return render(request, 'actividad_asignada_detalles_completada.html', {
             'actividad_detalle': actvidad_detalle,
             'cantidad_actividades': cantidad_actividades,
+            'error': error
         })
     
 @login_required

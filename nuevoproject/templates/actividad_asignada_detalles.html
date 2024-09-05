@@ -3,14 +3,6 @@
 {% block content %}
 <div class="my-4 p-4 shadow-sm" style="border-radius: 15px; background-color: #e0f0ff;">
     <h1 class="text-primary mb-4"><i class="fas fa-tasks"></i> Detalles de la(s) actividad(es)</h1>
-    
-    <div class="mb-3">
-        <a href="{% url 'mensajes_estudiante' estudiante.user.id %}">
-            <button class="btn btn-outline-primary">
-                <i class="fas fa-envelope"></i> Enviar mensaje a: {{ estudiante.user.username }}
-            </button>
-        </a>
-    </div>
 
     <div class="mb-3">
         <a href="{% url 'detalles actividad de estudiante completada' estudiante.id %}">
@@ -36,6 +28,12 @@
                 <a href="{% url 'ver' actividad_obtenida.actividades.id %}">
                     <button class="btn btn-primary">
                         <i class="fas fa-eye"></i> Ver actividad
+                    </button>
+                </a>
+
+                <a href="{% url 'mensajes_estudiante' estudiante.user.id %}">
+                    <button class="btn btn-outline-primary">
+                        <i class="fas fa-envelope"></i> Enviar mensaje a ({{ estudiante.user.username }}) sobre esta actividad
                     </button>
                 </a>
             {% endfor %}
