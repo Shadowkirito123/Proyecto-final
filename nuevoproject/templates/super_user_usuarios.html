@@ -30,6 +30,13 @@
                     <span style="font-size: 0.9rem; color: #00796b; margin-left: 10px;">Es profesor</span>
                 </li>
             </ul>
+        {% elif user.is_superuser %}
+            <ul style="list-style-type: none; padding: 0; margin: 10px 0; background-color: #fce4ec; border-radius: 5px; padding: 10px;">
+                <li style="color: #004080;">
+                    <i class="fas fa-user"></i> <span style="color: black;">Nombre de usuario:</span> <strong style="color: #d81b60;">{{ usuario.username }}</strong>
+                    <span style="font-size: 0.9rem; color: #d81b60; margin-left: 10px;">Es administrador</span>
+                </li>
+            </ul>
         {% else %}
             <ul style="list-style-type: none; padding: 0; margin: 10px 0; background-color: #fce4ec; border-radius: 5px; padding: 10px;">
                 <li style="color: #004080;">

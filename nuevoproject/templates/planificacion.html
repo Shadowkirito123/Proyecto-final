@@ -28,7 +28,7 @@
                 <p class="mb-2">
                     <strong><i class="fas fa-chalkboard-teacher me-2"></i>Profesor:</strong> {{planificaciones.profesor}}
                     <input type="hidden" name="" id="" value="{{planificaciones.profesor.user.id}}"> 
-                    <a href="{% url 'enviar_mensaje' planificaciones.profesor.user.id %}">
+                    <a href="{% url 'enviar_mensaje' planificaciones.profesor.user.id planificaciones.actividades.id%}">
                         <button class="btn btn-sm btn-primary ms-2">
                             <i class="fas fa-envelope me-1"></i>Enviar mensaje a {{planificaciones.profesor}}
                         </button>

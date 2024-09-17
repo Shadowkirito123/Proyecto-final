@@ -114,7 +114,7 @@ def registrarse(request):
                     user.save()
                     login(request, user)
                     send_mail(
-                    'Hola desde django app',
+                    'Hola desde Student Helper',
                     'Felicidades has creado tu cuenta exitosamente',
                     'pruebadedjango46@gmail.com',
                     [email1],
@@ -203,23 +203,30 @@ def crear_actividad(request):
         
         else:
             if form.is_valid() and selectmateria.is_valid():
-                new_form = form.save(commit=False)
-                new_form.user = request.user
-                new_form.materia = selectmateria.cleaned_data['materia']
-                new_form.save()
-                
-                profesores = Profesores.objects.filter(materia=selectmateria.cleaned_data['materia'])
-                if profesores.count() > 1:
-                    random_profesor = random.choice(list(profesores))
-                else:
-                    random_profesor = profesores[0]
+                try:
+                    new_form = form.save(commit=False)
+                    new_form.user = request.user
+                    new_form.materia = selectmateria.cleaned_data['materia']
+                    new_form.save()
+                    
+                    profesores = Profesores.objects.filter(materia=selectmateria.cleaned_data['materia'])
+                    if profesores.count() > 1:
+                        random_profesor = random.choice(list(profesores))
+                    else:
+                        random_profesor = profesores[0]
 
-                planificacion = Planificacion.objects.create(
-                    actividades=new_form,
-                    estudiante=estudiante,
-                    profesor=random_profesor
-                )
-                planificacion.save()
+                    planificacion = Planificacion.objects.create(
+                        actividades=new_form,
+                        estudiante=estudiante,
+                        profesor=random_profesor
+                    )
+                    planificacion.save()
+                except:
+                    new_form = form.save(commit=False)
+                    new_form.user = request.user
+                    new_form.materia = selectmateria.cleaned_data['materia']
+                    new_form.save()
+                    
 
         return redirect('mostrar actividades')
 
@@ -553,8 +560,9 @@ def estudiante_asignado_profesor_detalle_actividad_completada(request, estudiant
         })
     
 @login_required
-def enviar_mensaje(request, receptor_id):
+def enviar_mensaje(request, receptor_id, actividad_id):
     receptor = User.objects.get(id=receptor_id)
+    actividad = Actividades.objects.get(id = actividad_id)
     emisor = request.user
 
     if request.method == 'POST':
@@ -562,11 +570,13 @@ def enviar_mensaje(request, receptor_id):
         if form.is_valid():
             mensaje = form.save(commit=False)
             mensaje.emisor = emisor
+            mensaje.actividad = actividad
             mensaje.save()
-            return redirect('enviar_mensaje', receptor_id = receptor_id)
+            return redirect('enviar_mensaje', receptor_id = receptor_id, actividad_id = actividad_id)
     else:
         form = MensajeForm(initial={'receptor': receptor})
-        mensajes_recibidos = Mensaje.objects.filter(Q(emisor=emisor, receptor=receptor) | Q(emisor=receptor, receptor=emisor)).order_by('fecha_envio')
+        mensajes_recibidos = Mensaje.objects.filter(
+        (Q(emisor=emisor, receptor=receptor) | Q(emisor=receptor, receptor=emisor)),actividad=actividad).order_by('fecha_envio')
         return render(request, 'enviar_mensaje.html', {
             'form': form,
             'receptor': receptor,
@@ -574,19 +584,23 @@ def enviar_mensaje(request, receptor_id):
         })        
 
 @login_required
-def enviar_mensaje_estudiante(request, receptor_id):
+def enviar_mensaje_estudiante(request, receptor_id, actividad_id):
     receptor = User.objects.get(id=receptor_id)
+    actividad = Actividades.objects.get(id = actividad_id)
     emisor = request.user
     if request.method == 'POST':
         form = MensajeForm(request.POST, request.FILES, initial={'receptor': receptor})
         if form.is_valid():
             mensaje = form.save(commit=False)
             mensaje.emisor = emisor
+            mensaje.actividad = actividad
             mensaje.save()
-            return redirect('enviar_mensaje', receptor_id = receptor_id)
+            return redirect('enviar_mensaje', receptor_id = receptor_id, actividad_id = actividad_id)
     else:
         form = MensajeForm(initial={'receptor': receptor})
-        mensajes_recibidos = Mensaje.objects.filter(Q(emisor=emisor, receptor=receptor) | Q(emisor=receptor, receptor=emisor)).order_by('fecha_envio')
+        mensajes_recibidos = Mensaje.objects.filter(
+        (Q(emisor=emisor, receptor=receptor) | Q(emisor=receptor, receptor=emisor)),
+        actividad=actividad).order_by('fecha_envio')
         return render(request, 'enviar_mensaje.html', {
             'form': form,
             'receptor': receptor,

@@ -70,7 +70,7 @@ class CarreraFormCrear(forms.ModelForm):
 class MateriaPorCarreraCrear(forms.ModelForm):
     class Meta:
         model = Materias_por_carreras
-        fields = ['materia', 'nombre']
+        fields = ['materia']
         
     def __init__(self, *args, **kwargs):
         carrera = kwargs.pop('carrera', None)
@@ -81,7 +81,7 @@ class MateriaPorCarreraCrear(forms.ModelForm):
 class MensajeForm(forms.ModelForm):
     class Meta:
         model = Mensaje
-        fields = ('texto', 'archivo', 'receptor')
+        fields = ('texto', 'archivo', 'receptor', 'actividad')
         widgets = {
             'receptor': forms.HiddenInput(),
         }

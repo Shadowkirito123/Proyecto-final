@@ -54,8 +54,8 @@ urlpatterns = [
     path('estudiante_asignado_profesor_detalle_actividad/<int:estudiantes_id>', views.estudiante_asignado_profesor_detalle_actividad, name='detalles actividad de estudiante'),
     path('estudiante_asignado_profesor_detalle_actividad/<int:actividad_id>/ver', views.estudiante_asignado_profesor_detalle_verActividad, name='ver'),
     path('estudiante_asignado_profesor/actividad_completada/<int:estudiante_id>', views.estudiante_asignado_profesor_detalle_actividad_completada, name='detalles actividad de estudiante completada'),
-    path('enviar_mensaje/<int:receptor_id>/', views.enviar_mensaje, name='enviar_mensaje'),
-    path('mensajes_estudiante/<int:receptor_id>/', views.enviar_mensaje_estudiante, name='mensajes_estudiante'),
+    path('enviar_mensaje/<int:receptor_id>/<int:actividad_id>/', views.enviar_mensaje, name='enviar_mensaje'),
+    path('mensajes_estudiante/<int:receptor_id>/<int:actividad_id>', views.enviar_mensaje_estudiante, name='mensajes_estudiante'),
     path('mensajes/<pk>/descargar_archivo/', views.descargar_archivo, name='descargar_archivo'),
     #url para los tokens de la contraseña
     path('password-reset/', views.password_reset_request, name='password_reset_request'),

@@ -22,7 +22,6 @@ class Estdiantes_por_carreras(models.Model):
 class Materias_por_carreras(models.Model):
     carrera = models.ForeignKey(Carreras, on_delete=models.CASCADE, default=None)
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE, default=None)
-    nombre = models.CharField(max_length=250, default=None)
 
     def __str__(self):
         return self.carrera.nombre + ' - ' + self.materia.nombre    
@@ -70,5 +69,6 @@ class Mensaje(models.Model):
     texto = models.TextField()
     emisor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='emisor')
     receptor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receptor')
+    actividad = models.ForeignKey(Actividades, on_delete=models.CASCADE,null=True, blank=True, default=None, related_name='actividad')
     fecha_envio = models.DateTimeField(auto_now_add=True)
     archivo = models.FileField(upload_to='mensajes_archivos/', blank=True, null=True)
